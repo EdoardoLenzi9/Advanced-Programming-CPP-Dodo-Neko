@@ -12,7 +12,11 @@ void printMatrix(vector<vector<int>> *A){
 	}	
 }
 
-vector<vector<int>> addMatrix(vector<vector<int>> *A, vector<vector<int>> *B){
+vector<vector<int>> addMatrix(vector<vector<int>> *A, vector<vector<int>> *B) {
+
+	if ( ((*A).size() != (*B).size()) || (*A)[0].size() != (*B)[0].size() ) {
+		throw invalid_argument("matrixes must be of the same dimensions");
+	}
 
 	vector<vector<int>> C((*A).size());
 
@@ -34,8 +38,8 @@ vector<vector<int>> addMatrix(vector<vector<int>> *A, vector<vector<int>> *B){
 
 int main(){
 
-	int A_cols = 4;
-	int A_rows = 4;
+	const int A_cols = 4;
+	const int A_rows = 5;
 	vector<vector<int>> A(A_rows);
 
 	for (int i = 0; i < A_rows; i++){
@@ -52,10 +56,17 @@ int main(){
 		}
 	}
 
-	vector<vector<int>> B(A_rows);
+//	this makes the matrices incompatible for addition.
+//	const int B_cols = 5;
+//	const int B_rows = 5;
 
-	for (int i = 0; i < A_rows; i++){
-		B[i].resize(A_cols); // initiates every vector in the vector
+	const int B_cols = 4;
+	const int B_rows = 5;
+
+	vector<vector<int>> B(B_rows);
+
+	for (int i = 0; i < B_rows; i++){
+		B[i].resize(B_cols); // initiates every vector in the vector
 	}
 
 	k = 0;
@@ -67,14 +78,17 @@ int main(){
 			B[i].at(j) = k++;
 		}
 	}
-
-	cout<<"Matrix A:"<<endl;
-	printMatrix(&A);
-	cout<<"Matrix B:"<<endl;
-	printMatrix(&B);
-
-	vector<vector<int>> C = addMatrix(&A, &B);
-
-	cout<<"Matrix C (A+B):"<<endl;
-	printMatrix(&C);
+	
+	try{
+		cout<<"Matrix A:"<<endl;
+		printMatrix(&A);
+		cout<<"Matrix B:"<<endl;
+		printMatrix(&B);
+		vector<vector<int>> C = addMatrix(&A, &B);
+		cout<<"Matrix C (A+B):"<<endl;
+		printMatrix(&C);
+	}
+	catch (const std::invalid_argument& e) {
+		std::cerr<<"Invalid argument: "<<e.what()<<endl;
+	}
 }
