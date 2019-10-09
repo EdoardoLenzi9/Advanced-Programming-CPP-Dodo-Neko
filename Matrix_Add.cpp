@@ -36,6 +36,7 @@ vector<vector<int>> addMatrix(vector<vector<int>> *A, vector<vector<int>> *B) {
 //      }
 
 	//in this version, vector of vectors C is initialised by supplying an underlying vector that gets created first.
+	//actually, this doesnt initialise the underlying vector, therefor accessing the elements at this point in time will still segfault. TODO: initialise the col vector with 0s should fix this.
 	//i'm not entirely sure, but i think this means more memory usage but less runtime because the iteration isnt done (TODO: prove)
 	vector<int> col((*A)[0].size());
 	vector<vector<int>> C((*A).size(), col);
