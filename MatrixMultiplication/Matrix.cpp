@@ -57,12 +57,36 @@ class Matrix{
 			throw std::invalid_argument("matrixes must be of the same dimensions to add");
 		}
 		
-		for (int row=0; row<this->rows;row++){
-			for (int col=0; col<this->cols;col++){
+		for (int row=0; row<this->rows; row++){
+			for (int col=0; col<this->cols; col++){
 				this->data.at(row).at(col) += B.at(row).at(col);
 			}
 		}
-	}	
+	}
+
+	Matrix multMatrix(Matrix B){
+		if ( B.getRows() != this->cols ){
+			throw std::invalid_argument("matrix dimensions incompatible.");
+		}
+		Matrix C (this->rows, B.getCols());
+
+		int result = 0;
+
+		for (int rowA=0; rowA<this->rows; rowA++){
+			for (int colB=0; colB<B.getCols(); colB++){
+				for (int colA=0; colA<this->cols; colA++){
+					result += this->data.at(rowA).at(colA)*B.at(colA).at(colB);
+				}
+				//std::cout<<result<<"\t";
+				C.setValue(rowA, colB, result);
+				result = 0;
+			}
+			//std::cout<<std::endl;
+		}
+
+
+		return C;
+	}
 };
 
 
@@ -86,6 +110,8 @@ int main(){
 	NEWLINE
 	B.print();
 	NEWLINE
-	A.addMatrix(B);
-	A.print();
+	Matrix C = A.multMatrix(B);
+	C.print();
+
+	//TODO: check if this actually works with matrizes that arent square
 }
