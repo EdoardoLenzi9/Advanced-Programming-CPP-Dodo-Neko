@@ -7,7 +7,7 @@ using namespace std;
 
 class BubbleSort {
     public:
-        void sort(vector<int> v);
+        void sort(vector<int> &vec);
 };
 
 #endif
