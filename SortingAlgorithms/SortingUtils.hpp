@@ -1,5 +1,5 @@
-#ifndef SORTING_UTILS_H
-#define SORTING_UTILS_H
+#ifndef SORTING_UTILS_HPP
+#define SORTING_UTILS_HPP
 
 #include <vector>
 

@@ -1,5 +1,5 @@
-#ifndef BUBBLESORT_H
-#define BUBBLESORT_H
+#ifndef BUBBLESORT_HPP
+#define BUBBLESORT_HPP
 
 #include <vector>
 
@@ -7,7 +7,6 @@ using namespace std;
 
 class BubbleSort {
     public:
-        void sort(int * array);
         void sort(vector<int> v);
 };
 
