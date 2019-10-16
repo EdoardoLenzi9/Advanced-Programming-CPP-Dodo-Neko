@@ -42,7 +42,6 @@ void fill_vector(vector<int> &vec, int from, int to)
     std::uniform_int_distribution<> dis(from, to);
 
     for (int i = 0; i < vec.capacity(); i++)
-
         vec.push_back(dis(gen));
 }
 
