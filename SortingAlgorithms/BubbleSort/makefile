@@ -4,7 +4,7 @@ RM=rm -f
 
 UTILS = ../SortingUtils.cpp ../SortingUtils.hpp
 BUBBLE = BubbleSortTest.cpp BubbleSort.cpp BubbleSort.hpp
-SRCS =  $(BUBBLE) $(UTILS)
+SRCS =  $(UTILS) $(BUBBLE) 
 OBJS=$(subst .cpp,.o,$SRCS)
 
 all:
@@ -13,4 +13,4 @@ all:
 .PHONY: clean 
 
 clean:
-	$(RM) *.o *.gch
+	$(RM) *.o *.gch a.out
