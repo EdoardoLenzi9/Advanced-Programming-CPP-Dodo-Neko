@@ -20,4 +20,8 @@ int main(void)
     dyn_vec->reserve(size);
     fill_vector(dyn_vec, 0, 100);
     print_vector(dyn_vec);
+    bs.sort(*dyn_vec);
+    print_vector(dyn_vec);
+    
+    return 0;
 }

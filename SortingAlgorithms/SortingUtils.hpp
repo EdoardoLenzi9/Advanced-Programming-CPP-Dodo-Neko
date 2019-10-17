@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 /**
  * Prints the given vector on the console
  * 
@@ -58,4 +57,35 @@ void fill_vector(vector<int> &vec, int from, int to);
  */
 void fill_vector(vector<int> *vec, int from, int to);
 
+/**
+ * Returns the max T value in a statically created vector.
+ * 
+ * @param vec a static vector, which is used to search the maximum value
+ */
+template <typename T>
+T get_max(const vector<T> &vec)
+{
+    T max = 0;
+    for (int i = 0; i < vec.size(); i++)
+        if (vec[i] > max)
+            max = vec[i];
+
+    return max;
+}
+
+/**
+ * Returns the max T value in a dynamically created vector.
+ * 
+ * @param vec a dynamic vector, which is used to search the maximum value
+ */
+template <typename T>
+T get_max(const vector<T> *vec)
+{
+    T max = 0;
+    for (int i = 0; i < vec->size(); i++)
+        if (vec->at(i) > max)
+            max = vec->at(i);
+
+    return max;
+}
 #endif
