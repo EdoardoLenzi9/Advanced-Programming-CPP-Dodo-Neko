@@ -1,5 +1,5 @@
-#ifndef VECTOR_H_
-#define VECTOR_H_
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
 
 using namespace std;
 #include <vector>
@@ -50,4 +50,4 @@ class NumericVector : public Vector<int>{
         void bucketsort ( void );
 };
 
-#endif  // VECTOR_H_
+#endif  // VECTOR_HPP

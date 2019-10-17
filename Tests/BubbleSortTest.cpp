@@ -1,9 +1,8 @@
 #include <gtest/gtest.h>
-#include "../Utils/SortingAlgorithms/BubbleSort.hpp"
+
 #include "TestFixture.hpp"
-//bool lt1 (int a, int b){
-//    return a < b;
-//}
+#include "../Utils/SortingAlgorithms/BubbleSort.hpp"
+
 
 TEST(bubblesort, base_test) {
     // Arrange

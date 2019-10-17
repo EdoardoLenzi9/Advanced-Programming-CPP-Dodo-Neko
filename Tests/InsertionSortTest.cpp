@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include "../Utils/SortingAlgorithms/InsertionSort.hpp"
 // TODO amazing bug - #ifndef doesn't work as expected
 // #include "TestFixture.hpp"
@@ -7,6 +8,7 @@
 bool lt3 (int a, int b){
     return a < b;
 }
+
 
 TEST(insertionsort, base_test) {
     // Arrange

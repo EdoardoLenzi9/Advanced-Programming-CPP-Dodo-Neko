@@ -1,8 +1,6 @@
 #include <gtest/gtest.h>
+
 #include "../Utils/SortingAlgorithms/BucketSort.hpp"
-#include "../Vector.hpp"
-
-
 // TODO amazing bug - #ifndef doesn't work as expected
 // #include "TestFixture.hpp"
 
