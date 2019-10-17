@@ -1,11 +1,13 @@
 CXX = g++
 CXXFLAGS = -std=c++11
-RM=rm -f
 
-UTILS = ../SortingUtils.cpp ../SortingUtils.hpp
-BUBBLE = BubbleSortTest.cpp BubbleSort.cpp BubbleSort.hpp
+
+UTILS = ../SortingUtils.cpp ../SortingUtils.hpp ../SortingInterface.hpp
+BUBBLE = BubbleSortTest.cpp BubbleSort.hpp
 SRCS =  $(UTILS) $(BUBBLE) 
 OBJS=$(subst .cpp,.o,$SRCS)
+
+.PHONY: all
 
 all:
 	$(CXX) $(CXXFLAGS) $(SRCS)
