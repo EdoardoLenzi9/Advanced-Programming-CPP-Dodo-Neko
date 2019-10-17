@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    int size = 10;
+    int size = 100;
     vector<int> vec;
 
     vec.reserve(size);
@@ -22,6 +22,7 @@ int main(void)
     print_vector(dyn_vec);
     bs.sort(*dyn_vec);
     print_vector(dyn_vec);
+    cout << "Vector sorted: " << is_sorted(dyn_vec) << endl;
     
     return 0;
 }
