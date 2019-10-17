@@ -130,4 +130,4 @@ course of the University of Klagenfurt.
 >> It is prohibited any use other than that inherent to the course, and in particular is expressly prohibited its use 
 for any commercial purposes and/or for profit.
 
-License: [GPL-3](https://www.gnu.org/licenses/gpl-3.0.html) 
+License: [GPL-3](https://www.gnu.org/licenses/gpl-3.0.html)

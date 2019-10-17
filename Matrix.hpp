@@ -1,15 +1,21 @@
+
 #ifndef MATRIX_H_
 #define MATRIX_H_
 
-class Matrix {
+using namespace std;
+#include <vector>
+#include "Vector.hpp"
+
+template <typename T> 
+class Matrix : Vector<T>{
     private:
         int rows;
     	int cols;
-	    vector< vector< int > > data;		//TODO generic datatype
+	    vector< vector< T > > data;		//TODO generic datatype
 
     public:
         // Constructors        
-        Matrix( int rows, int cols )
+        Matrix( int rows, int cols );
 
         // Adds another matrix to this one.
         void addMatrix( Matrix B );
@@ -18,7 +24,7 @@ class Matrix {
         Matrix multMatrix( Matrix B );
         
         // Output the whole matrix on the console
-        void print(); 
+        void print( void ); 
 
         // Getters and setters
         int getRows() { return rows; }
