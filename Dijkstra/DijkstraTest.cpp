@@ -1,3 +1,5 @@
+using namespace std;
+
 #include "Dijkstra.hpp"
 #include <iostream>
 #include <string>
@@ -12,11 +14,11 @@ int main(int argc, char const *argv[])
     vector<int> row3{ 3, 11, 5, 35 }; 
     vector<vector<int>> data {row1, row2, row3};
 
-	Dijkstra test ( "graph.txt" );
+	dijkstra_ns::Dijkstra test ( "graph.txt" );
 
     vector<int> res = test.dijkstra(0);
     for(int v : res){
-        cout << v;
+        cout << v ;     // 0392486
     }
 
     return 0;

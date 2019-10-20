@@ -1,9 +1,10 @@
-using namespace queue;
-
+#include <iostream>
 #include "Queue.hpp"
 
-template <typename item>
-Queue<item>::Queue(){
+namespace queue_ns {
+
+template <typename T>
+Queue<T>::Queue( void ){
 	dim = 0;
 	head = NULL;
 	tail = NULL;
@@ -11,7 +12,7 @@ Queue<item>::Queue(){
 
 template <typename T>
 void Queue<T>::enqueue(T item){
-	Node<item> * tmp = new (nothrow) node<item>; //nothrow avoid out of memory exeptions
+	Node<T> * tmp = new (nothrow) Node<T>; //nothrow avoid out of memory exeptions
 	tmp->data = item;
 	tmp->next = NULL;
 	tmp->previous = tail;
@@ -49,8 +50,16 @@ T Queue<T>::dequeue( T item ){
 	while(pivot != NULL && dim != 0){
 
         if(pivot->data == item){
-            pivot->previous->next = pivot->next;
-            pivot->next->previous = pivot->previous;
+            if(pivot->previous != NULL){
+                pivot->previous->next = pivot->next;
+            } else {
+                head = pivot->next;
+            }
+            if(pivot->next != NULL){
+                pivot->next->previous = pivot->previous;
+            } else {
+                tail = pivot->previous;
+            }
             delete pivot;
 		    dim--;
             return item;
@@ -59,7 +68,7 @@ T Queue<T>::dequeue( T item ){
 	}
 
 	cerr<<"ERROR ITEM NOT FOUND ";
-	return NULL;
+	return item;
 }
 
 
@@ -85,4 +94,8 @@ T Queue<T>::pop(){
 	}
 	cerr<<"ERROR EMPTY STACK ";
 	return 0;
+}
+
+template class Queue<int>;
+
 }

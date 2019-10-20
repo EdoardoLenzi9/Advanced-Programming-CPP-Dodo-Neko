@@ -4,9 +4,10 @@
 using namespace std;
 
 #include <vector>
+#include <iostream>
 #include <string>
 
-namespace queue{
+namespace queue_ns {
 
     template <typename T>
     class Node;
@@ -25,12 +26,12 @@ namespace queue{
     {
         protected:
             int dim;
-            node<T>* head;
-            node<T>* tail;
             // T* index;    // TODO create an index
 
         public:
-            Queue();
+            Node<T>* head;
+            Node<T>* tail;
+            Queue( void );
             void enqueue( T item );
             T dequeue();
             T dequeue(T item);
@@ -45,6 +46,6 @@ namespace queue{
                 }
             }
     };
-    
+
 }
 #endif

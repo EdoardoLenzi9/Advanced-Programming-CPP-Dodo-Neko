@@ -6,8 +6,9 @@ using namespace std;
 #include <vector>
 #include <string>
 
-class Edge
-{
+namespace dijkstra_ns {
+
+class Edge {
     protected:
         int weight;
         int node;
@@ -21,8 +22,7 @@ class Edge
 };
 
 
-class Node
-{
+class Node {
     protected:
         vector<Edge> neighbors;     // list of neighbor nodes
         int distance;               // distance from the source node
@@ -42,8 +42,7 @@ class Node
 };
 
 
-class Dijkstra
-{
+class Dijkstra {
     protected:
         int N;  // number of nodes 
         int M;  // number of arrows
@@ -55,5 +54,6 @@ class Dijkstra
         vector<int> dijkstra( int source );
 };
 
+}
 
 #endif

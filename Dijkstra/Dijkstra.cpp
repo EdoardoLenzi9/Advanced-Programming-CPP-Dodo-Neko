@@ -1,4 +1,3 @@
-using namespace std;
 
 #include <iostream>
 #include <fstream>
@@ -9,8 +8,11 @@ using namespace std;
 #include "Dijkstra.hpp"
 #include "Queue.hpp"
 
+using namespace std;
 
-Dijkstra::Dijkstra( string graphDeclaration ) {
+namespace dijkstra_ns {
+
+dijkstra_ns::Dijkstra::Dijkstra( string graphDeclaration ) {
     ifstream in(graphDeclaration);      // dataset with the graph definition
     in >> this->N >> this->M;
 
@@ -24,53 +26,55 @@ Dijkstra::Dijkstra( string graphDeclaration ) {
 }
 
 
-int getMinDist(vector<int> dist, vector<bool> isInQueue){
+int getMinDist(vector<int> dist, queue_ns::Queue<int> queue){
     int min;
     int u;
 
-    for( int i = 0; i < dist.size(); i++ ){
-        if( dist[i] < min && isInQueue[i]){
-            min = dist[i];
-            u = i;
-        }
-    }
+    queue_ns::Node<int>* pivot = queue.head;
 
+    while ( pivot != NULL ){
+        if( dist[pivot->data] < min){
+            min = dist[pivot->data];
+            u = pivot->data;
+        }
+
+        pivot = pivot->next;
+    }
     return u;
 }
 
 
-vector<int> Dijkstra::dijkstra( int source ) {
+vector<int> dijkstra_ns::Dijkstra::dijkstra( int source ) {
 
     vector<int> dist(N, INT_MAX);               // init node distance as infinite (-1) distance from the source node
     vector<int> prev(N, -1);                    // init undefined previous node
-    vector<bool> isInQueue(N, true);            // every node is enqueued
-    int queueSize = N;
-    int alt;
+    queue_ns::Queue<int> queue;                    // every node is enqueued
+    for(int i = 0; i < N; i++){
+        queue.enqueue(i);
+    }
+
     dist[source] = 0;        
-      
+    int alt;
                                                                 
-    while( queueSize > 0 ) {        
-        int u = getMinDist(dist, isInQueue);       // node index with minimum distance 
-        isInQueue[u] = false;
-        queueSize--;
+    while( queue.size() > 0 ) {        
+        int u = getMinDist(dist, queue);       // node index with minimum distance 
+        queue.dequeue(u);
 
         if( dist[u] == INT_MAX){
             break ;
         }
 
         for( Edge v : data[ u ].getNeighbors() ){
-            if( isInQueue[ v.getNode() ] ){
-                alt = dist[ u ] + v.getWeight() ;
-            } else {
-                break;
-            }
+            
+            alt = dist[ u ] + v.getWeight() ;
             
             if( alt < dist[ v.getNode() ] ){                                 
                 dist[ v.getNode() ] = alt ;       // update distance
                 prev[ v.getNode() ] = u ;         // update previous node
-                //decrease-key v in Q;                           // Riordina v nella coda
             }
         }
     }     
     return dist;
+}
+
 }
