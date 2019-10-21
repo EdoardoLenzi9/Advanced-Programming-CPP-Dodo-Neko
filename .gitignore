@@ -32,3 +32,9 @@
 *.exe
 *.out
 *.app
+
+# VScode settings
+*.code-workspace
+.vscode/
+
+*.tpp
