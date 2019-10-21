@@ -33,6 +33,8 @@
 *.out
 *.app
 
-*.tpp
-
+# VScode settings
 *.code-workspace
+.vscode/
+
+*.tpp
