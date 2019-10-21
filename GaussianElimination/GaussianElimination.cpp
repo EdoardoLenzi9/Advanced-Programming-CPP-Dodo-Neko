@@ -7,22 +7,6 @@ using namespace std;
 #include "GaussianElimination.hpp"
 
 
-GaussianElimination::GaussianElimination( int rows, int cols ) {
-	this->rows = rows;
-	this->cols = cols;
-	for( int i = 0; i < this->rows; ++i ) {
-		this->data.push_back( vector< int >( this->cols, 0 ) );
-	}
-}
-
-
-GaussianElimination::GaussianElimination( vector< vector< int > > data ) {
-	this->data = data;
-    this->rows = data.size();
-    this->cols = data[ 0 ].size();
-}
-
-
 vector<vector<int>> GaussianElimination::gaussianElimination( void ) {
 
     int m = this->rows; // number of rows
@@ -70,7 +54,7 @@ int GaussianElimination::argmax( int h, int m, int k ) {
 
 
 void GaussianElimination::print( void ) {
-	for ( vector< int > row: this->data ) {
+	for ( vector<int> row: this->data ) {
 	    for ( int col : row ) {
 			cout << col << "\t";
 	    }

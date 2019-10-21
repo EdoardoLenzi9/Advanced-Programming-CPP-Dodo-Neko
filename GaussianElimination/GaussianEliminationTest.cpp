@@ -10,7 +10,7 @@ int main(int argc, char const *argv[])
     vector<int> row3{ 3, 11, 5, 35 }; 
     vector<vector<int>> data {row1, row2, row3};
 
-	GaussianElimination test ( data );
+    GaussianElimination test ( data );
 
 	test.print();
 	NEWLINE

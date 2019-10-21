@@ -14,14 +14,14 @@ Matrix::Matrix( int rows, int cols ) {
 	//turns out, push_back doesnt actually insert elements at the back end of a vector, but instead
 	//adds new elements at the back, increasing the size of the vector.
 	for( int i = 0; i < this->rows; ++i ) {
-		this->data.push_back( vector< int >( this->cols, 0 ) );
+		this->data.push_back( vector<int>( this->cols, 0 ) );
 	}
 
 }
 
 
 Matrix::print() {
-	for ( vector< int > row: this->data ) {
+	for ( vector<int> row: this->data ) {
 	    for ( int col: row ) {
 			cout << col << "\t";
 	    }

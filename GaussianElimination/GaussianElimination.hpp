@@ -6,16 +6,17 @@ using namespace std;
 #include <vector>
 
 
-class GaussianElimination
-{
+class GaussianElimination {
+
     protected:
         int rows;
     	int cols;
-	    vector< vector< int > > data;	
+	    vector<vector<int>> data;	
 
     public:
-        GaussianElimination( int rows, int cols );
-        GaussianElimination( vector<vector<int>> data );
+        GaussianElimination( int rows, int cols ) : rows(rows), cols(cols), data(vector<vector<int>>(rows, vector<int>(cols))) { }
+        GaussianElimination( vector<vector<int>> data ) : data(data), rows(data.size()), cols(data[ 0 ].size()) { }
+
 
         vector<vector<int>> gaussianElimination( void );
         void print ( void );
