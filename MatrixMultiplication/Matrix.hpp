@@ -5,7 +5,7 @@ class Matrix {
     private:
         int rows;
     	int cols;
-	    vector< vector< int > > data;		//TODO generic datatype
+	    vector<vector<int>> data;		//TODO generic datatype
 
     public:
         // Constructors        
@@ -28,7 +28,7 @@ class Matrix {
         // Helpers
 
         // Make Matrix::at() return a vector<int> for the row data if asked.
-        vector< int > at( int row ) { return data.at( row ); }
+        vector<int> at( int row ) { return data.at( row ); }
 };
 
 #endif  // MATRIX_H_
