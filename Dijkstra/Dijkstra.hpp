@@ -14,7 +14,7 @@ class Edge {
         int node;
 
     public:
-        Edge( int node, int weight) { this->node = node; this->weight = weight; };
+        Edge( int node, int weight) : node(node), weight(weight){ };
 
         // Getters and setters
         int getNode() { return node; }
