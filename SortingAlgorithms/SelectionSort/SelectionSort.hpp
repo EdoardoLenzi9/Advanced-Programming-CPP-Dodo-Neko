@@ -12,6 +12,7 @@ public:
     template <typename T>
     void sort(vector<T> &vec)
     {
+	    cout << "called with a vector" << endl;
 		int min, posMin;
 		for (int i = 0; i < vec.size()-1; i++){
 			//cout << "looking at element " << i << " with value " << vec.at(i) << endl;
@@ -35,6 +36,7 @@ public:
     template <typename T>
     void sort(vector<T> *vec)
     {
+	    cout << "called with a pointer" << endl;
 		int min, posMin;
 		for (int i = 0; i < vec->size()-1; i++){
 			//cout << "looking at element " << i << " with value " << vec->at(i) << endl;
@@ -50,7 +52,7 @@ public:
 			}	
 			if (posMin != i){
 				//cout << "swapping " << vec->at(i) << " with " << vec->at(posMin) << endl;
-				std::swap(&vec->at(i), &vec->at(posMin));
+				std::swap(vec->at(i), vec->at(posMin));
 			}
 		}
 	};
