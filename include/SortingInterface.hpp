@@ -9,8 +9,6 @@ class SortingInterface {
 public:
   template <typename T>
   void sort(vector<T> &vec);
-  template <typename T>
-  void sort(vector<T> *vec);
 };
 
 #endif
