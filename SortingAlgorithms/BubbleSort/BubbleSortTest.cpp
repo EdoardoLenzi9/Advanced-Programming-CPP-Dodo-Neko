@@ -16,6 +16,8 @@ int main(void)
     BubbleSort bs;
     bs.sort(vec);
     print_vector(vec);
-    
+    cout << endl
+         << "Vector is sorted: " << is_sorted(vec) << endl;
+
     return 0;
 }

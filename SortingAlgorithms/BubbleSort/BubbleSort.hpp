@@ -7,7 +7,8 @@
 
 using namespace std;
 
-class BubbleSort : public SortingInterface {
+class BubbleSort
+{
 public:
     template <typename T>
     void sort(vector<T> &vec)
