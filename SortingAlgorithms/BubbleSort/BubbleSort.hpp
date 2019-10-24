@@ -2,8 +2,8 @@
 #define BUBBLESORT_HPP
 
 #include <vector>
-#include "../SortingInterface.hpp"
-#include "../SortingUtils.hpp"
+
+#include "SortingInterface.hpp"
 
 using namespace std;
 
@@ -16,15 +16,6 @@ public:
             for (int k = 0; k < vec.size() - n - 1; k++)
                 if (vec.at(k) > vec.at(k + 1))
                     std::swap(vec[k], vec[k + 1]);
-    };
-
-    template <typename T>
-    void sort(vector<T> *vec)
-    {
-        for (int n = 0; n < vec->size(); n++)
-            for (int k = 0; k < vec->size(); k++)
-                if (vec->at(k) > vec->at(k + 1))
-                    std::swap(&vec->at(k), &vec->at(k + 1));
     };
 };
 
