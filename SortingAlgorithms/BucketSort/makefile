@@ -1,15 +1,16 @@
 CXX = g++
-CXXFLAGS = -std=c++14 -I.
+CXXFLAGS = -o main -std=c++17 -I../../include
 
-RM=rm -f
-
-INTERFACE = ../SortingInterface.hpp
-UTILS = ../SortingUtils.hpp ../SortingUtils.cpp 
-BUCKET = BucketSortTest.cpp BucketSort.cpp BucketSort.hpp
-SRCS =  $(INTERFACE) $(UTILS) $(BUCKET) 
+BUCKET = BucketSortTest.cpp BucketSort.hpp
+SRCS = $(BUCKET) 
 OBJS=$(subst .cpp,.o,$SRCS)
+
+.PHONY: all
 
 all:
 	$(CXX) $(CXXFLAGS) $(SRCS)
 
 .PHONY: clean 
+
+clean:
+	$(RM) *.o *.gch a.out main
