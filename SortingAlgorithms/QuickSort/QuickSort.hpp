@@ -3,9 +3,6 @@
 
 #include <vector>
 
-#include "SortingInterface.hpp"
-#include "SortingUtils.hpp"
-
 using namespace std;
 
 class QuickSort
