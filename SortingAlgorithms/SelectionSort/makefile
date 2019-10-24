@@ -1,10 +1,8 @@
 CXX = g++
-CXXFLAGS = -std=c++11
+CXXFLAGS = -o main -std=c++17 -I../../include
 
-
-UTILS = ../SortingUtils.cpp ../SortingUtils.hpp ../SortingInterface.hpp
-SSORT = SelectionSortTest.cpp SelectionSort.hpp
-SRCS =  $(UTILS) $(SSORT) 
+SELECTION = SelectionSortTest.cpp SelectionSort.hpp
+SRCS = $(SELECTION) 
 OBJS=$(subst .cpp,.o,$SRCS)
 
 .PHONY: all
@@ -12,7 +10,7 @@ OBJS=$(subst .cpp,.o,$SRCS)
 all:
 	$(CXX) $(CXXFLAGS) $(SRCS)
 
-.PHONY: clean 
+.PHONY: clean
 
 clean:
-	$(RM) *.o *.gch a.out
+	$(RM) *.o *.gch a.out main
