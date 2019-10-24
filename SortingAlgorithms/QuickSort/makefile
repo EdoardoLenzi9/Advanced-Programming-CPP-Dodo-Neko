@@ -13,5 +13,5 @@ all:
 .PHONY: clean 
 
 clean:
-	$(RM) *.o *.gch a.out
+	$(RM) *.o *.gch a.out main
 
