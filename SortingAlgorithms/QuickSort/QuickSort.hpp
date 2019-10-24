@@ -1,19 +1,21 @@
 #ifndef QUICKSORT_HPP
 #define QUICKSORT_HPP
 
-#include <iostream>
 #include <vector>
-#include <time.h>
 
-#include "../SortingInterface.hpp"
-#include "../SortingUtils.hpp"
+#include "SortingInterface.hpp"
+#include "SortingUtils.hpp"
 
 using namespace std;
 
 class QuickSort
 {
 public:
-    void sort(vector<int> &values);
+    template <typename T>
+    void sort(vector<T> &values)
+    {
+        quicksort_recursive(values, 0, values.size() - 1);
+    }
 
 private:
     /**
@@ -23,7 +25,20 @@ private:
      * @param  high: upper bound of the current sub-list
      * @retval None
      */
-    void quicksort_recursive(vector<int> &values, int low, int high);
+    template <typename T>
+    void quicksort_recursive(vector<T> &values, int low, int high)
+    {
+        if (low < high)
+        {
+            // Partition the current list based on the pivot element
+            int pivotIndex = partition(values, low, high);
+
+            // Recursive call on each sub-list around the pivot
+            // Divide & Conquer!
+            quicksort_recursive(values, low, pivotIndex - 1);
+            quicksort_recursive(values, pivotIndex + 1, high);
+        }
+    }
 
     /**
      * @brief  Partition the list based on the pivot element
@@ -33,7 +48,24 @@ private:
      * @param  high: upper bound of the current sub-list
      * @retval Index of the pivot element
      */
-    int partition(vector<int> &values, int low, int high);
+    template <typename T>
+    int partition(vector<T> &values, int low, int high)
+    {
+        int pivot = high; // pivot is the rightmost element
+        int index = low;
+
+        for (int i = low; i < high; i++)
+        {
+            if (values[i] < values[pivot])
+            {
+                swap(values[i], values[index]);
+                index++;
+            }
+        }
+        swap(values[pivot], values[index]);
+
+        return index;
+    }
 };
 
 #endif

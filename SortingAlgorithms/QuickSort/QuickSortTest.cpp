@@ -1,12 +1,15 @@
+#include <vector>
+#include <iostream>
+
 #include "QuickSort.hpp"
-#include "../SortingUtils.hpp"
+#include "SortingUtils.hpp"
 
 using namespace std;
 
 int main(void)
 {
     int size = 1000;
-    vector<int> vec;
+    vector<double> vec;
 
     vec.reserve(size);
     fill_vector(vec, 0, 100);
@@ -19,7 +22,7 @@ int main(void)
     qs.sort(vec);
     cout << "Sorted: ";
     print_vector(vec);
-    cout << endl;
-    
+    cout << "Vector is sorted: " << is_sorted(vec) << endl;
+
     return 0;
 }
