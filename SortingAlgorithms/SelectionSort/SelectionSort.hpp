@@ -2,12 +2,10 @@
 #define SELECTIONSORT_HPP
 
 #include <vector>
-#include "SortingInterface.hpp"
-#include "SortingUtils.hpp"
 
 using namespace std;
 
-class SelectionSort : public SortingInterface {
+class SelectionSort {
 public:
 	template <typename T>
 	void sort(vector<T> &vec)

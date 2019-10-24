@@ -3,8 +3,6 @@
 
 #include <vector>
 
-#include "SortingInterface.hpp"
-
 using namespace std;
 
 class BubbleSort

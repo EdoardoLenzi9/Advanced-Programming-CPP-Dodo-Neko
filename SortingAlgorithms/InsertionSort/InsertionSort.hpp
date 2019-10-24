@@ -1,7 +1,9 @@
 #ifndef INSERTION_SORT_HPP
 #define INSERTION_SORT_HPP
 
-#include "SortingUtils.hpp"
+#include <vector>
+
+using namespace std;
 
 class InsertionSort
 {
