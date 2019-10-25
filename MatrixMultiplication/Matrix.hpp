@@ -40,11 +40,6 @@ public:
     unsigned int getRows() { return rows; }
     unsigned int getCols() { return cols; }
 
-    // Helpers
-
-    // Make Matrix::at() return a vector<int> for the row data if asked.
-    vector<int> at(int row) { return data.at(row); }
-
     /**
      * @brief  overloading of [] operator to enable the direkt access of matrix elements, e.g., A[0][0]
      * @note   because it made sense to use it
@@ -73,7 +68,6 @@ public:
         return C;
     }
 
-    // Adds another matrix to this one and returns the result matrix.
     /**
      * @brief  overloading of + operator to enable matrix addition
      * @note   
