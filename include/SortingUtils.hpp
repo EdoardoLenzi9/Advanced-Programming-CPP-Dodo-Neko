@@ -5,6 +5,20 @@
 #include <iostream>
 #include <random>
 
+#include "../MatrixMultiplication/Matrix.hpp"
+
+#define SMALL_BENCHMARK_SIZE 1000
+#define MEDIUM_BENCHMARK_SIZE 10000
+#define BIG_BENCHMARK_SIZE 1000000
+
+#define SMALL_VECTOR_SIZE 1000
+#define MEDIUM_VECTOR_SIZE 10000
+#define BIG_VECTOR_SIZE 100000
+
+#define SMALL_RANDOM_RANGE_MAX 1000
+#define MEDIUM_RANDOM_RANGE_MAX 10000
+// #define BIG_RANDOM_RANGE_MAX use IntegerMaxValue instead
+
 using namespace std;
 
 std::random_device rd;  //Will be used to obtain a seed for the random number engine
@@ -56,6 +70,24 @@ void fill_vector(vector<T> &vec, int from, int to)
 
     for (int i = 0; i < vec.capacity(); i++)
         vec.push_back(dis(gen));
+}
+
+/**
+ * @brief  fills the given matrix with randomized integer/real values (uniformly distributed)
+ * @note   uses real numbers as random values, which get pruned in case of integer values
+ * @param  &matrix: the address reference of the matrix
+ * @param  rand_from: the starting range of randomized ints
+ * @param  rand_to: the ending range of randomized ints
+ * @retval None
+ */
+template <typename T>
+void fill_matrix(Matrix<T> &matrix, int rand_from, int rand_to)
+{
+    std::uniform_real_distribution<> dis(rand_from, rand_to);
+
+    for (int i = 0; i < matrix.getRows(); i++)
+        for (int k = 0; k < matrix.getCols(); k++)
+            matrix[i][k] = dis(gen);
 }
 
 /**
