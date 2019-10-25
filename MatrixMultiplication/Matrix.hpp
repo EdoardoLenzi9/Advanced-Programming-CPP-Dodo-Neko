@@ -89,7 +89,9 @@ public:
 
         for (int row = 0; row < this->rows; ++row)
             for (int col = 0; col < this->cols; ++col)
-                C[row][col] = this->data[row][col] + B.at[row][col];
+                C[row][col] = this->data[row][col] + B[row][col];
+
+        return C;
     };
 
 };
