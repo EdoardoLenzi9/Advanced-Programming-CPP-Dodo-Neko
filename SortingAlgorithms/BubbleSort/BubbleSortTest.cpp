@@ -1,6 +1,6 @@
 #include <vector>
 
-#include "SortingUtils.hpp"
+#include "Utils.hpp"
 #include "BubbleSort.hpp"
 
 int main(void)

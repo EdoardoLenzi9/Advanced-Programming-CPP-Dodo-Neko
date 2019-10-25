@@ -1,5 +1,6 @@
 #include "SieveOfEratosthenes.hpp"
 #include <iostream>
+#include <vector>
 
 const int MAX_PRIME = 100;
 

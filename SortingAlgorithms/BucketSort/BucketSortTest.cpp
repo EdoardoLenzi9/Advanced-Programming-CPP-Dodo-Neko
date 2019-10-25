@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "BucketSort.hpp"
-#include "SortingUtils.hpp"
+#include "Utils.hpp"
 
 int main(void)
 {

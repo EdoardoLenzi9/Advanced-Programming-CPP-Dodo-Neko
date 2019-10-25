@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "QuickSort.hpp"
-#include "SortingUtils.hpp"
+#include "Utils.hpp"
 
 using namespace std;
 

@@ -2,7 +2,7 @@
 #define BUCKETSORT_HPP
 
 #include <vector>
-#include "SortingUtils.hpp"
+#include "Utils.hpp"
 
 using namespace std;
 

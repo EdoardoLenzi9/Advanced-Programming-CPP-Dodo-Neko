@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "SelectionSort.hpp"
-#include "SortingUtils.hpp"
+#include "Utils.hpp"
 
 int main(void)
 {
