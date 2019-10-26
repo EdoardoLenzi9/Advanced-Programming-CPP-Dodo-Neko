@@ -6,7 +6,8 @@
 int main(void)
 {
     Matrix<int> A(5, 6);
-    fill_matrix(A, 0, 100);
+    // fill_matrix(A, 0, 100);
+    A.fill_matrix(0, 100);
     A.print();
     cout << endl;
 
