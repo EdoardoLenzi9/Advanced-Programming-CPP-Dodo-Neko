@@ -4,7 +4,6 @@
 #include <vector>
 #include <iostream>
 #include <random>
-#include <chrono>
 #include <utility>
 
 #include "../MatrixMultiplication/Matrix.hpp"
@@ -20,11 +19,6 @@
 #define SMALL_RANDOM_RANGE_MAX 1000
 #define MEDIUM_RANDOM_RANGE_MAX 10000
 // #define BIG_RANDOM_RANGE_MAX use IntegerMaxValue instead
-
-typedef std::chrono::high_resolution_clock::time_point TimeVar;
-
-#define duration(a) std::chrono::duration_cast<std::chrono::nanoseconds>(a).count()
-#define time_now() std::chrono::high_resolution_clock::now()
 
 using namespace std;
 
@@ -120,4 +114,4 @@ bool are_equal(vector<T> const &v1, vector<T> const &v2)
     return (v1.size() == v2.size() && std::equal(v1.begin(), v1.end(), v2.begin()));
 }
 
-#endif // SORTING_UTILS_HPP
+#endif // UTILS_HPP
