@@ -8,24 +8,26 @@
 #include "TimingUtils.hpp"
 #include "../BubbleSort/BubbleSort.hpp"
 
-const int TEST_ITERATION = 1000;
+const int TEST_ITERATION = 100;
 const int SIZE = 1000;
+const int MIN_RAND = 0;
+const int MAX_RAND = 1000;
 
 vector<int> original;
 
 // Prototypes
-void test_bubble_sort(const vector<int> original);
+void test_bubble_sort(const vector<int> original, const int ITERATIONS);
 
 int main(void)
 {
     original.reserve(SIZE);
-    fill_vector(original, 0, 1000);
-    test_bubble_sort(original);
+    fill_vector(original, MIN_RAND, MAX_RAND);
+    test_bubble_sort(original, MEDIUM_BENCHMARK_SIZE);
 
     return 0;
 }
 
-void test_bubble_sort(vector<int> original)
+void test_bubble_sort(vector<int> original, const int ITERATIONS)
 {
     BubbleSort bubble_sort;
     vector<int> algo_sorted(original), std_sorted(original);
@@ -33,9 +35,9 @@ void test_bubble_sort(vector<int> original)
     std::sort(std_sorted.begin(), std_sorted.end());
 
     TimeUnits units;
-    units.iterations = TEST_ITERATION;
+    units.iterations = ITERATIONS;
 
-    for (int i = 0; i < TEST_ITERATION; i++)
+    for (int i = 0; i < ITERATIONS; i++)
     {
         // TIME MEASUREMENT
         TimeVar t1 = time_now();
@@ -47,13 +49,6 @@ void test_bubble_sort(vector<int> original)
         {
             throw "Sorting Algorithm did not sort vector!";
             break; // in this case, stop the test
-        }
-        // Randomizes the test vector 10 times
-        if (TEST_ITERATION % (TEST_ITERATION / 10) == 0)
-        {
-            fill_vector(original, 0, 1000);
-            std_sorted = original;
-            std::sort(std_sorted.begin(), std_sorted.end());
         }
         algo_sorted = original;
     }
