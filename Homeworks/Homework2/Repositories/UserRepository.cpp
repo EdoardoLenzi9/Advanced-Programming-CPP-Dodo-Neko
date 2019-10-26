@@ -1,14 +1,10 @@
 #include <string>
-#include <odb/core.hxx>
 
-#pragma db object
 class User
 {
     private:
-        friend class odb::access;
         User () {}
 
-        #pragma db id
         string email_;
 
         string name_;
