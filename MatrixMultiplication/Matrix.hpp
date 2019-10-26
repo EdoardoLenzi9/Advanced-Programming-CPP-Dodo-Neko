@@ -88,6 +88,24 @@ public:
         return C;
     };
 
+    /**
+ * @brief  fills the given matrix with randomized integer/real values (uniformly distributed)
+ * @note   uses real numbers as random values, which get pruned in case of integer values
+ * @param  &matrix: the address reference of the matrix
+ * @param  rand_from: the starting range of randomized ints
+ * @param  rand_to: the ending range of randomized ints
+ * @retval None
+ */
+    void fill_matrix(int rand_from, int rand_to)
+    {
+        std::random_device rd;  //Will be used to obtain a seed for the random number engine
+        std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+        std::uniform_real_distribution<> dis(rand_from, rand_to);
+
+        for (int i = 0; i < this->getRows(); i++)
+            for (int k = 0; k < this->getCols(); k++)
+                data[i][k] = (T)dis(gen);
+    }
 };
 
 #endif // MATRIX_H_
