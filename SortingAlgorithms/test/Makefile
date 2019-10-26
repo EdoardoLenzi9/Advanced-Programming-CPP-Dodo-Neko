@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -o main -std=c++17 -I../../include
+CXXFLAGS = -O3 -o main -std=c++17 -I../../include
 
 
 SORT = SortingTest.cpp ../BubbleSort/BubbleSort.hpp ../BucketSort/BucketSort.hpp ../QuickSort/QuickSort.hpp
