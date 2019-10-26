@@ -2,8 +2,10 @@
 #include <vector>
 #include <algorithm> // std::sort()
 #include <chrono>    // execution time measurement
+#include <limits>    // used for double max value
 
 #include "Utils.hpp"
+#include "TimingUtils.hpp"
 #include "../BubbleSort/BubbleSort.hpp"
 
 const int TEST_ITERATION = 10;
@@ -16,7 +18,6 @@ void test_bubble_sort(const vector<int> original);
 
 int main(void)
 {
-
     original.reserve(SIZE);
     fill_vector(original, 0, 1000);
     test_bubble_sort(original);
@@ -31,11 +32,16 @@ void test_bubble_sort(const vector<int> original)
 
     std::sort(std_sorted.begin(), std_sorted.end());
 
+    TimeUnits units;
+
     for (int i = 0; i < TEST_ITERATION; i++)
     {
         TimeVar t1 = time_now();
         bubble_sort.sort(algo_sorted);
-        double current_time = duration(time_now() - t1);
+        double duration_time = duration(time_now() - t1);
+
+        if (duration_time < units.min)
+            units.min = duration_time;
 
         if (!are_equal(algo_sorted, std_sorted))
         {
