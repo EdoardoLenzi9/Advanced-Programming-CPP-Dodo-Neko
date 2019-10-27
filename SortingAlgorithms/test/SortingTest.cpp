@@ -10,6 +10,7 @@
 #include "TimingUtils.hpp"
 #include "../BubbleSort/BubbleSort.hpp"
 #include "../BucketSort/BucketSort.hpp"
+#include "../CountingSort/CountingSort.hpp"
 #include "../InsertionSort/InsertionSort.hpp"
 #include "../QuickSort/QuickSort.hpp"
 #include "../SelectionSort/SelectionSort.hpp"
@@ -67,6 +68,15 @@ void test_bubble_sort(const vector<int> original, const int REPETITIONS);
 void test_bucket_sort(const vector<int> original, const int REPETITIONS);
 
 /**
+ * @brief  tests the counting sort algorithm with given vector
+ * @note   
+ * @param  original: vector used to test counting sort
+ * @param  REPETITIONS: times of repetitions of the test (more is better for good average value)
+ * @retval None
+ */
+void test_counting_sort(const vector<int> original, const int REPETITIONS);
+
+/**
  * @brief  tests the insertion sort algorithm with given vector
  * @note   
  * @param  original: vector used to test insertion sort
@@ -98,11 +108,12 @@ int main(void)
     // create original vector and fill it with random values
     original.reserve(VECTOR_SIZE);
     fill_vector(original, MIN_RAND, MAX_RAND);
-
+    // Start measuring overall time
     TimeVar start_t = time_now();
 
     test_bubble_sort(original, MEDIUM_BENCHMARK_SIZE);
     test_bucket_sort(original, MEDIUM_BENCHMARK_SIZE);
+    test_counting_sort(original, MEDIUM_BENCHMARK_SIZE);
     test_insertion_sort(original, MEDIUM_BENCHMARK_SIZE);
     test_quick_sort(original, MEDIUM_BENCHMARK_SIZE);
     test_selection_sort(original, MEDIUM_BENCHMARK_SIZE);
@@ -165,14 +176,43 @@ void test_bucket_sort(const vector<int> original, const int REPETITIONS)
         TimeVar start_t = time_now();
         bucket_sort.sort(algo_sorted);
         double duration_time = duration(time_now() - start_t);
-        update_time_units(units, duration_time);
 
         if (!are_equal(algo_sorted, std_sorted))
             throw SortingException();
 
+        update_time_units(units, duration_time);
         algo_sorted = original;
     }
     print_units(units, "\tBucket Sort -");
+    cout << endl;
+}
+
+void test_counting_sort(const vector<int> original, const int REPETITIONS)
+{
+    cout << "Starting Countingsort tests:" << endl;
+
+    CountingSort counting_sort;
+    vector<int> algo_sorted(original), std_sorted(original);
+
+    std::sort(std_sorted.begin(), std_sorted.end());
+
+    TimeUnits units;
+    units.iterations = REPETITIONS;
+
+    for (int i = 0; i < REPETITIONS; i++)
+    {
+        // TIME MEASUREMENT
+        TimeVar start_t = time_now();
+        counting_sort.sort(algo_sorted);
+        double duration_time = duration(time_now() - start_t);
+
+        if (!is_sorted(algo_sorted))
+            throw SortingException();
+
+        update_time_units(units, duration_time);
+        algo_sorted = original;
+    }
+    print_units(units, "\tCounting Sort - ");
     cout << endl;
 }
 
@@ -259,7 +299,7 @@ void test_selection_sort(const vector<int> original, const int REPETITIONS)
 
         if (!are_equal(algo_sorted, std_sorted))
             throw SortingException();
-        
+
         algo_sorted = original;
     }
     print_units(units, "\tSelection Sort -");
