@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -O3 -o main -std=c++17 -I../../include
 
 
-SORT = SortingTest.cpp ../BubbleSort/BubbleSort.hpp ../BucketSort/BucketSort.hpp ../QuickSort/QuickSort.hpp
+SORT = SortingTest.cpp
 SRCS = $(SORT) 
 OBJS=$(subst .cpp,.o,$SRCS)
 
