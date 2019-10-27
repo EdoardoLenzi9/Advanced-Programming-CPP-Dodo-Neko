@@ -12,7 +12,7 @@ class CountingSort
 public:
     void sort(vector<int> &vec)
     {
-        vector<int> output(vec.size() + 1, 0);
+        vector<int> output(vec.size() + 1);
         const int MAX = get_max(vec);
         vector<int> count(MAX + 1, 0); // create count vector (max + 1 elements)
 
@@ -30,7 +30,7 @@ public:
 
         for (int i = 0; i < vec.size(); i++)
             vec[i] = output[i];
-        }
+    }
 };
 
 #endif
