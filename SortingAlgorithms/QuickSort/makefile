@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -o main -std=c++17 -I../../include
+CXXFLAGS = -o QuickSort.bin -pg -std=c++11 -I../../include
 
 QUICK = QuickSortTest.cpp QuickSort.hpp
 SRCS = $(QUICK) 

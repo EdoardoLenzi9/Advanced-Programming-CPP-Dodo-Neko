@@ -4,14 +4,17 @@
 #include "BucketSort.hpp"
 #include "Utils.hpp"
 
+using namespace std;
+
 int main(void)
 {
-
-    using namespace std;
-
+    int size = 10000;
     vector<int> vec;
-    vec.reserve(100);
-    fill_vector(vec, 0, 100);
+
+    vec.reserve(size);
+
+    fill_vector(vec, 0, 10000);
+
     print_vector(vec);
     cout << endl;
     BucketSort bs;

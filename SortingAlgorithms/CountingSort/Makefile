@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -o main -std=c++17 -I../../include
+CXXFLAGS = -o CountingSort.bin -pg -std=c++17 -I../../include
 
 COUNTING = CountingSortTest.cpp CountingSort.hpp
 SRCS = $(COUNTING) 
