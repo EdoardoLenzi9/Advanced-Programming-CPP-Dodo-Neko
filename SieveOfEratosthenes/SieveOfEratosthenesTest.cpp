@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-const int MAX_PRIME = 100;
+const int MAX_PRIME = 10000;
 
 int main(int argc, char const *argv[])
 {

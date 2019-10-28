@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -o main -std=c++17 -I../include
+CXXFLAGS = -o main -pg -std=c++17 -I../include
 
 
 MATRIX = MatrixTest.cpp Matrix.hpp

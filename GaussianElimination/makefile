@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++11 -pg
+CXXFLAGS = -std=c++11 -pg -I../include
 CXXDEBUG = -g
 
 SRCS =  *.cpp *.hpp 
