@@ -6,7 +6,7 @@
 
 int main(int argc, char const *argv[])
 {
-    int size = 1000;
+    int size = 100;
 
     vector<int> row1;
     vector<int> row2;
@@ -22,12 +22,12 @@ int main(int argc, char const *argv[])
     row5.reserve(size);
     row6.reserve(size);
 
-    fill_vector(row1, 0, 10000);
-    fill_vector(row2, 0, 10000);
-    fill_vector(row3, 0, 10000);
-    fill_vector(row4, 0, 10000);
-    fill_vector(row5, 0, 10000);
-    fill_vector(row6, 0, 10000);
+    fill_vector(row1, 0, 100);
+    fill_vector(row2, 0, 100);
+    fill_vector(row3, 0, 100);
+    fill_vector(row4, 0, 100);
+    fill_vector(row5, 0, 100);
+    fill_vector(row6, 0, 100);
 
     vector<vector<int>> data {row1, row2, row3, row4, row5, row6};
 
