@@ -4,6 +4,8 @@ using namespace std;
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Utils.hpp"
+
 
 #define NEWLINE cout << endl;
 
@@ -14,7 +16,9 @@ int main(int argc, char const *argv[])
     vector<int> row3{ 3, 11, 5, 35 }; 
     vector<vector<int>> data {row1, row2, row3};
 
-	dijkstra_ns::Dijkstra test ( "graph.txt" );
+    fill_graph(10000, 50000, 10);
+	//dijkstra_ns::Dijkstra test ( "graph.txt" );
+    dijkstra_ns::Dijkstra test ( "graphtest.txt" );
 
     vector<int> res = test.dijkstra(0);
     for(int v : res){
