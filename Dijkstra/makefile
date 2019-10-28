@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -o main -std=c++17 -I../include
+CXXFLAGS = -o Dijkstra.bin -std=c++17 -I../include
 CXXDEBUG = -g
 CXXPROF = -pg
 
@@ -19,4 +19,4 @@ prof:
 .PHONY: clean 
 
 clean:
-	$(RM) *.o *.gch a.out
+	$(RM) *.o *.gch Dijkstra.bin

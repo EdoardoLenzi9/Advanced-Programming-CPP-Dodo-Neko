@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -o main -pg -std=c++17 -I../include
+CXXFLAGS = -o Matrix.bin -pg -std=c++17 -I../include
 
 
 MATRIX = MatrixTest.cpp Matrix.hpp
@@ -14,4 +14,4 @@ all:
 .PHONY: clean 
 
 clean:
-	$(RM) *.o *.gch a.out main
+	$(RM) *.o *.gch Matrix.bin
