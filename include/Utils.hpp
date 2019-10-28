@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include <random>
 #include <utility>
 
@@ -72,6 +73,40 @@ void fill_vector(vector<T> &vec, int from, int to)
     for (int i = 0; i < vec.capacity(); i++)
         vec.push_back(dis(gen));
 }
+
+
+
+void fill_graph(int nodes, int edges, int maxWeight)
+{
+    ofstream graph;
+    graph.open ("graphtest.txt");
+    graph << nodes << " " << edges << endl;
+    std::uniform_real_distribution<> nodeGenerator(0, nodes -1);
+    std::uniform_real_distribution<> weightGenerator(0, maxWeight);
+
+    for(int n = 0; n < nodes - 1; n++){
+        int weight = weightGenerator(gen);
+        graph << n << " " << n+1 << " " << weight << endl;  
+    }
+
+    while(edges > 0 + nodes){
+        edges--;
+
+        int pivotSource = nodeGenerator(gen);
+        int pivotTarget = nodeGenerator(gen);
+
+        while(pivotTarget == pivotSource){        
+            pivotTarget = nodeGenerator(gen);
+        }
+
+        int weight = weightGenerator(gen);
+        graph << pivotSource << " " << pivotTarget << " " << weight << endl;
+    }
+
+
+    graph.close();
+}
+
 
 /**
  * @brief  fills the given matrix with randomized integer/real values (uniformly distributed)
