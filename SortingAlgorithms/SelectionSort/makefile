@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -o main -std=c++17 -I../../include
+CXXFLAGS = -o SelectionSort.bin -pg -std=c++11 -I../../include
 
 SELECTION = SelectionSortTest.cpp SelectionSort.hpp
 SRCS = $(SELECTION) 

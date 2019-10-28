@@ -4,22 +4,25 @@
 #include "SelectionSort.hpp"
 #include "Utils.hpp"
 
+using namespace std;
+
 int main(void)
 {
-    using namespace std;
 
-    int size = 1000;
+    int size = 10000;
     vector<double> vec;
 
     vec.reserve(size);
 
-    fill_vector(vec, 0, 1000);
+    fill_vector(vec, 0, 10000);
 
     print_vector(vec);
+    cout << endl;
     SelectionSort ssort;
     ssort.sort(vec);
     print_vector(vec);
-    cout << "Normal Vector sorted: " << is_sorted(vec) << endl;
+    cout << endl
+         << "Normal Vector sorted: " << is_sorted(vec) << endl;
     
     return 0;
 }

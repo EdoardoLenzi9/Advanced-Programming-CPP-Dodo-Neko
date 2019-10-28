@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -o main -std=c++17 -I../../include
+CXXFLAGS = -o BucketSort.bin -pg -std=c++17 -I../../include
 
 BUCKET = BucketSortTest.cpp BucketSort.hpp
 SRCS = $(BUCKET) 

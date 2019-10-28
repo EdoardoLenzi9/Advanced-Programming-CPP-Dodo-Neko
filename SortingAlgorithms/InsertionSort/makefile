@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -o main -std=c++17 -I../../include
+CXXFLAGS = -o InsertionSort.bin -pg -std=c++17 -I../../include
 
 INSERTION = InsertionSortTest.cpp InsertionSort.hpp
 SRCS = $(INSERTION) 
