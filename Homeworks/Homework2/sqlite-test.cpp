@@ -9,7 +9,7 @@ int main(){
 	char *zErrMsg = 0;
 	int rc;
 
-	rc = sqlite3_open("test.db", &db);
+	rc = sqlite3_open("schema.sqlite", &db);
 
 	if (rc) {
 		cerr<<"cant open db:"<<sqlite3_errmsg(db)<<endl;

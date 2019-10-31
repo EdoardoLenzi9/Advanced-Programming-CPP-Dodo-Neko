@@ -39,3 +39,9 @@
 
 *.tpp
 odb-examples-2.4.0/
+*odb.hxx
+*odb.cxx
+*odb.ixx
+-.s
+driver
+*.db
