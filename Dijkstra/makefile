@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -o Dijkstra.bin -std=c++17 -I../include
 CXXDEBUG = -g
-CXXPROF = -pg
+CXXPROF = -pg -no-pie
 
 SRCS =  *.cpp *.hpp 
 
