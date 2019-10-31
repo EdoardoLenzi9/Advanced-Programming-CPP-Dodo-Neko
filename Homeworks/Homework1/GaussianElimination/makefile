@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++11
+CXXFLAGS = -o GaussianElimination.bin -std=c++11 -I../include
 CXXDEBUG = -g
 
 SRCS =  *.cpp *.hpp 
@@ -12,4 +12,4 @@ all:
 .PHONY: clean 
 
 clean:
-	$(RM) *.o *.gch a.out
+	$(RM) *.o *.gch GaussianElimination.bin

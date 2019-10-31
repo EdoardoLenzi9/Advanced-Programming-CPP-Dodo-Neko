@@ -1,25 +1,27 @@
+#include <vector>
+#include <iostream>
+
 #include "QuickSort.hpp"
-#include "../SortingUtils.hpp"
+#include "Utils.hpp"
 
 using namespace std;
 
 int main(void)
 {
-    int size = 1000;
-    vector<int> vec;
+    int size = 10000;
+    vector<double> vec;
 
     vec.reserve(size);
-    fill_vector(vec, 0, 100);
 
-    cout << "Unsorted: ";
+    fill_vector(vec, 0, 10000);
+
     print_vector(vec);
     cout << endl;
-
     QuickSort qs;
     qs.sort(vec);
-    cout << "Sorted: ";
     print_vector(vec);
-    cout << endl;
-    
+    cout << endl
+         << "Vector is sorted: " << is_sorted(vec) << endl;
+
     return 0;
 }

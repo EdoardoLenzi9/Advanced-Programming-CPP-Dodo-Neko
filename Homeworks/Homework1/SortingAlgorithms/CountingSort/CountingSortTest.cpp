@@ -1,7 +1,7 @@
 #include <vector>
 #include <iostream>
 
-#include "BucketSort.hpp"
+#include "CountingSort.hpp"
 #include "Utils.hpp"
 
 using namespace std;
@@ -17,11 +17,11 @@ int main(void)
 
     print_vector(vec);
     cout << endl;
-    BucketSort bs;
-    bs.sort(vec);
+    CountingSort cs;
+    cs.sort(vec);
     print_vector(vec);
-    cout << "Vector sorted: " << is_sorted(vec) << endl
-         << endl;
+    cout << endl
+         << "Vector sorted: " << is_sorted(vec) << endl;
 
     return 0;
 }

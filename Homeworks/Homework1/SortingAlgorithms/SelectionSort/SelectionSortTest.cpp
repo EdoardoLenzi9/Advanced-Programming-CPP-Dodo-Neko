@@ -1,15 +1,16 @@
 #include <vector>
 #include <iostream>
 
-#include "BucketSort.hpp"
+#include "SelectionSort.hpp"
 #include "Utils.hpp"
 
 using namespace std;
 
 int main(void)
 {
+
     int size = 10000;
-    vector<int> vec;
+    vector<double> vec;
 
     vec.reserve(size);
 
@@ -17,11 +18,11 @@ int main(void)
 
     print_vector(vec);
     cout << endl;
-    BucketSort bs;
-    bs.sort(vec);
+    SelectionSort ssort;
+    ssort.sort(vec);
     print_vector(vec);
-    cout << "Vector sorted: " << is_sorted(vec) << endl
-         << endl;
-
+    cout << endl
+         << "Normal Vector sorted: " << is_sorted(vec) << endl;
+    
     return 0;
 }

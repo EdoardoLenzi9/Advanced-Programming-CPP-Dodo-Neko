@@ -1,8 +1,8 @@
 CXX = g++
-CXXFLAGS = -o InsertionSort.bin -pg -std=c++17 -I../../include
+CXXFLAGS = -o CountingSort.bin -pg -std=c++17 -I../../include
 
-INSERTION = InsertionSortTest.cpp InsertionSort.hpp
-SRCS = $(INSERTION) 
+COUNTING = CountingSortTest.cpp CountingSort.hpp
+SRCS = $(COUNTING) 
 OBJS=$(subst .cpp,.o,$SRCS)
 
 .PHONY: all
