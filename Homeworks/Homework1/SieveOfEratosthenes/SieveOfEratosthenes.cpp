@@ -1,4 +1,16 @@
+/**
+    @author Edoardo Lenzi
+    @author Patrick Tschuchnig
+    @author Christian Bauer
+    @author Walter Jensch
+    
+    @version 1.0 01/11/19 
+    @license WTFPL v2  
+**/
+
+
 #include "SieveOfEratosthenes.hpp"
+
 
 vector<int> SieveOfEratosthenes::sieve(int primesTo)
 {

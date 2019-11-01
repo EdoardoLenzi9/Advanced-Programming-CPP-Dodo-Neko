@@ -1,15 +1,28 @@
+/**
+    @author Edoardo Lenzi
+    @author Patrick Tschuchnig
+    
+    @version 1.0 01/11/19 
+    @license WTFPL v2  
+**/
+
+
 #ifndef MATRIX_H_
 #define MATRIX_H_
+
 
 #include <vector>
 #include <iostream>
 #include <random>
 
+
 using namespace std;
 
+
 template <typename T>
-class Matrix
-{
+
+class Matrix {
+
 private:
     unsigned int rows;
     unsigned int cols;
@@ -26,6 +39,7 @@ public:
     Matrix(unsigned int r, unsigned int c) : rows(r), cols(c),
                                              data(vector<vector<T>>(r, vector<T>(c))){};
 
+
     // Output the whole matrix on the console
     void print()
     {
@@ -36,9 +50,11 @@ public:
         cout << endl;
     }
 
+
     // Getters and setters
     unsigned int getRows() { return rows; }
     unsigned int getCols() { return cols; }
+
 
     /**
      * @brief  overloading of [] operator to enable the direkt access of matrix elements, e.g., A[0][0]
@@ -50,6 +66,7 @@ public:
     {
         return data[i];
     }
+
 
     /**
      * @brief  overloading of * operator to enable matrix multiplication 
@@ -67,6 +84,7 @@ public:
                     C[i][k] += this->data[i][v] * B[v][k];
         return C;
     }
+
 
     /**
      * @brief  overloading of + operator to enable matrix addition
@@ -88,14 +106,15 @@ public:
         return C;
     };
 
+
     /**
- * @brief  fills the given matrix with randomized integer/real values (uniformly distributed)
- * @note   uses real numbers as random values, which get pruned in case of integer values
- * @param  &matrix: the address reference of the matrix
- * @param  rand_from: the starting range of randomized ints
- * @param  rand_to: the ending range of randomized ints
- * @retval None
- */
+    * @brief  fills the given matrix with randomized integer/real values (uniformly distributed)
+    * @note   uses real numbers as random values, which get pruned in case of integer values
+    * @param  &matrix: the address reference of the matrix
+    * @param  rand_from: the starting range of randomized ints
+    * @param  rand_to: the ending range of randomized ints
+    * @retval None
+    */
     void fill_matrix(int rand_from, int rand_to)
     {
         std::random_device rd;  //Will be used to obtain a seed for the random number engine
@@ -107,5 +126,6 @@ public:
                 data[i][k] = (T)dis(gen);
     }
 };
+
 
 #endif // MATRIX_H_

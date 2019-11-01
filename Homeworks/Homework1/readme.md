@@ -37,7 +37,7 @@ functionality (e.g. without safety checks, small optimisations, or redundant tes
 ## The team
 
 * Edoardo Lenzi, 11922660
-* Neko, xxxxxxxx
+* Patrick Tschuchnig, xxxxxxxx
 
 
 ## Further readings

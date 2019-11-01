@@ -1,8 +1,19 @@
+/**
+    @author Edoardo Lenzi
+    @author Patrick Tschuchnig
+    
+    @version 1.0 01/11/19 
+    @license WTFPL v2  
+**/
+
+
 #include "GaussianElimination.hpp"
 #include <iostream>
 #include "Utils.hpp"
 
+
 #define NEWLINE cout << endl;
+
 
 int main(int argc, char const *argv[])
 {

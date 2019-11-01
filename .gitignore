@@ -45,3 +45,4 @@ odb-examples-2.4.0/
 -.s
 driver
 *.db
+*.bin

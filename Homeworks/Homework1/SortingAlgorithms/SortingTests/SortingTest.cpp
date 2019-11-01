@@ -1,3 +1,13 @@
+/**
+    @author Edoardo Lenzi
+    @author Patrick Tschuchnig
+    @author Christian Bauer
+    @author Walter Jensch
+
+    @version 1.0 01/11/19 
+    @license WTFPL v2  
+**/
+
 #include <iostream>
 #include <vector>
 #include <algorithm> // std::sort()
@@ -16,12 +26,14 @@
 #include "../SelectionSort/SelectionSort.hpp"
 
 const int VECTOR_SIZE = 1000;
+
 /**
  * @brief  minimum random number in vector
  * @note   
  * @retval None
  */
 const int MIN_RAND = 0;
+
 /**
  * @brief  maximum random number in vector
  * @note   
@@ -36,6 +48,7 @@ const int MAX_RAND = 5000;
  */
 static vector<int> original;
 
+
 struct SortingException : public exception
 {
     const char *what() const throw()
@@ -44,10 +57,10 @@ struct SortingException : public exception
     }
 };
 
-/***************************************************************************************************************************************
+
+/**
  * Prototypes
- * 
- ***************************************************************************************************************************************/
+ */
 
 /**
  * @brief  tests the bubble sort algorithm with given vector
@@ -103,8 +116,9 @@ void test_quick_sort(const vector<int> original, const int REPETITIONS);
  */
 void test_selection_sort(const vector<int> original, const int REPETITIONS);
 
-int main(void)
-{
+
+int main(void) {
+
     // create original vector and fill it with random values
     original.reserve(VECTOR_SIZE);
     fill_vector(original, MIN_RAND, MAX_RAND);
@@ -124,10 +138,9 @@ int main(void)
     return 0;
 }
 
-/***************************************************************************************************************************************
+/**
  * Source
- * 
- ***************************************************************************************************************************************/
+ */
 
 void test_bubble_sort(const vector<int> original, const int REPETITIONS)
 {
@@ -141,8 +154,7 @@ void test_bubble_sort(const vector<int> original, const int REPETITIONS)
     TimeUnits units;
     units.iterations = REPETITIONS;
 
-    for (int i = 0; i < REPETITIONS; i++)
-    {
+    for (int i = 0; i < REPETITIONS; i++) {
         // TIME MEASUREMENT
         TimeVar start_t = time_now();
         bubble_sort.sort(algo_sorted);
@@ -158,8 +170,7 @@ void test_bubble_sort(const vector<int> original, const int REPETITIONS)
     cout << endl;
 }
 
-void test_bucket_sort(const vector<int> original, const int REPETITIONS)
-{
+void test_bucket_sort(const vector<int> original, const int REPETITIONS) {
     cout << "Starting Bucketsort tests:" << endl;
 
     BucketSort bucket_sort;
@@ -170,8 +181,7 @@ void test_bucket_sort(const vector<int> original, const int REPETITIONS)
     TimeUnits units;
     units.iterations = REPETITIONS;
 
-    for (int i = 0; i < REPETITIONS; i++)
-    {
+    for (int i = 0; i < REPETITIONS; i++) {
         // TIME MEASUREMENT
         TimeVar start_t = time_now();
         bucket_sort.sort(algo_sorted);
@@ -187,8 +197,7 @@ void test_bucket_sort(const vector<int> original, const int REPETITIONS)
     cout << endl;
 }
 
-void test_counting_sort(const vector<int> original, const int REPETITIONS)
-{
+void test_counting_sort(const vector<int> original, const int REPETITIONS) {
     cout << "Starting Countingsort tests:" << endl;
 
     CountingSort counting_sort;
@@ -199,8 +208,7 @@ void test_counting_sort(const vector<int> original, const int REPETITIONS)
     TimeUnits units;
     units.iterations = REPETITIONS;
 
-    for (int i = 0; i < REPETITIONS; i++)
-    {
+    for (int i = 0; i < REPETITIONS; i++) {
         // TIME MEASUREMENT
         TimeVar start_t = time_now();
         counting_sort.sort(algo_sorted);
@@ -216,8 +224,7 @@ void test_counting_sort(const vector<int> original, const int REPETITIONS)
     cout << endl;
 }
 
-void test_insertion_sort(const vector<int> original, const int REPETITIONS)
-{
+void test_insertion_sort(const vector<int> original, const int REPETITIONS) {
     cout << "Starting Insertionsort tests:" << endl;
 
     InsertionSort insertion_sort;
@@ -228,8 +235,7 @@ void test_insertion_sort(const vector<int> original, const int REPETITIONS)
     TimeUnits units;
     units.iterations = REPETITIONS;
 
-    for (int i = 0; i < REPETITIONS; i++)
-    {
+    for (int i = 0; i < REPETITIONS; i++) {
         // TIME MEASUREMENT
         TimeVar start_t = time_now();
         insertion_sort.sort(algo_sorted);
@@ -245,8 +251,7 @@ void test_insertion_sort(const vector<int> original, const int REPETITIONS)
     cout << endl;
 }
 
-void test_quick_sort(const vector<int> original, const int REPETITIONS)
-{
+void test_quick_sort(const vector<int> original, const int REPETITIONS) {
     cout << "Starting Quicksort tests:" << endl;
 
     QuickSort quick_sort;
@@ -257,8 +262,7 @@ void test_quick_sort(const vector<int> original, const int REPETITIONS)
     TimeUnits units;
     units.iterations = REPETITIONS;
 
-    for (int i = 0; i < REPETITIONS; i++)
-    {
+    for (int i = 0; i < REPETITIONS; i++) {
         // TIME MEASUREMENT
         TimeVar t1 = time_now();
         quick_sort.sort(algo_sorted);
@@ -277,8 +281,7 @@ void test_quick_sort(const vector<int> original, const int REPETITIONS)
     cout << endl;
 }
 
-void test_selection_sort(const vector<int> original, const int REPETITIONS)
-{
+void test_selection_sort(const vector<int> original, const int REPETITIONS) {
     cout << "Starting Selectionsort tests:" << endl;
 
     SelectionSort selection_sort;
@@ -289,8 +292,7 @@ void test_selection_sort(const vector<int> original, const int REPETITIONS)
     TimeUnits units;
     units.iterations = REPETITIONS;
 
-    for (int i = 0; i < REPETITIONS; i++)
-    {
+    for (int i = 0; i < REPETITIONS; i++) {
         // TIME MEASUREMENT
         TimeVar t1 = time_now();
         selection_sort.sort(algo_sorted);

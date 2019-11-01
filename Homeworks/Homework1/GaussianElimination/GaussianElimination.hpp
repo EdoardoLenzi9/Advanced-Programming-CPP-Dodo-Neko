@@ -1,9 +1,20 @@
+/**
+    @author Edoardo Lenzi
+    @author Patrick Tschuchnig
+    
+    @version 1.0 01/11/19 
+    @license WTFPL v2  
+**/
+
+
 #ifndef GAUSSIAN_ELIMINATION_HPP
 #define GAUSSIAN_ELIMINATION_HPP
 
-using namespace std;
 
 #include <vector>
+
+
+using namespace std;
 
 
 class GaussianElimination {
@@ -29,4 +40,5 @@ class GaussianElimination {
     private:    
         int argmax( int h, int m, int k );
 };
+
 #endif

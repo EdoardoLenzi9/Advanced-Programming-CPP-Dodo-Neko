@@ -1,3 +1,12 @@
+/**
+    @author Edoardo Lenzi
+    @author Patrick Tschuchnig
+    
+    @version 1.0 01/11/19 
+    @license WTFPL v2  
+**/
+
+
 #include <vector>
 #include <iostream>
 
@@ -6,8 +15,8 @@
 
 using namespace std;
 
-int main(void)
-{
+int main(void) {
+    
     int size = 10000;
     vector<int> vec;
 

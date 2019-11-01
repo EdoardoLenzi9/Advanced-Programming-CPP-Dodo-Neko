@@ -1,11 +1,22 @@
+/**
+    @author Edoardo Lenzi
+    @author Patrick Tschuchnig
+    
+    @version 1.0 01/11/19 
+    @license WTFPL v2  
+**/
+
+
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
-
-using namespace std;
 
 #include <vector>
 #include <iostream>
 #include <string>
+
+
+using namespace std;
+
 
 namespace queue_ns {
 
@@ -26,7 +37,6 @@ namespace queue_ns {
     {
         protected:
             int dim;
-            // T* index;    // TODO create an index
 
         public:
             Node<T>* head;

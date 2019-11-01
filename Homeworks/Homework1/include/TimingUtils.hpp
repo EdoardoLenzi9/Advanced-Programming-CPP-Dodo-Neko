@@ -1,17 +1,33 @@
+/**
+    @author Edoardo Lenzi
+    @author Patrick Tschuchnig
+    @author Christian Bauer
+    @author Walter Jensch
+    
+    @version 1.0 01/11/19 
+    @license WTFPL v2  
+**/
+
+
 #ifndef TIMING_UTILS_HPP
 #define TIMING_UTILS_HPP
+
 
 #include <chrono> // execution time measurement
 #include <limits> // used for double max value
 #include <string>
 #include <sstream> // std::stringstream
 
+
 typedef std::chrono::high_resolution_clock::time_point TimeVar;
+
 
 #define duration(a) std::chrono::duration_cast<std::chrono::microseconds>(a).count()
 #define time_now() std::chrono::high_resolution_clock::now()
 
+
 using namespace std::chrono;
+
 
 struct TimeUnits
 {
@@ -20,6 +36,7 @@ struct TimeUnits
     double average = 0;
     int iterations = -1;
 };
+
 
 void update_time_units(TimeUnits &units, double duration_time)
 {
@@ -32,6 +49,7 @@ void update_time_units(TimeUnits &units, double duration_time)
     units.average += (duration_time / units.iterations);
 }
 
+
 void print_units(const TimeUnits &units, string message)
 {
     cout << message
@@ -40,6 +58,7 @@ void print_units(const TimeUnits &units, string message)
          << " AVERAGE: " << units.average << " microseconds"
          << endl;
 }
+
 
 string format_duration(std::chrono::milliseconds ms)
 {
@@ -55,5 +74,6 @@ string format_duration(std::chrono::milliseconds ms)
     ss << secs.count() << " seconds\t" << ms.count() << " milliseconds\t";
     return ss.str();
 }
+
 
 #endif

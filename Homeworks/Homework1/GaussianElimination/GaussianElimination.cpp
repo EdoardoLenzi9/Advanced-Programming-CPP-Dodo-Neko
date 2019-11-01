@@ -1,10 +1,20 @@
-using namespace std;
+/**
+    @author Edoardo Lenzi
+    @author Patrick Tschuchnig
+    
+    @version 1.0 01/11/19 
+    @license WTFPL v2  
+**/
+
 
 #include <iostream> 
 #include <vector>
 #include <cmath>
 
 #include "GaussianElimination.hpp"
+
+
+using namespace std;
 
 
 vector<vector<int>> GaussianElimination::gaussianElimination( void ) {

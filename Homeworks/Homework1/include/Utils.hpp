@@ -1,5 +1,17 @@
+/**
+    @author Edoardo Lenzi
+    @author Patrick Tschuchnig
+    @author Christian Bauer
+    @author Walter Jensch
+    
+    @version 1.0 01/11/19 
+    @license WTFPL v2  
+**/
+
+
 #ifndef SORTING_UTILS_HPP
 #define SORTING_UTILS_HPP
+
 
 #include <vector>
 #include <iostream>
@@ -8,6 +20,7 @@
 #include <utility>
 
 #include "../MatrixMultiplication/Matrix.hpp"
+
 
 #define SMALL_BENCHMARK_SIZE 1000
 #define MEDIUM_BENCHMARK_SIZE 10000
@@ -21,10 +34,13 @@
 #define MEDIUM_RANDOM_RANGE_MAX 10000
 // #define BIG_RANDOM_RANGE_MAX use IntegerMaxValue instead
 
+
 using namespace std;
+
 
 std::random_device rd;  //Will be used to obtain a seed for the random number engine
 std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+
 
 /**
  * @brief  prints the given vector on the console
@@ -40,6 +56,7 @@ void print_vector(const vector<T> &vec)
 
     cout << endl;
 }
+
 
 /**
  * @brief  checks if given vector is sorted
@@ -57,6 +74,7 @@ bool is_sorted(const vector<T> &vec)
     return true; // vector is sorted
 }
 
+
 /**
  * @brief  Fills a given statically created vector with randomized values (uniformly distributed)
  * @note   uses real numbers as random values, which get pruned in case of integer values
@@ -73,7 +91,6 @@ void fill_vector(vector<T> &vec, int from, int to)
     for (int i = 0; i < vec.capacity(); i++)
         vec.push_back(dis(gen));
 }
-
 
 
 void fill_graph(int nodes, int edges, int maxWeight)
@@ -126,6 +143,7 @@ void fill_matrix(Matrix<T> &matrix, int rand_from, int rand_to)
             matrix[i][k] = dis(gen);
 }
 
+
 /**
  * @brief  returns the max T value in a (statically created) vector.
  * @note   pass by reference
@@ -143,10 +161,12 @@ T get_max(const vector<T> &vec)
     return max;
 }
 
+
 template <typename T>
 bool are_equal(vector<T> const &v1, vector<T> const &v2)
 {
     return (v1.size() == v2.size() && std::equal(v1.begin(), v1.end(), v2.begin()));
 }
+
 
 #endif // UTILS_HPP

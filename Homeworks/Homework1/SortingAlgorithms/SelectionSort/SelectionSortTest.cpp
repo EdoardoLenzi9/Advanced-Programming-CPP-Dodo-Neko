@@ -1,10 +1,21 @@
+/**
+    @author Edoardo Lenzi
+    @author Patrick Tschuchnig
+    
+    @version 1.0 01/11/19 
+    @license WTFPL v2  
+**/
+
+
 #include <vector>
 #include <iostream>
 
 #include "SelectionSort.hpp"
 #include "Utils.hpp"
 
+
 using namespace std;
+
 
 int main(void)
 {

@@ -1,4 +1,11 @@
-using namespace std;
+/**
+    @author Edoardo Lenzi
+    @author Patrick Tschuchnig
+    
+    @version 1.0 01/11/19 
+    @license WTFPL v2  
+**/
+
 
 #include "Dijkstra.hpp"
 #include <iostream>
@@ -7,7 +14,8 @@ using namespace std;
 #include "Utils.hpp"
 
 
-#define NEWLINE cout << endl;
+using namespace std;
+
 
 int main(int argc, char const *argv[])
 {
