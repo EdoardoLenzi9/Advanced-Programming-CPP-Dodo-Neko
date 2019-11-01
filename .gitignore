@@ -47,3 +47,5 @@ odb-examples-2.4.0/
 driver
 *.db
 *.bin
+
+*-odb.*
