@@ -197,3 +197,5 @@ Those are some ideas, the project is really complicated and C++ isn't the fast t
 those goals so we aren't sure that every point will be accomplished also cause we are a small group 
 and the exam weight only 2 credits (and require a deep knowledge in some fields 
 (OSs, Distributed Systems, Networks, OOP programming)).
+
+![Architecture](cpp_arch.jpg)
