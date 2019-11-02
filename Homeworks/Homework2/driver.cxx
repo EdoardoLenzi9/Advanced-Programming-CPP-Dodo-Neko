@@ -7,14 +7,14 @@
 #include <odb/sqlite/database.hxx>
 
 #include <iostream>
-#include "Repositories/UserRepository-odb.hxx"
-#include "Repositories/UserRepository.hxx"
-#include "Repositories/UserBookRepository-odb.hxx"
-#include "Repositories/UserBookRepository.hxx"
-#include "Repositories/RoleRepository-odb.hxx"
-#include "Repositories/RoleRepository.hxx"
-#include "Repositories/BookRepository-odb.hxx"
-#include "Repositories/BookRepository.hxx"
+#include "Repositories/Entities/User-odb.hxx"
+#include "Repositories/Entities/User.hxx"
+#include "Repositories/Entities/UserBook-odb.hxx"
+#include "Repositories/Entities/UserBook.hxx"
+#include "Repositories/Entities/Role-odb.hxx"
+#include "Repositories/Entities/Role.hxx"
+#include "Repositories/Entities/Book-odb.hxx"
+#include "Repositories/Entities/Book.hxx"
 
 using namespace std;
 using namespace odb::core;
