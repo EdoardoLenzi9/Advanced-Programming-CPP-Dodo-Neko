@@ -26,7 +26,7 @@ class User : public BaseEntity
     public:
 
 		User(){}
-		User (string n, string s) : name_(n), surname_(s) { }                
+		User (string n, string s, long r) : name_(n), surname_(s), role_(r) { }                
 
 		// Getter and setters
 		void name( string n ) { name_ = n; };
@@ -34,6 +34,9 @@ class User : public BaseEntity
 
 		void surname( string s ) { surname_ = s; };
 		string surname(){ return surname_; };
+
+		void role( long r ) { role_ = r; };
+		long role(){ return role_; };
 		
 		unsigned long id ( ) { return id_; } ;
 		
@@ -44,6 +47,7 @@ class User : public BaseEntity
   
 		string name_;
 		string surname_;
+		long role_;
 
 		#pragma db id auto 
 		unsigned long id_;         

@@ -7,6 +7,7 @@
 **/
 
 #include <string>
+#include <vector>
 
 #include <odb/database.hxx>
 #include <odb/transaction.hxx>
@@ -28,61 +29,57 @@ Entity* Repository<Entity>::create(Entity* e)
 }
 
 
-//template<typename Entity>
-//vector<Entity> Repository<Entity>::read(long id) 
-//{
-//  vector<Entity> res;
-//
-//  typedef odb::query<Entity> query;
-//  typedef odb::result<Entity> result;
-//
-//  // Find all the transactions involving AMD.
-//  //
-//  {
-//    transaction t (dbm->db->begin ());
-//    // int a = dbm->db->query<User> (query::name == "Dodo");
-//    result r (dbm->db->query<Entity> (query::name == "Dodo"));
-//
-//    for (result::iterator i (r.begin ()); i != r.end (); ++i)
-//      cerr << *i << endl;
-//
-//    t.commit ();
-//  }
-//  return res;
-//}
+template<typename Entity>
+odb::result<Entity>* Repository<Entity>::read(odb::query<Entity> query) 
+{
+	odb::result<Entity>* res;
+
+	{
+		transaction t (dbm->db->begin ());
+		// int a = dbm->db->query<User> (query::name == "Dodo");
+		res = new odb::result<Entity>(dbm->db->query<Entity> (query));
+		t.commit ();
+	}
+	return res;
+}
 
 
 template<typename Entity>
 Entity* Repository<Entity>::read(long id) 
-{   Entity* res;
+{   
+	Entity* res;
     {
-    transaction t (dbm->db->begin ());
-    Entity* pivot(dbm->db->load<Entity> (id));
-    res = pivot; 
-    t.commit ();
-  }
-  return res;
+		transaction t (dbm->db->begin ());
+		Entity* pivot(dbm->db->load<Entity> (id));
+		res = pivot; 
+		t.commit ();
+  	}
+ 	return res;
 }
 
 
 template<typename Entity>
 void Repository<Entity>::update(Entity* e) 
 {
-  {
-    transaction t (dbm->db->begin ());
+	{
+		transaction t (dbm->db->begin ());
 
-    Entity* pivot (dbm->db->load<Entity> (e->id())); 
-    pivot = e;
-    dbm->db->update(*pivot);
+		Entity* pivot (dbm->db->load<Entity> (e->id())); 
+		pivot = e;
+		dbm->db->update(*pivot);
 
-    t.commit ();
-  }
+		t.commit ();
+	}
 }
 
 
 template<typename Entity>
 long Repository<Entity>::del(long id){
-    return 0;
+    {
+      	transaction t (dbm->db->begin ());
+      	dbm->db->erase<Entity> (id);
+      	t.commit ();
+    }
 }
 
 template class Repository<Book>;
