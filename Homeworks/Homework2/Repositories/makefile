@@ -1,18 +1,18 @@
 CXX = g++
-CXXFLAGS = -o driver.bin -std=c++17
+CXXFLAGS = -o driver.bin -std=c++17 -I./Repositories/Entities -I./Repositories 
 CXXDEBUG = -g
 CXXPROF = -pg -no-pie
 CXXDB = -lodb-sqlite -lodb
 
-SRCS =  *.cxx *.hxx 
+SRCS = *.cxx 
 FIND = find . -type f -name 
 RM = -exec rm {} +
 
 .PHONY: all
 
 all:
-	g++ -o driver.bin driver.cxx Repository.cxx DBManager.cxx Entities/*-odb.cxx -lodb-sqlite -lodb -g
-	#$(CXX) $(CXXFLAGS) driver.cxx $(CXXDB)
+	#g++ -o driver.bin -std=c++17 -I./Entities *.cxx Entities/*.cxx -lodb-sqlite -lodb -g
+	$(CXX) $(CXXFLAGS) $(SRCS) $(CXXDB)
 
 odb: clean
 	cd Entities ; \
