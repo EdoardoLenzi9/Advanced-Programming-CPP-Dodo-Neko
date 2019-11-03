@@ -112,6 +112,7 @@ UICommandUser::UICommandUser(vector<string> vs) : Command(vs){
 	name = "";
 	surname = "";
 	ur = new Repository<User>();
+	br = new Repository<Book>();
 }
 
 bool UICommandUser::read(){
@@ -265,8 +266,9 @@ bool UICommandRent::create(){
 	timestamp = stol(command.at(2));
 
 	Book* book = br->read(book_id);
-	int availableCopies = (book->copies()-book->rented()); 
-	if (availableCopies > 1){ 
+	int availableCopies = (book->copies()-book->rented());
+	cout << "copies avail:" << availableCopies << endl; 
+	if (availableCopies > 0){ 
 		book->rented(book->rented()+1); // increase the amount of rented copies when at least 1 is available
 		
 		br->update(book);
@@ -391,7 +393,7 @@ bool CLI::parseCommand(string s){
 			return true;
 		} else if (command.front().compare("help") == 0){
 			cout << R"(
-Command help: 		(dont user spaces in commands, 
+Command help: 		(dont use spaces inside parameters, 
 Book commands:		 every id is a number, timestamp is a number)
 	create book copies rented_copies title author publisher
 	update book bookid copies rented_copies title author publisher
@@ -411,7 +413,8 @@ Rent commands:
 	create rent userid bookid timestamp
 	update rent id userid bookid timestamp
 	read rent rentid 
-	delete rent	rentid)" << endl;
+	delete rent rentid
+)" << endl;
 			return true;
 		} else if (command.front().compare("exit") == 0){
 			running = false;
@@ -463,8 +466,11 @@ void CLI::start(){
 			printPrompt();
 			s = getCommand();
 		}
-		if(! parseCommand(s)) cout << "failed command!" << endl;
-		//printCommand();
+		try {
+			if(! parseCommand(s)) cout << "failed command!" << endl;
+		} catch (odb::object_not_persistent	e){
+			cout << "ERROR: tried accessing missing object, continuing" << endl;
+		}
 		s.clear(); //empty the command buffer
 	}
 }

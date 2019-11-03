@@ -80,6 +80,8 @@ long Repository<Entity>::del(long id){
       	dbm->db->erase<Entity> (id);
       	t.commit ();
     }
+
+	return id; //FIX: this was missing, dodo, i put it in to avoid the compiler warning. maybe this should return a boolean instead.
 }
 
 template class Repository<Book>;

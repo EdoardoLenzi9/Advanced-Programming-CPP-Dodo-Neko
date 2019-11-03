@@ -71,6 +71,7 @@ private:
 	std::string name;
 	std::string surname;
 	long role;
+	Repository<Book>* br;
 	Repository<User>* ur;
 };
 
