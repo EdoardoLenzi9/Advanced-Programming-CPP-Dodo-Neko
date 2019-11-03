@@ -4,7 +4,7 @@ CXXDEBUG = -g
 CXXPROF = -pg -no-pie
 CXXDB = -lodb-sqlite -lodb
 
-SRCS = *.cxx ./Repositories/*.cxx ./Repositories/Entities/*.cxx ./Services/*.cxx
+SRCS = *.cxx ./Repositories/*.cxx ./Repositories/Entities/*.cxx ./Services/*.cxx ./UI/*.cxx
 FIND = find . -type f -name 
 RM = -exec rm {} +
 

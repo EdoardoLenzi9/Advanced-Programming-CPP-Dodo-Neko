@@ -6,15 +6,34 @@
 #include <string>
 #include <sstream>
 
+#include <odb/database.hxx>
+#include <odb/transaction.hxx>
+#include <odb/schema-catalog.hxx>
+#include <odb/sqlite/database.hxx>
+
+#include "Repository.hxx"
+#include "Book.hxx"
+#include "Book-odb.hxx"
+#include "Role.hxx"
+#include "Role-odb.hxx"
+#include "User.hxx"
+#include "User-odb.hxx"
+#include "UserBook.hxx"
+#include "UserBook-odb.hxx"
+
+#include "UserService.hxx"
+#include "BookService.hxx"
+#include "UserBookService.hxx"
+
 
 class Command {
 public:
 	Command(std::vector<std::string> vs){
 		command = vs;
 	}
-	virtual std::string read() = 0;
-	virtual int create() = 0;
-	virtual int update() = 0;
+	virtual bool read() = 0;
+	virtual bool create() = 0;
+	virtual bool update() = 0;
 	virtual bool del() = 0;
 
 protected:
@@ -25,47 +44,64 @@ class UICommandBook : public Command{
 
 public:
 	UICommandBook(std::vector<std::string> vs);
-	std::string read();
-	int create();
-	int update();
+	bool read();
+	bool create();
+	bool update();
 	bool del();
 
 private:
-	int id;
 	int copies;
 	int rentedCopies;
 	std::string title;
 	std::string author;
 	std::string publisher;
+	Repository<Book>* br;
 };
 
 class UICommandUser : public Command{
 
 public:
 	UICommandUser(std::vector<std::string> vs);
-	std::string read();
-	int create();
-	int update();
+	bool read();
+	bool create();
+	bool update();
 	bool del();
 
 private:
-	int id;
 	std::string name;
 	std::string surname;
+	long role;
+	Repository<User>* ur;
 };
 
 class UICommandRole : public Command{
 
 public:
 	UICommandRole(std::vector<std::string> vs);
-	std::string read();
-	int create();
-	int update();
+	bool read();
+	bool create();
+	bool update();
 	bool del();
 
 private:
-	int id;
-	std::string name;
+	std::string description;
+	Repository<Role>* rr;
+};
+
+class UICommandRent : public Command{
+
+public:
+	UICommandRent(std::vector<std::string> vs);
+	bool read();
+	bool create();
+	bool update();
+	bool del();
+
+private:
+	long user_id;
+	long book_id;
+	long timestamp;
+	Repository<UserBook>* ubr;
 };
 
 

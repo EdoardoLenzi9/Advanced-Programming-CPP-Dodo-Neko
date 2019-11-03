@@ -4,187 +4,312 @@
 
 using namespace std;
 
-UICommandBook::Book(vector<string> vs) : Command(vs){
-	id = -1;
+UICommandBook::UICommandBook(vector<string> vs) : Command(vs){
 	copies = -1;
 	rentedCopies = -1;
 	title = "";
 	author = "";
 	publisher = "";
+	br = new Repository<Book>();
 }
 
-string UICommandBook::read(){
-	if (command.size() < 1) return NULL;
-	id = stoi(command.at(0));
+bool UICommandBook::read(){
+	if (command.size() < 1) return false;
+	long id = stol(command.at(0));
 
-	cout << "read command for a book with par: " << id << endl;
-	return NULL; //placeholder
+	Book* book = br->read(id);
+
+	if (book == NULL) return false;
+
+	cout << "Book ID: " << book->id() << endl
+		 << "Title: " << book->title() << endl
+		 << "Author: " << book->author() << endl
+		 << "Publisher: " << book->publisher() << endl
+		 << "Copies available: " << (book->copies())-(book->rented())
+		 << endl;
+
+	return true; 
 }
 
-int UICommandBook::create(){
-	//create something
-	if (command.size() < 5) return -1;
-	else {
+bool UICommandBook::create(){
+	if (command.size() < 5) return false;
+	
+	copies = stoi(command.at(0));
+	rentedCopies = stoi(command.at(1));
+	title = command.at(2);
+	author = command.at(3);
+	publisher = command.at(4);
 
-		copies = stoi(command.at(0));
-		rentedCopies = stoi(command.at(1));
-		title = command.at(2);
-		author = command.at(3);
-		publisher = command.at(4);
+	br->create( new Book(copies, rentedCopies, title, author, publisher) );
 
-	//create book
-		cout << "create command for a book with: copies: " 
-			<< copies << " rentedCopies: "
-			<< rentedCopies << " title: "
-			<< title << " author: "
-			<< author << " publisher: "
-			<< publisher << " "
-			<< endl; 
+	cout << "Created book" << endl;
 
-		return id;
-	}
+	return true;
 }
-int UICommandBook::update(){
-	if (command.size() < 6) return -1;
+bool UICommandBook::update(){
+	if (command.size() < 6) return false;
 
-	id = stoi(command.at(0));
+	long id = stol(command.at(0));
 	copies = stoi(command.at(1));
 	rentedCopies = stoi(command.at(2));
 	title = command.at(3);
 	author = command.at(4);
 	publisher = command.at(5);
 
-	//create book
-	cout << "update command for a book with: id: " 
-		<< id << " copies: " 
-		<< copies << " rentedCopies: "
-		<< rentedCopies << " title: "
-		<< title << " author: "
-		<< author << " publisher: "
-		<< publisher << " "
-		<< endl; 
+	Book* book = br->read(id);
 
-	return id;
+	cout << "old book:" << endl;
+
+	cout << "Book ID: " << book->id() << endl
+		 << "Title: " << book->title() << endl
+		 << "Author: " << book->author() << endl
+		 << "Publisher: " << book->publisher() << endl
+		 << "Copies available: " << (book->copies())-(book->rented())
+		 << endl;
+
+	book->copies(copies);
+	book->rented(rentedCopies);
+	book->title(title);
+	book->author(author);
+	book->publisher(publisher);
+
+	br->update(book);
+
+	book = br->read(id);
+
+	cout << endl << "changed book:" << endl << endl;
+
+	cout << "Book ID: " << book->id() << endl
+		 << "Title: " << book->title() << endl
+		 << "Author: " << book->author() << endl
+		 << "Publisher: " << book->publisher() << endl
+		 << "Copies available: " << (book->copies())-(book->rented())
+		 << endl;
+
+	return true;
 }
 
 bool UICommandBook::del(){
-	if (command.size() < 1) return NULL;
-	id = stoi(command.at(0));
+	if (command.size() < 1) return false;
+	long id = stol(command.at(0));
 
-	cout << "delete command for a book with par: " << id << endl;
-	return NULL; //placeholder
+	br->del(id);
+
+	cout << "Deleted book" << endl;
+
+	return true;
 }
 
-UICommandUser::User(vector<string> vs) : Command(vs){
-	id = -1;
+UICommandUser::UICommandUser(vector<string> vs) : Command(vs){
 	name = "";
 	surname = "";
+	ur = new Repository<User>();
 }
 
-string UICommandUser::read(){
-	if (command.size() < 1) return NULL;
-	id = stoi(command.at(0));
+bool UICommandUser::read(){
+	if (command.size() < 1) return false;
+	long id = stol(command.at(0));
 
-	cout << "read command for a user with par: " << id << endl;
-	return NULL; //placeholder
+	User* user = ur->read(id);
+
+	if (user == NULL) return false;
+
+	cout << "User ID: " << user->id() << endl
+		 << "Name:" << user->name() << endl
+		 << "Surname:" << user->surname() << endl
+		 << "Role:" << user->role()
+		 << endl;
+
+	return true;
 }
 
-int UICommandUser::create(){
-	//create something
-	if (command.size() < 2) return -1;
-	else {
+bool UICommandUser::create(){
+	if (command.size() < 3) return false;
+	name = command.at(0);
+	surname = command.at(1);
+	role = stol(command.at(2));
 
-		name = command.at(0);
-		surname = command.at(1);
+	ur->create( new User(name, surname, role) );
 
-	//create book
-		cout << "create command for a user with: name: " 
-			<< name << " surname: "
-			<< surname << endl; 
+	cout << "Created user" << endl;
 
-		return id;
-	}
+	return true;
 }
 
-int UICommandUser::update(){
-	if (command.size() < 3) return -1;
-	else {
-		id = stoi(command.at(0));
-		name = command.at(1);
-		surname = command.at(2);
+bool UICommandUser::update(){
+	if (command.size() < 3) return false;
 
-	//create book
-		cout << "update command for a user with: id: " 
-			<< id << " name: "
-			<< name << " surname: " 
-			<< surname << endl; 
+	long id = stol(command.at(0));
+	name = command.at(1);
+	surname = command.at(2);
 
-		return id;
-	}
+	User* user = ur->read(id);
+
+	user->name(name);
+	user->surname(surname);
+
+	ur->update(user);
+
+	cout << "Changed user" << endl;
+
+	return true;
 }
 
 bool UICommandUser::del(){
-	if (command.size() < 1) return NULL;
-	id = stoi(command.at(0));
+	if (command.size() < 1) return false;
+	long id = stol(command.at(0));
 
-	cout << "delete command for a user with par: " << id << endl;
-	return NULL; //placeholder
+	ur->del(id);
+
+	cout << "Deleted user" << endl;
+
+	return true;
 }
 
-UICommandRole::Role(vector<string> vs) : Command(vs){
-	id = -1;
-	name = "";
+UICommandRole::UICommandRole(vector<string> vs) : Command(vs){
+	description = "";
+	rr = new Repository<Role>();
 }
 
-string UICommandRole::read(){
-	if (command.size() < 1) return NULL;
-	id = stoi(command.at(0));
+bool UICommandRole::read(){
+	if (command.size() < 1) return false;
+	long id = stol(command.at(0));
 
-	cout << "read command for a role with par: " << id << endl;
-	return NULL; //placeholder
+	Role* role = rr->read(id);
+
+	if (role == NULL) return false;
+
+	cout << "Role ID: " << role->id() << endl
+		 << "Description: " << role->description()
+		 << endl;
+
+	return true;
 }
 
-int UICommandRole::create(){
-	//create something
-	if (command.size() < 1) return -1;
-	else {
+bool UICommandRole::create(){
+	if (command.size() < 1) return false;
+	description = command.at(0);
 
-		name = command.at(0);
+	rr->create( new Role(description) );
 
-	//create book
-		cout << "create command for a role with: name: " 
-			<< name << endl; 
+	cout << "Created role" << endl;
 
-		return id;
-	}
+	return true;
 }
 
-int UICommandRole::update(){
+bool UICommandRole::update(){
 	if (command.size() < 2) return -1;
-	else {
-		id = stoi(command.at(0));
-		name = command.at(1);
+	long id = stol(command.at(0));
+	description = command.at(1);
 
-	//create book
-		cout << "update command for a role with: id: " 
-			<< id << " name: "
-			<< name << endl; 
+	Role* role = rr->read(id);
 
-		return id;
-	}
+	role->description(description);
+
+	rr->update(role);
+
+	cout << "Role updated" << endl;
+
+	return true;
 }
 
 bool UICommandRole::del(){
 	if (command.size() < 1) return false;
-	id = stoi(command.at(0));
+	long id = stol(command.at(0));
 
-	cout << "delete command for a role with par: " << id << endl;
-	return NULL; //placeholder
+	rr->del(id);
+
+	cout << "Deleted role" << endl;
+
+	return true;
 }
+
+
+UICommandRent::UICommandRent(std::vector<std::string> vs) : Command(vs){
+	long user_id = -1;
+	long book_id = -1;
+	long timestamp = -1;
+	ubr = new Repository<UserBook>();
+
+}
+
+bool UICommandRent::read(){
+	if (command.size() < 1) return false;
+	long id = stol(command.at(0));
+
+	UserBook* userbook = ubr->read(id);
+
+	if (userbook == NULL) return false;
+
+	cout << "User ID: " << userbook->user_id() << endl
+		 << "Book ID: " << userbook->book_id() << endl
+		 << "Timestamp: " << userbook->timestamp()
+		 << endl;
+
+	return true;
+}
+
+bool UICommandRent::create(){
+	if (command.size() < 3) return false;
+	user_id = stol(command.at(0));
+	book_id = stol(command.at(1));
+	timestamp = stol(command.at(2));
+
+	ubr->create( new UserBook(user_id, book_id, timestamp) );
+
+	cout << "Created rent" << endl;
+
+	return true;
+}
+
+bool UICommandRent::update(){
+	if (command.size() < 4) return -1;
+	long id = stol(command.at(0));
+	user_id = stol(command.at(1));
+	book_id = stol(command.at(2));
+	timestamp = stol(command.at(3));
+
+	UserBook* userbook = ubr->read(id);
+
+	userbook->user_id(user_id);
+	userbook->book_id(book_id);
+	userbook->timestamp(timestamp);
+
+	ubr->update(userbook);
+
+	cout << "Rent updated" << endl;
+
+	return true;
+}
+
+bool UICommandRent::del(){
+	if (command.size() < 1) return false;
+	long id = stol(command.at(0));
+
+	ubr->del(id);
+
+	cout << "Deleted rent" << endl;
+
+	return true;
+}
+
+
+///////////////////////////////////////////
+///////////CLI Implementation /////////////
+///////////////////////////////////////////
 
 CLI::CLI(){
 	running = 1;
 	delim = ' ';
+
+	cout << R"(	Welcome to...)" << R"(
+	 |     _)  |                              
+	 |      |  __ \    __|  _` |   __|  |   | 
+	 |      |  |   |  |    (   |  |     |   | 
+	_____| _| _.__/  _|   \__,_| _|    \__, | 
+	                                   ____/  v0.01)"
+		 << R"(
+		      by dodo-neko-soft inc.)" << endl;
 }
 
 string CLI::getCommand(){
@@ -209,18 +334,21 @@ bool CLI::parseCommand(string s){
 		command.push_back(temp);
 	}
 
-	cout << "command: " << command.at(1) << endl;
+	//cout << "command: " << command.at(1) << endl;
 
 	if (command.size() < 2){
 		if (command.front().compare("auth") == 0){
-			//auth
+			//auth not implemented
 			return true;
-
 		} else if (command.front().compare("exit") == 0){
 			running = false;
 			return true;
-
-		} else return false;
+		} else if (command.front().compare("quit") == 0){
+			running = false;
+			return true;
+		} else {
+			return false;
+		}
 	} else {
 
 	com = command.at(0); // first element is the command
@@ -232,29 +360,27 @@ bool CLI::parseCommand(string s){
 	if (b == NULL) return false; 
 
 	if (com.compare("create") == 0) {
-		if (b->create() == -1) return false;
+		return b->create();
 	}
 	else if (com.compare("update") == 0) {
-		if (b->update() == -1) return false;
+		return b->update();
 	}
 	else if (com.compare("read") == 0){
-		if (b->read().empty()) return false;
+		return b->read();
 	}
 	else if (com.compare("delete") == 0) {
-		if (b->del() == false) return false;
+		return b->del();
 	}
 	else return false;
-
-	return true;
 	}
 }	
 
 Command* Action::getCommand(string type, vector<string> vs){
-	if (type.compare("book") == 0) return new Book(vs);
-	else if (type.compare("role") == 0) return new Role(vs);
-	else if (type.compare("user") == 0) return new User(vs);
-
-	return NULL;
+	if (type.compare("book") == 0) return new UICommandBook(vs);
+	else if (type.compare("role") == 0) return new UICommandRole(vs);
+	else if (type.compare("user") == 0) return new UICommandUser(vs);
+	else if (type.compare("rent") == 0) return new UICommandRent(vs);
+	else return NULL;
 }
 
 void CLI::printCommand(){
@@ -272,7 +398,7 @@ void CLI::start(){
 			printPrompt();
 			s = getCommand();
 		}
-		if(! parseCommand(s)) cout << "invalid command!" << endl;
+		if(! parseCommand(s)) cout << "failed command!" << endl;
 		//printCommand();
 		s.clear(); //empty the command buffer
 	}
