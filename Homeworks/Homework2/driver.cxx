@@ -19,6 +19,7 @@
 #include "BookService.hxx"
 #include "UserBookService.hxx"
 
+#include "UI.hxx" 
 
 using namespace odb::core;
 
