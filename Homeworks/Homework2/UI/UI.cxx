@@ -40,9 +40,10 @@ bool UICommandBook::create(){
 	author = command.at(3);
 	publisher = command.at(4);
 
-	br->create( new Book(copies, rentedCopies, title, author, publisher) );
+	Book* book = br->create( new Book(copies, rentedCopies, title, author, publisher) );
 
-	cout << "Created book" << endl;
+
+	cout << "Created book with id: " << book->id() << endl;
 
 	return true;
 }
@@ -51,7 +52,7 @@ bool UICommandBook::update(){
 
 	long id = stol(command.at(0));
 	copies = stoi(command.at(1));
-	rentedCopies = stoi(command.at(2));
+	rentedCopies = stoi(command.at(2)); //updating this can potentially cause inconsistencies, prohibiting setting this would be an option
 	title = command.at(3);
 	author = command.at(4);
 	publisher = command.at(5);
@@ -93,6 +94,13 @@ bool UICommandBook::del(){
 	if (command.size() < 1) return false;
 	long id = stol(command.at(0));
 
+	Book* book = br->read(id);
+
+	if (book->rented() > 0){
+		cout << "Deleting refused, book is still rent out." << endl;
+		return true;
+	}
+
 	br->del(id);
 
 	cout << "Deleted book" << endl;
@@ -129,9 +137,9 @@ bool UICommandUser::create(){
 	surname = command.at(1);
 	role = stol(command.at(2));
 
-	ur->create( new User(name, surname, role) );
+	User* user = ur->create( new User(name, surname, role) );
 
-	cout << "Created user" << endl;
+	cout << "Created user with id: " << user->id() << endl;
 
 	return true;
 }
@@ -190,9 +198,9 @@ bool UICommandRole::create(){
 	if (command.size() < 1) return false;
 	description = command.at(0);
 
-	rr->create( new Role(description) );
+	Role* role = rr->create( new Role(description) );
 
-	cout << "Created role" << endl;
+	cout << "Created role with id: " << role->id() << endl;
 
 	return true;
 }
@@ -230,6 +238,7 @@ UICommandRent::UICommandRent(std::vector<std::string> vs) : Command(vs){
 	long book_id = -1;
 	long timestamp = -1;
 	ubr = new Repository<UserBook>();
+	br = new Repository<Book>();
 
 }
 
@@ -255,15 +264,24 @@ bool UICommandRent::create(){
 	book_id = stol(command.at(1));
 	timestamp = stol(command.at(2));
 
-	ubr->create( new UserBook(user_id, book_id, timestamp) );
-
-	cout << "Created rent" << endl;
+	Book* book = br->read(book_id);
+	int availableCopies = (book->copies()-book->rented()); 
+	if (availableCopies > 1){ 
+		book->rented(book->rented()+1); // increase the amount of rented copies when at least 1 is available
+		
+		br->update(book);
+		
+		UserBook* rent = ubr->create( new UserBook(user_id, book_id, timestamp) );
+		cout << "Created rent with id: " << rent->id() << endl;
+	} else {
+		cout << "Renting refused, no copies available" << endl;
+	}
 
 	return true;
 }
 
 bool UICommandRent::update(){
-	if (command.size() < 4) return -1;
+	if (command.size() < 4) return false;
 	long id = stol(command.at(0));
 	user_id = stol(command.at(1));
 	book_id = stol(command.at(2));
@@ -286,11 +304,28 @@ bool UICommandRent::del(){
 	if (command.size() < 1) return false;
 	long id = stol(command.at(0));
 
+	UserBook* userbook = ubr->read(id);
+
+	Book* book = br->read(userbook->book_id());
+
+	int availableCopies = (book->copies()-book->rented());
+	book->rented(book->rented()-1); // decrease the amount of rented copies
+	
+	br->update(book);
+
 	ubr->del(id);
 
-	cout << "Deleted rent" << endl;
+	cout << "Returned rent" << endl;
 
 	return true;
+}
+
+Command* Action::getCommand(string type, vector<string> vs){
+	if 	    (type.compare("book") == 0) return new UICommandBook(vs);
+	else if (type.compare("role") == 0) return new UICommandRole(vs);
+	else if (type.compare("user") == 0) return new UICommandUser(vs);
+	else if (type.compare("rent") == 0) return new UICommandRent(vs);
+	else return NULL;
 }
 
 
@@ -340,6 +375,30 @@ bool CLI::parseCommand(string s){
 		if (command.front().compare("auth") == 0){
 			//auth not implemented
 			return true;
+		} else if (command.front().compare("help") == 0){
+			cout << R"(
+Command help: 		(dont user spaces in commands, 
+Book commands:		 every id is a number, timestamp is a number)
+	create book copies rented_copies title author publisher
+	update book bookid copies rented_copies title author publisher
+	read book bookid
+	delete book bookid
+User commands: 
+	create user name surname roleid
+	update user userid name surname roleid
+	read user userid
+	delete user userid	
+Role commands: 
+	create role description
+	update role roleid description
+	read role roleid
+	delete role roleid
+Rent commands: 
+	create rent userid bookid timestamp
+	update rent id userid bookid timestamp
+	read rent rentid 
+	delete rent	rentid)" << endl;
+			return true;
 		} else if (command.front().compare("exit") == 0){
 			running = false;
 			return true;
@@ -374,14 +433,6 @@ bool CLI::parseCommand(string s){
 	else return false;
 	}
 }	
-
-Command* Action::getCommand(string type, vector<string> vs){
-	if (type.compare("book") == 0) return new UICommandBook(vs);
-	else if (type.compare("role") == 0) return new UICommandRole(vs);
-	else if (type.compare("user") == 0) return new UICommandUser(vs);
-	else if (type.compare("rent") == 0) return new UICommandRent(vs);
-	else return NULL;
-}
 
 void CLI::printCommand(){
 	for (string s: command){

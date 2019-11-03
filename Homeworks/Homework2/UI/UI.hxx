@@ -101,6 +101,7 @@ private:
 	long user_id;
 	long book_id;
 	long timestamp;
+	Repository<Book>* br;
 	Repository<UserBook>* ubr;
 };
 
