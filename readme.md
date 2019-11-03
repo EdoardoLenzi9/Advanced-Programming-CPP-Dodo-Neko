@@ -6,9 +6,7 @@ In this repo we will expose our homeworks and our projects for the course "Advan
 ## The team
 
 * Edoardo Lenzi, 11922660
-* Neko, xxxxxxxx
-* Walter Jensch, xxxxxxxx
-* Christian Bauer, xxxxxxxx
+* Patrick Tschuchnig, xxxxxxxx
 
 
 ## Best practices

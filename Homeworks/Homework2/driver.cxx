@@ -1,70 +1,69 @@
-#include <unistd.h> // sleep()
 #include <iostream>
-#include <string>
+
 #include <odb/database.hxx>
 #include <odb/transaction.hxx>
 #include <odb/schema-catalog.hxx>
 #include <odb/sqlite/database.hxx>
 
-#include <iostream>
-#include "Repositories/UserRepository-odb.hxx"
-#include "Repositories/UserRepository.hxx"
-#include "Repositories/UserBookRepository-odb.hxx"
-#include "Repositories/UserBookRepository.hxx"
-#include "Repositories/RoleRepository-odb.hxx"
-#include "Repositories/RoleRepository.hxx"
-#include "Repositories/BookRepository-odb.hxx"
-#include "Repositories/BookRepository.hxx"
+#include "Repository.hxx"
+#include "Book.hxx"
+#include "Book-odb.hxx"
+#include "Role.hxx"
+#include "Role-odb.hxx"
+#include "User.hxx"
+#include "User-odb.hxx"
+#include "UserBook.hxx"
+#include "UserBook-odb.hxx"
 
-using namespace std;
+#include "UserService.hxx"
+#include "BookService.hxx"
+#include "UserBookService.hxx"
+
+
 using namespace odb::core;
- 
-int main ()
-{
-  odb::sqlite::database db (
-    "mytest.db",
-    SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
- 
-  // Create the database schema.
-  //
-  {
-    transaction t (db.begin ());
-    schema_catalog::create_schema (db);
-    t.commit ();
-  }
 
-  {
-    transaction t (db.begin ());
-    User u ("Dodo", "Neko");
-    db.persist ( u );
-    t.commit ();
-  }
+int main(){
 
-  //
-  //
-  typedef odb::query<User> query;
-  typedef odb::result<User> result;
+    // INIT DB
 
-  // Find all the transactions involving AMD.
-  //
-  {
-    transaction t (db.begin ());
+    Repository<Role>* rr = new Repository<Role>();
+    rr->create( new Role("customer") );
+    rr->create( new Role("staff") );
 
-    result r (db.query<User> (query::name == "Dodo"));
+    Repository<User>* ur = new Repository<User>();
+    ur->create( new User("Dodo", "Dodo", 1) );
+    ur->create( new User("Neko", "Neko", 1) );
+    ur->create( new User("Dodo", "Neko", 2) );
 
-    for (result::iterator i (r.begin ()); i != r.end (); ++i)
-      cerr << *i << endl;
+    
+    Repository<Book>* br = new Repository<Book>();
+    br->create( new Book(1, 0, "Book1", "Author1", "Publisher1") );
+    br->create( new Book(5, 0, "Book2", "Author2", "Publisher2") );
+    br->create( new Book(10, 9, "Book3", "Author3", "Publisher3") );
 
-    t.commit ();
-  }
+    Repository<UserBook>* ubr = new Repository<UserBook>();
+    ubr->create( new UserBook( 1, 2, 100) );
 
-  {
-    transaction t (db.begin ());
 
-    auto_ptr<User> dodo (db.load<User> (1)); //user id
-    dodo->name = "Updated name";
-    db.update(*dodo);
+    // $ ... -auth 1 -create user "Dodo" "Neko"
+    UserService* us = new UserService();
+    us->create(1, "Name", "Surname", 0);
+    us->create(3, "Name", "Surname", 0);
 
-    t.commit ();
-    }
+
+    // $ ... -auth 1 -create book 5 0 "Book Title" "Dodo Neko" "Springer Publisher"
+    BookService* bs = new BookService();
+    bs->create(1, 5, 0, "Book Title", "Dodo Neko", "Springer Publisher");
+    bs->create(3, 5, 0, "Book Title", "Dodo Neko", "Springer Publisher");
+
+    // Print the list of available books
+    // TODO fix queries, segmentation dump???
+    // bs->list();
+
+    // $ ... -create user_book 1 4
+    UserBookService* ubs = new UserBookService();
+    ubs->create(1, 1);
+
+    // $ ... -delete user_book with id 2
+    ubs->del(2);
 }
