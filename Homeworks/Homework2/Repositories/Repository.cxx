@@ -45,7 +45,7 @@ odb::result<Entity>* Repository<Entity>::read(odb::query<Entity> query)
 
 
 template<typename Entity>
-Entity* Repository<Entity>::read(long id) 
+Entity* Repository<Entity>::read(unsigned long id) 
 {   
 	Entity* res;
     {
@@ -74,7 +74,7 @@ void Repository<Entity>::update(Entity* e)
 
 
 template<typename Entity>
-long Repository<Entity>::del(long id){
+long Repository<Entity>::del(unsigned long id){
     {
       	transaction t (dbm->db->begin ());
       	dbm->db->erase<Entity> (id);

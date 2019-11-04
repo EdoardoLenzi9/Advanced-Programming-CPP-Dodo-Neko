@@ -15,7 +15,7 @@ UICommandBook::UICommandBook(vector<string> vs) : Command(vs){
 
 bool UICommandBook::read(){
 	if (command.size() < 1) return false;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 
 	Book* book = br->read(id);
 
@@ -50,7 +50,7 @@ bool UICommandBook::create(){
 bool UICommandBook::update(){
 	if (command.size() < 6) return false;
 
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 	copies = stoi(command.at(1));
 	rentedCopies = stoi(command.at(2)); //updating this can potentially cause inconsistencies, prohibiting setting this would be an option
 	title = command.at(3);
@@ -92,7 +92,7 @@ bool UICommandBook::update(){
 
 bool UICommandBook::del(){
 	if (command.size() < 1) return false;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 
 	Book* book = br->read(id);
 
@@ -117,7 +117,7 @@ UICommandUser::UICommandUser(vector<string> vs) : Command(vs){
 
 bool UICommandUser::read(){
 	if (command.size() < 1) return false;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 
 	User* user = ur->read(id);
 
@@ -148,7 +148,7 @@ bool UICommandUser::create(){
 bool UICommandUser::update(){
 	if (command.size() < 3) return false;
 
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 	name = command.at(1);
 	surname = command.at(2);
 
@@ -182,7 +182,7 @@ UICommandRole::UICommandRole(vector<string> vs) : Command(vs){
 
 bool UICommandRole::read(){
 	if (command.size() < 1) return false;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 
 	Role* role = rr->read(id);
 
@@ -208,7 +208,7 @@ bool UICommandRole::create(){
 
 bool UICommandRole::update(){
 	if (command.size() < 2) return -1;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 	description = command.at(1);
 
 	Role* role = rr->read(id);
@@ -224,7 +224,7 @@ bool UICommandRole::update(){
 
 bool UICommandRole::del(){
 	if (command.size() < 1) return false;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 
 	rr->del(id);
 
@@ -245,7 +245,7 @@ UICommandRent::UICommandRent(std::vector<std::string> vs) : Command(vs){
 
 bool UICommandRent::read(){
 	if (command.size() < 1) return false;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 
 	UserBook* userbook = ubr->read(id);
 
@@ -284,7 +284,7 @@ bool UICommandRent::create(){
 
 bool UICommandRent::update(){
 	if (command.size() < 4) return false;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 	user_id = stol(command.at(1));
 	book_id = stol(command.at(2));
 	timestamp = stol(command.at(3));
@@ -304,7 +304,7 @@ bool UICommandRent::update(){
 
 bool UICommandRent::del(){
 	if (command.size() < 1) return false;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 
 	UserBook* userbook = ubr->read(id);
 
