@@ -19,12 +19,14 @@
 #include "BookService.hxx"
 #include "UserBookService.hxx"
 
+#include "UI.hxx" 
+#include <fstream>
 
 using namespace odb::core;
 
-int main(){
+void db_init(){
 
-    // INIT DB
+        // INIT DB
 
     Repository<Role>* rr = new Repository<Role>();
     rr->create( new Role("customer") );
@@ -44,12 +46,10 @@ int main(){
     Repository<UserBook>* ubr = new Repository<UserBook>();
     ubr->create( new UserBook( 1, 2, 100) );
 
-
     // $ ... -auth 1 -create user "Dodo" "Neko"
     UserService* us = new UserService();
     us->create(1, "Name", "Surname", 0);
     us->create(3, "Name", "Surname", 0);
-
 
     // $ ... -auth 1 -create book 5 0 "Book Title" "Dodo Neko" "Springer Publisher"
     BookService* bs = new BookService();
@@ -66,4 +66,22 @@ int main(){
 
     // $ ... -delete user_book with id 2
     ubs->del(2);
+
+}
+
+inline bool fileExists (const std::string& name) {
+    ifstream f(name.c_str());
+    return f.good();
+}
+
+
+int main(){
+
+    if (! fileExists("mytest.db")){
+        db_init();
+    }
+
+	CLI interface = CLI();
+
+	interface.start();
 }

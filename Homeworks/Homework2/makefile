@@ -1,10 +1,10 @@
 CXX = g++
-CXXFLAGS = -o driver.bin -std=c++17 -I./Repositories -I./Repositories/Entities -I./Services
+CXXFLAGS = -o driver.bin -std=c++11 -I./Repositories -I./Repositories/Entities -I./Services -I./UI
 CXXDEBUG = -g
 CXXPROF = -pg -no-pie
 CXXDB = -lodb-sqlite -lodb
 
-SRCS = *.cxx ./Repositories/*.cxx ./Repositories/Entities/*.cxx ./Services/*.cxx
+SRCS = *.cxx ./Repositories/*.cxx ./Repositories/Entities/*.cxx ./Services/*.cxx ./UI/*.cxx
 FIND = find . -type f -name 
 RM = -exec rm {} +
 
