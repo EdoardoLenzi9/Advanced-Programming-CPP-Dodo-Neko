@@ -4,7 +4,7 @@
 
 using namespace std;
 
-UICommandBook::UICommandBook(vector<string> vs) : Command(vs){
+UICommandBook::UICommandBook(vector<string> vs, Auth* auth) : Command(vs, auth){
 	copies = -1;
 	rentedCopies = -1;
 	title = "";
@@ -14,6 +14,7 @@ UICommandBook::UICommandBook(vector<string> vs) : Command(vs){
 }
 
 bool UICommandBook::read(){
+	if (ral.read > auth->getRole()->id()) return false;
 	if (command.size() < 1) return false;
 	long id = stol(command.at(0));
 
@@ -32,6 +33,8 @@ bool UICommandBook::read(){
 }
 
 bool UICommandBook::create(){
+	if (ral.create > auth->getRole()->id()) return false;
+	cout << ral.create << " < " << auth->getRole()->id() << endl;
 	if (command.size() < 5) return false;
 	
 	copies = stoi(command.at(0));
@@ -48,6 +51,7 @@ bool UICommandBook::create(){
 	return true;
 }
 bool UICommandBook::update(){
+	if (ral.update > auth->getRole()->id()) return false;
 	if (command.size() < 6) return false;
 
 	long id = stol(command.at(0));
@@ -91,6 +95,7 @@ bool UICommandBook::update(){
 }
 
 bool UICommandBook::del(){
+	if (ral.del > auth->getRole()->id()) return false;
 	if (command.size() < 1) return false;
 	long id = stol(command.at(0));
 
@@ -108,7 +113,7 @@ bool UICommandBook::del(){
 	return true;
 }
 
-UICommandUser::UICommandUser(vector<string> vs) : Command(vs){
+UICommandUser::UICommandUser(vector<string> vs, Auth* auth) : Command(vs, auth){
 	name = "";
 	surname = "";
 	ur = new Repository<User>();
@@ -116,6 +121,7 @@ UICommandUser::UICommandUser(vector<string> vs) : Command(vs){
 }
 
 bool UICommandUser::read(){
+	if (ral.read > auth->getRole()->id()) return false;
 	if (command.size() < 1) return false;
 	long id = stol(command.at(0));
 
@@ -133,6 +139,7 @@ bool UICommandUser::read(){
 }
 
 bool UICommandUser::create(){
+	if (ral.create > auth->getRole()->id()) return false;
 	if (command.size() < 3) return false;
 	name = command.at(0);
 	surname = command.at(1);
@@ -146,6 +153,7 @@ bool UICommandUser::create(){
 }
 
 bool UICommandUser::update(){
+	if (ral.update > auth->getRole()->id()) return false;
 	if (command.size() < 3) return false;
 
 	long id = stol(command.at(0));
@@ -165,6 +173,7 @@ bool UICommandUser::update(){
 }
 
 bool UICommandUser::del(){
+	if (ral.del > auth->getRole()->id()) return false;
 	if (command.size() < 1) return false;
 	long id = stol(command.at(0));
 
@@ -175,12 +184,13 @@ bool UICommandUser::del(){
 	return true;
 }
 
-UICommandRole::UICommandRole(vector<string> vs) : Command(vs){
+UICommandRole::UICommandRole(vector<string> vs, Auth* auth) : Command(vs, auth){
 	description = "";
 	rr = new Repository<Role>();
 }
 
 bool UICommandRole::read(){
+	if (ral.read > auth->getRole()->id()) return false;
 	if (command.size() < 1) return false;
 	long id = stol(command.at(0));
 
@@ -196,6 +206,7 @@ bool UICommandRole::read(){
 }
 
 bool UICommandRole::create(){
+	if (ral.create > auth->getRole()->id()) return false;
 	if (command.size() < 1) return false;
 	description = command.at(0);
 
@@ -207,6 +218,7 @@ bool UICommandRole::create(){
 }
 
 bool UICommandRole::update(){
+	if (ral.update > auth->getRole()->id()) return false;
 	if (command.size() < 2) return -1;
 	long id = stol(command.at(0));
 	description = command.at(1);
@@ -223,6 +235,7 @@ bool UICommandRole::update(){
 }
 
 bool UICommandRole::del(){
+	if (ral.del > auth->getRole()->id()) return false;
 	if (command.size() < 1) return false;
 	long id = stol(command.at(0));
 
@@ -234,7 +247,7 @@ bool UICommandRole::del(){
 }
 
 
-UICommandRent::UICommandRent(std::vector<std::string> vs) : Command(vs){
+UICommandRent::UICommandRent(std::vector<std::string> vs, Auth* auth) : Command(vs, auth){
 	long user_id = -1;
 	long book_id = -1;
 	long timestamp = -1;
@@ -244,12 +257,18 @@ UICommandRent::UICommandRent(std::vector<std::string> vs) : Command(vs){
 }
 
 bool UICommandRent::read(){
+	if (ralp.read > auth->getRole()->id()) return false; // role id doesnt allow reading personal rents
 	if (command.size() < 1) return false;
+	
 	long id = stol(command.at(0));
-
 	UserBook* userbook = ubr->read(id);
 
-	if (userbook == NULL) return false;
+	if (ralp.read <= auth->getRole()->id()) {
+		if (userbook->user_id() != auth->getUser()->id()){
+			cout << "You can only read your own rents! Your ID is:" << auth->getUser()->id() << endl;
+			return false;
+		}
+	}
 
 	cout << "User ID: " << userbook->user_id() << endl
 		 << "Book ID: " << userbook->book_id() << endl
@@ -260,8 +279,19 @@ bool UICommandRent::read(){
 }
 
 bool UICommandRent::create(){
+	if (ralp.create > auth->getRole()->id()) return false; // role id isnt even enough to create personal rents
 	if (command.size() < 3) return false;
-	user_id = stol(command.at(0));
+
+	if (ral.create <= auth->getRole()->id()) {
+		user_id = stol(command.at(0)); // if the role id is higher than the required create level, allow creating for every user
+	} else {
+		if (stol(command.at(0)) != auth->getUser()->id()) { // role id only allows personal rents
+			cout << "You can only create rents for yourself! Your ID is:" << auth->getUser()->id() << endl;
+			return false;
+		} 
+		user_id = auth->getUser()->id();
+	}
+
 	book_id = stol(command.at(1));
 	timestamp = stol(command.at(2));
 
@@ -282,9 +312,20 @@ bool UICommandRent::create(){
 }
 
 bool UICommandRent::update(){
+	if (ralp.update > auth->getRole()->id()) return false; // role id isnt even enough to update personal entries
 	if (command.size() < 4) return false;
+	
 	long id = stol(command.at(0));
-	user_id = stol(command.at(1));
+
+	if (ral.update <= auth->getRole()->id()) {
+		user_id = stol(command.at(1)); // if the role id is higher than the required update level, allow updating for every user
+	} else {
+		if (stol(command.at(1)) != auth->getUser()->id()) { // role id only allows personal rents
+			cout << "You can only update rents for yourself! Your ID is:" << auth->getUser()->id() << endl;
+			return false;
+		} 
+		user_id = auth->getUser()->id();
+	}
 	book_id = stol(command.at(2));
 	timestamp = stol(command.at(3));
 
@@ -302,18 +343,25 @@ bool UICommandRent::update(){
 }
 
 bool UICommandRent::del(){
+	if (ralp.del > auth->getRole()->id()) return false; // role id isnt even enough to delete personal entries
 	if (command.size() < 1) return false;
+	
 	long id = stol(command.at(0));
 
 	UserBook* userbook = ubr->read(id);
-
 	Book* book = br->read(userbook->book_id());
+
+	if (ral.del > auth->getRole()->id()) {
+		if (userbook->user_id() != auth->getUser()->id()) { // role id only allows personal rents
+			cout << "You can only delete rents for yourself! Your ID is:" << auth->getUser()->id() << endl;
+			return false;
+		} 
+	}
 
 	int availableCopies = (book->copies()-book->rented());
 	book->rented(book->rented()-1); // decrease the amount of rented copies
-	
-	br->update(book);
 
+	br->update(book);
 	ubr->del(id);
 
 	cout << "Returned rent" << endl;
@@ -321,11 +369,11 @@ bool UICommandRent::del(){
 	return true;
 }
 
-Command* Action::getCommand(string type, vector<string> vs){
-	if 	    (type.compare("book") == 0) return new UICommandBook(vs);
-	else if (type.compare("role") == 0) return new UICommandRole(vs);
-	else if (type.compare("user") == 0) return new UICommandUser(vs);
-	else if (type.compare("rent") == 0) return new UICommandRent(vs);
+Command* Action::getCommand(string type, vector<string> vs, Auth* auth){
+	if 	    (type.compare("book") == 0) return new UICommandBook(vs, auth);
+	else if (type.compare("role") == 0) return new UICommandRole(vs, auth);
+	else if (type.compare("user") == 0) return new UICommandUser(vs, auth);
+	else if (type.compare("rent") == 0) return new UICommandRent(vs, auth);
 	else return NULL;
 }
 
@@ -333,34 +381,28 @@ Command* Action::getCommand(string type, vector<string> vs){
 ////////// Auth Implementation ////////////
 ///////////////////////////////////////////
 
-Auth::Auth(unsigned long user){
-	
-	try {
-		User* user = ur->read(userid);
-	} catch (odb::object_not_persistent	e){
-		cout << "User ID Error" << endl;
-		user = nullptr;
-	}
+Auth::Auth(unsigned long uid){
+	ur = new Repository<User>();
+	rr = new Repository<Role>();
 
-	try {
-		Role* role = rr->read(user->role());
-	} catch (odb::object_not_persistent	e){
-		cout << "Role ID Error" << endl;
-		role = nullptr;
-	}
+	cout << "reading user id " << uid << endl;
+
+	user = ur->read(uid);	
+	role = rr->read(user->role());
+
 }
 
-Auth::getUser(){
+User* Auth::getUser(){
 	if (user != nullptr) { 
-		return user->id(); 
+		return user; 
 	} else { 
 		return nullptr; 
 	}
 }
 
-Auth::getRole(){
+Role* Auth::getRole(){
 	if (role != nullptr) { 
-		return role->id();
+		return role;
 	} else { 
 		return nullptr; 
 	}
@@ -370,9 +412,32 @@ Auth::getRole(){
 ///////////CLI Implementation /////////////
 ///////////////////////////////////////////
 
+
+char * rl_gets (string prompt) {
+	char *line_read = (char *)NULL;
+  	
+  	/* If the buffer has already been allocated, return the memory to the free pool. */
+
+  	if (line_read) {
+    	free (line_read);
+    	line_read = (char *)NULL;
+  	}
+
+  	/* Get a line from the user. */
+	line_read = readline (prompt.c_str());
+
+ 	/* If the line has any text in it, save it on the history. */
+	if (line_read && *line_read){
+ 		add_history (line_read);
+	}
+
+	return (line_read);
+}
+
 CLI::CLI(){
 	running = 1;
 	delim = ' ';
+	auth = nullptr;
 	/*
 	cout << R"(	Welcome to...)" << R"(
 	 |     _)  |                              
@@ -394,21 +459,36 @@ CLI::CLI(){
 		by dodo-neko-soft inc.)" << endl;
 }
 
-string CLI::getCommand(){
-	string s;
+string CLI::getCommand(string prompt){
+	/* string s;
 	if(getline(cin, s)){
 		return s;
 	} else {
 		running = false;
 		return "ending";
 	}
+	*/ 
+	char* line = rl_gets(prompt);
+	if (line == NULL){
+		return "";
+	} else {
+		return string(line);
+	}
+
 }
 
+/*
 void CLI::printPrompt(){
 	cout << "$ > ";
 }
+*/
 
 bool CLI::parseCommand(string s){
+	if (auth == nullptr){
+		cout << "Please auth first." << endl;
+		return true;
+	}
+
 	stringstream ss(s); // make a string stream from the string
 	string temp = "";
 
@@ -484,7 +564,7 @@ Rent commands:
 
 	command.erase(command.begin(), command.begin()+2); // delete first and second element
 
-	Command *b = Action::getCommand(cont, command); // returns a book, a role or a user object
+	Command *b = Action::getCommand(cont, command, auth); // returns a book, a role, a user, or a userbook object
 	if (b == NULL) return false; 
 
 	if (com.compare("create") == 0) {
@@ -509,19 +589,49 @@ void CLI::printCommand(){
 	}
 }
 
+void CLI::authenticate(){
+	Auth* a = nullptr;
+	while (a == nullptr) {
+
+		try{
+			//rlgets has a prompt and returns segfault
+			unsigned long id = stol(getCommand("login: "));
+			cout << "ID: " << id << endl;
+			a = new Auth(id);
+			cout << a << endl;
+
+		} catch (std::invalid_argument e){
+			cout << "ERROR: Invalid User ID" << endl;
+			a == nullptr;
+		}
+	}
+
+	auth = a;	
+}
+
 void CLI::start(){
 
 	string s;
+	while (auth == nullptr){
+		try{
+			CLI::authenticate();
+		} catch (odb::object_not_persistent	e){
+			cout << "ERROR: User not found" << endl;
+			auth == nullptr;
+		}
+	}
 
 	while (running){
 		while (s.empty()){
-			printPrompt();
-			s = getCommand();
+			/*printPrompt();*/
+			s = getCommand("$ > ");
 		}
 		try {
-			if(! parseCommand(s)) cout << "failed command!" << endl;
+			if(! parseCommand(s)) cout << "Command failed!" << endl;
 		} catch (odb::object_not_persistent	e){
-			cout << "ERROR: tried accessing missing object, continuing" << endl;
+			cout << "ERROR: tried accessing missing object" << endl;
+		} catch (std::invalid_argument e){
+			cout << "ERROR: invalid argument given" << endl;
 		}
 		s.clear(); //empty the command buffer
 	}
