@@ -265,7 +265,7 @@ bool UICommandRent::read(){
 
 	if (ralp.read <= auth->getRole()->id()) {
 		if (userbook->user_id() != auth->getUser()->id()){
-			cout << "You can only read your own rents! Your ID is:" << auth->getUser()->id() << endl;
+			cout << "You can only read your own rents! Your ID is: " << auth->getUser()->id() << endl;
 			return false;
 		}
 	}
@@ -286,7 +286,7 @@ bool UICommandRent::create(){
 		user_id = stol(command.at(0)); // if the role id is higher than the required create level, allow creating for every user
 	} else {
 		if (stol(command.at(0)) != auth->getUser()->id()) { // role id only allows personal rents
-			cout << "You can only create rents for yourself! Your ID is:" << auth->getUser()->id() << endl;
+			cout << "You can only create rents for yourself! Your ID is: " << auth->getUser()->id() << endl;
 			return false;
 		} 
 		user_id = auth->getUser()->id();
@@ -313,7 +313,7 @@ bool UICommandRent::create(){
 
 bool UICommandRent::update(){
 	if (ralp.update > auth->getRole()->id()) return false; // role id isnt even enough to update personal entries
-	if (command.size() < 4) return false;
+	if (command.size() < 3) return false;
 	
 	long id = stol(command.at(0));
 
@@ -321,18 +321,16 @@ bool UICommandRent::update(){
 		user_id = stol(command.at(1)); // if the role id is higher than the required update level, allow updating for every user
 	} else {
 		if (stol(command.at(1)) != auth->getUser()->id()) { // role id only allows personal rents
-			cout << "You can only update rents for yourself! Your ID is:" << auth->getUser()->id() << endl;
+			cout << "You can only update rents for yourself! Your ID is: " << auth->getUser()->id() << endl;
 			return false;
 		} 
 		user_id = auth->getUser()->id();
 	}
-	book_id = stol(command.at(2));
-	timestamp = stol(command.at(3));
+	timestamp = stol(command.at(2));
 
 	UserBook* userbook = ubr->read(id);
 
 	userbook->user_id(user_id);
-	userbook->book_id(book_id);
 	userbook->timestamp(timestamp);
 
 	ubr->update(userbook);
@@ -353,7 +351,7 @@ bool UICommandRent::del(){
 
 	if (ral.del > auth->getRole()->id()) {
 		if (userbook->user_id() != auth->getUser()->id()) { // role id only allows personal rents
-			cout << "You can only delete rents for yourself! Your ID is:" << auth->getUser()->id() << endl;
+			cout << "You can only delete rents for yourself! Your ID is: " << auth->getUser()->id() << endl;
 			return false;
 		} 
 	}
@@ -526,7 +524,7 @@ Role commands:
 	delete role roleid
 Rent commands: 
 	create rent userid bookid timestamp
-	update rent id userid bookid timestamp
+	update rent id userid timestamp
 	read rent rentid 
 	delete rent rentid
 )" << endl;
