@@ -28,8 +28,10 @@
 
 class Command {
 public:
-	Command(std::vector<std::string> vs){
+	Command(std::vector<std::string> vs, unsigned long user, unsigned long role){
 		command = vs;
+		userid = user;
+		roleid = role;
 	}
 	virtual bool read() = 0;
 	virtual bool create() = 0;
@@ -38,6 +40,8 @@ public:
 
 protected:
 	std::vector<std::string> command;
+	unsigned long userid;
+	unsigned long roleid;
 };
 
 class UICommandBook : public Command{
@@ -111,6 +115,19 @@ class Action{
 
 public:
 	static Command* getCommand(std::string type, std::vector<std::string> vs);
+};
+
+class Auth{
+
+public:
+	Auth(unsigned long userid);
+	setUser();
+	getRole(){;
+private:
+	unsigned long userid;
+	unsigned long roleid;
+	Repository<User>* ur;
+	Repository<Role>* rr;
 };
 
 class CLI{

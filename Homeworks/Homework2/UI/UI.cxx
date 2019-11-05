@@ -267,7 +267,6 @@ bool UICommandRent::create(){
 
 	Book* book = br->read(book_id);
 	int availableCopies = (book->copies()-book->rented());
-	cout << "copies avail:" << availableCopies << endl; 
 	if (availableCopies > 0){ 
 		book->rented(book->rented()+1); // increase the amount of rented copies when at least 1 is available
 		
@@ -330,6 +329,42 @@ Command* Action::getCommand(string type, vector<string> vs){
 	else return NULL;
 }
 
+///////////////////////////////////////////
+////////// Auth Implementation ////////////
+///////////////////////////////////////////
+
+Auth::Auth(unsigned long user){
+	
+	try {
+		User* user = ur->read(userid);
+	} catch (odb::object_not_persistent	e){
+		cout << "User ID Error" << endl;
+		user = nullptr;
+	}
+
+	try {
+		Role* role = rr->read(user->role());
+	} catch (odb::object_not_persistent	e){
+		cout << "Role ID Error" << endl;
+		role = nullptr;
+	}
+}
+
+Auth::getUser(){
+	if (user != nullptr) { 
+		return user->id(); 
+	} else { 
+		return nullptr; 
+	}
+}
+
+Auth::getRole(){
+	if (role != nullptr) { 
+		return role->id();
+	} else { 
+		return nullptr; 
+	}
+}
 
 ///////////////////////////////////////////
 ///////////CLI Implementation /////////////
