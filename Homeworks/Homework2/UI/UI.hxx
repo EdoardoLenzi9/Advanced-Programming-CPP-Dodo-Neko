@@ -137,6 +137,7 @@ public:
 	bool create();
 	bool update();
 	bool del();
+	
 	// read, create, update, delete
 	RequiredAuthLevel ral = { 2, 2, 2, 2};
 

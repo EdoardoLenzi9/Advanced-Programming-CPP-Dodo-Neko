@@ -16,7 +16,7 @@ UICommandBook::UICommandBook(vector<string> vs, Auth* auth) : Command(vs, auth){
 bool UICommandBook::read(){
 	if (ral.read > auth->getRole()->id()) return false;
 	if (command.size() < 1) return false;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 
 	Book* book = br->read(id);
 
@@ -54,7 +54,7 @@ bool UICommandBook::update(){
 	if (ral.update > auth->getRole()->id()) return false;
 	if (command.size() < 6) return false;
 
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 	copies = stoi(command.at(1));
 	rentedCopies = stoi(command.at(2)); //updating this can potentially cause inconsistencies, prohibiting setting this would be an option
 	title = command.at(3);
@@ -97,7 +97,7 @@ bool UICommandBook::update(){
 bool UICommandBook::del(){
 	if (ral.del > auth->getRole()->id()) return false;
 	if (command.size() < 1) return false;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 
 	Book* book = br->read(id);
 
@@ -123,7 +123,7 @@ UICommandUser::UICommandUser(vector<string> vs, Auth* auth) : Command(vs, auth){
 bool UICommandUser::read(){
 	if (ral.read > auth->getRole()->id()) return false;
 	if (command.size() < 1) return false;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 
 	User* user = ur->read(id);
 
@@ -156,7 +156,7 @@ bool UICommandUser::update(){
 	if (ral.update > auth->getRole()->id()) return false;
 	if (command.size() < 3) return false;
 
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 	name = command.at(1);
 	surname = command.at(2);
 
@@ -192,7 +192,7 @@ UICommandRole::UICommandRole(vector<string> vs, Auth* auth) : Command(vs, auth){
 bool UICommandRole::read(){
 	if (ral.read > auth->getRole()->id()) return false;
 	if (command.size() < 1) return false;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 
 	Role* role = rr->read(id);
 
@@ -220,7 +220,7 @@ bool UICommandRole::create(){
 bool UICommandRole::update(){
 	if (ral.update > auth->getRole()->id()) return false;
 	if (command.size() < 2) return -1;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 	description = command.at(1);
 
 	Role* role = rr->read(id);
@@ -237,7 +237,7 @@ bool UICommandRole::update(){
 bool UICommandRole::del(){
 	if (ral.del > auth->getRole()->id()) return false;
 	if (command.size() < 1) return false;
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 
 	rr->del(id);
 
@@ -259,8 +259,8 @@ UICommandRent::UICommandRent(std::vector<std::string> vs, Auth* auth) : Command(
 bool UICommandRent::read(){
 	if (ralp.read > auth->getRole()->id()) return false; // role id doesnt allow reading personal rents
 	if (command.size() < 1) return false;
-	
-	long id = stol(command.at(0));
+
+	unsigned long id = stol(command.at(0));
 	UserBook* userbook = ubr->read(id);
 
 	if (ralp.read <= auth->getRole()->id()) {
@@ -315,7 +315,7 @@ bool UICommandRent::update(){
 	if (ralp.update > auth->getRole()->id()) return false; // role id isnt even enough to update personal entries
 	if (command.size() < 3) return false;
 	
-	long id = stol(command.at(0));
+	unsigned long id = stol(command.at(0));
 
 	if (ral.update <= auth->getRole()->id()) {
 		user_id = stol(command.at(1)); // if the role id is higher than the required update level, allow updating for every user
@@ -343,8 +343,8 @@ bool UICommandRent::update(){
 bool UICommandRent::del(){
 	if (ralp.del > auth->getRole()->id()) return false; // role id isnt even enough to delete personal entries
 	if (command.size() < 1) return false;
-	
-	long id = stol(command.at(0));
+
+	unsigned long id = stol(command.at(0));
 
 	UserBook* userbook = ubr->read(id);
 	Book* book = br->read(userbook->book_id());

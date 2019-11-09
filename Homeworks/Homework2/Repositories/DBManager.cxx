@@ -25,7 +25,7 @@ DBManager::DBManager()
     {
         db = new odb::sqlite::database( "mytest.db",
              SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE );
-        createSchema();
+        // createSchema();
     }
 }
 
