@@ -1,9 +1,9 @@
 CXX = g++
 CXXFLAGS = -o driver.bin -std=c++11 -I./Repositories -I./Repositories/Entities -I./Services -I./UI
-CXXDEBUG = -g
+CXXDEBUG = -ggdb
 CXXPROF = -pg -no-pie
 CXXDB = -lodb-sqlite -lodb
-
+CLIBS = -lreadline
 SRCS = *.cxx ./Repositories/*.cxx ./Repositories/Entities/*.cxx ./Services/*.cxx ./UI/*.cxx
 FIND = find . -type f -name 
 RM = -exec rm {} +
@@ -13,17 +13,17 @@ RM = -exec rm {} +
 all: odb compile
 
 compile:
-	$(CXX) $(CXXFLAGS) $(SRCS) $(CXXDB)
+	$(CXX) $(CXXFLAGS) $(SRCS) $(CXXDB) $(CLIBS)
 
 odb: clean
 	cd Repositories/Entities ; \
 	odb -d sqlite --generate-query --generate-schema *.hxx
 
-debug:
-	$(CXX) $(CXXFLAGS) $(SRCS) $(CXXDB) $(CXXDEBUG)
+debug: 
+	$(CXX) $(CXXFLAGS) $(SRCS) $(CXXDB) $(CLIBS) $(CXXDEBUG)
 
 prof:
-	$(CXX) $(CXXFLAGS) $(SRCS) $(CXXDB) $(CXXPROF)
+	$(CXX) $(CXXFLAGS) $(SRCS) $(CXXDB)  $(CLIBS) $(CXXPROF)
 
 .PHONY: clean 
 
