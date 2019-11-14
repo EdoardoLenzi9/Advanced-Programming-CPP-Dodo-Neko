@@ -1,0 +1,219 @@
+/*
+* General style
+*/
+html, body{
+    width: 100vw;
+    background-color: black;
+}
+
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1100 !important;
+}
+
+
+.slicknav_menu {
+    position: fixed;
+    z-index: 1100 !important;
+    width: 100%;
+    padding-top: 10px;
+	display:none;
+}
+
+
+#large-nav {
+    display:none;
+}
+
+
+#intro{
+    height: 100vh;
+    color: white;
+    display: flex;
+    margin:0;
+    border-bottom: 10px solid;
+    border-color: #4c4c4c;
+    justify-content: center;
+}
+
+
+#intro-content{
+    align-self: center;
+}
+
+
+#parallax-caption{
+    background: #fff; 
+    color:#000;
+    opacity: 0.8;
+    position: absolute; 
+    bottom: 50%; 
+    margin-left:0;
+    padding: 10%;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-bottom:-200px;
+    width:100vw;
+}
+
+
+#loading-spinner{
+    position: absolute;
+    width: 82%;
+    height: 52%;
+    display: flex;
+    background-color: black;
+    padding-left: 38%
+}
+
+.spinner-border{
+    align-self: center;
+}
+.card{
+    color: black; 
+}
+
+
+article{
+    border-bottom: 10px solid;
+    border-color: black;
+    color: white;
+    text-align: center;
+    padding: 10%;
+}
+
+
+#parallax{
+    margin:0;
+    background: url(assets/images/fiction-small.jpg) no-repeat 50% 0 fixed;
+    height: 100vh; 
+    position:relative;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+
+.invisible{
+    display: none;
+}
+
+
+/*
+* Small devices
+*/
+@media screen and (max-width: 40em) {
+	/* #menu is the original menu */
+	.js #small-nav {
+		display:none;
+	}
+	
+	.js .slicknav_menu {
+		display:block;
+    }
+    
+    #parallax{
+        background: url(assets/images/fiction-small.jpg) no-repeat 50% 0 fixed;
+    }
+}
+
+
+/*
+* Large devices
+*/
+@media not screen and (max-width: 40em)  {
+	.js #large-nav {
+		display:block;
+    }
+    
+    .js #small-nav{
+        display: none;
+    }
+
+    #parallax{
+        background: url(assets/images/fiction-large.jpg) no-repeat 50% 0 fixed;
+    }
+
+    #parallax-caption{
+        font-size: 20pt;
+    }
+}
+
+
+#inspector{
+    display: flex;
+    justify-content: center;
+}
+
+
+iframe{
+    width: 100%;
+    height: 100%;
+    border-style: none;
+}
+
+
+.toast{
+    position:fixed;
+    bottom: 5px;
+    right: 5px;
+}
+
+
+.footer{
+    color: white;
+    text-align: center;
+}
+
+
+#arc-reactor{
+    height:50vh;
+}
+
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
+
+
+/*
+* Colors
+*/
+.tx-gray{
+    color: #cccccc;
+}
+
+
+.bg-black{
+    background-color: #4d4d4d;
+}
+
+
+.bg-purple{
+    background-color: #96255e;
+}
+
+
+.bg-green{
+    background-color: #8fac43;
+}
+
+
+.bg-orange{
+    background-color: #f29d43;
+}
+
+
+.bg-blue{
+    background-color: #00739e;
+}
+
+
+.bg-red{
+    background-color: #e5503b;
+}

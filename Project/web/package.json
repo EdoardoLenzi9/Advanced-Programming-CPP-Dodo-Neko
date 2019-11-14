@@ -1,0 +1,26 @@
+{
+  "name": "product-configuration-2019-iuri-lenzi",
+  "version": "1.0.0",
+  "description": "![Image from Ford Configurator, developed in three.js](assets/ford-configurator.jpg)",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/interactive3dgraphicscourse-uniud-2019/product-configuration-2019-iuri-lenzi.git"
+  },
+  "author": "edoardo lenzi, marco iuri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/interactive3dgraphicscourse-uniud-2019/product-configuration-2019-iuri-lenzi/issues"
+  },
+  "homepage": "https://github.com/interactive3dgraphicscourse-uniud-2019/product-configuration-2019-iuri-lenzi#readme",
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.4.1",
+    "slicknav": "^1.0.8",
+    "three": "^0.110.0"
+  }
+}
