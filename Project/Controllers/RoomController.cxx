@@ -1,6 +1,10 @@
 #include "RoomController.hxx"
 
 
+// TODO simple example of an handler, here u can define how many handlers u need 
+// and pass them in driver.cxx to the Router in order to set-up the routes
+// if u want to test this handler go to http://localhost:8080/info
+
 void handler(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
         stringstream stream;
         stream << "<h1>Request from " << request->remote_endpoint_address() << ":" << request->remote_endpoint_port() << "</h1>";

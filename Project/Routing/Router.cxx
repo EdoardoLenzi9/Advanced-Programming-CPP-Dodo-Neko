@@ -1,10 +1,16 @@
 #include "Router.hxx"
 
+// TODO this is basically a copy-paste from the SimpleWS example
+// maintaining only the default_resource handler and injecting the custom routes
+// for our endpoints. Try to read the content and simplify it 
+// (split in some methods and cut everything un-necessary)
+
 
 void Router::start() {
   HttpServer server;
   server.config.port = 8080;
 
+  // Dodo: my routes injection for our endpoints
   for(int i = 0; i < routes.size(); i++){
     server.resource[routes[i].path][routes[i].httpMethod] = routes[i].handler;
   }
