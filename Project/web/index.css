@@ -88,7 +88,7 @@ article{
 
 #parallax{
     margin:0;
-    background: url(assets/images/fiction-small.jpg) no-repeat 50% 0 fixed;
+    background: url(https://www.wellness-creation.it/images/gallery-visual/visual-hotel-cervo-lavarone-wellness-lavarone-tn/biosauna-2_rid_63411.jpg) no-repeat 50% 0 fixed;
     height: 100vh; 
     position:relative;
     -webkit-background-size: cover;
@@ -117,7 +117,7 @@ article{
     }
     
     #parallax{
-        background: url(assets/images/fiction-small.jpg) no-repeat 50% 0 fixed;
+        background: url(https://www.wellness-creation.it/images/gallery-visual/visual-hotel-cervo-lavarone-wellness-lavarone-tn/biosauna-2_rid_63411.jpg) no-repeat 50% 0 fixed;
     }
 }
 
@@ -135,7 +135,7 @@ article{
     }
 
     #parallax{
-        background: url(assets/images/fiction-large.jpg) no-repeat 50% 0 fixed;
+        background: url(https://www.wellness-creation.it/images/gallery-visual/visual-hotel-cervo-lavarone-wellness-lavarone-tn/biosauna-2_rid_63411.jpg) no-repeat 50% 0 fixed;
     }
 
     #parallax-caption{
