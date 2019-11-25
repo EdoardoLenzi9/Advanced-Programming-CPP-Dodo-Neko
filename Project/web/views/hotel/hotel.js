@@ -73,10 +73,10 @@ function LoadArchitecture( file ) {
 */ 
 function SetupMesh( parameters ) {
 	debugger;
-	var boxGeometry = new THREE.CubeGeometry(parameters.width, parameters.height, 50); // larghezza, altezza, profondita'
+	var boxGeometry = new THREE.CubeGeometry(parameters.x, parameters.y, parameters.z); // larghezza, altezza, profondita'
 	var boxMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00});
 	var box = new THREE.Mesh(boxGeometry, boxMaterial); //La mesh serve a mettere assieme geometria e materiale
-	box.position.set(parameters.cx, parameters.cy, 0);
+	box.position.set(parameters.cx, parameters.cy, parameters.cz);
 	group.add(box);	
 }
 
