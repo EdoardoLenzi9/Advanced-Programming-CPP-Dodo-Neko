@@ -17,20 +17,26 @@
 #include "Repository.hxx"
 #include "UserService.hxx"
 
+
 class RoomService { 
     
     public:
         RoomService(){
             rr = new Repository<Room>();
+            ur = new Repository<User>();
+            urr = new Repository<UserRoom>();
             us = new UserService();
         }
 
         long create(int beds, int tlx, int tly, int brx, int bry);    
         void list();
+        long bookRoom(long userID, long roomID);
         
     private:
         UserService* us;
         Repository<Room>* rr;
+        Repository<User>* ur;
+        Repository<UserRoom>* urr;
 };
 
 #endif
