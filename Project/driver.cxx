@@ -13,9 +13,11 @@ int main(){
 
     vector<Route> routes;
 
-    Route r("^/info$", "GET", RoomController::handler, { AuthMiddleware::handle });
+    Route r("^/info$", "GET", RoomController::info);
+    Route a("^/test$", "GET", RoomController::authTest, { AuthMiddleware::handle });
 
     routes.push_back(r);
+    routes.push_back(a);
 
     Router router(routes);
     router.start();
