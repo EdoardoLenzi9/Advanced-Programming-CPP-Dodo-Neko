@@ -1,7 +1,6 @@
 #ifndef ROUTE_HXX
 #define ROUTE_HXX
 
-#include "client_http.hpp"
 #include "server_http.hpp"
 
 #define BOOST_SPIRIT_THREADSAFE
@@ -28,8 +27,19 @@ class Route {
                void (*handler)(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>))
                : path(path), httpMethod(httpMethod), handler(handler) {};
 
+        Route( string path, 
+               string httpMethod, 
+               void (*handler)(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>),
+               vector<function<bool(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>)>> middlewares)
+               : path(path), httpMethod(httpMethod), handler(handler), middlewares(middlewares) {};
+
         string path;
         string httpMethod;
+
+        void handle(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>);
+
+    private:
+        vector<function<bool(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>)>> middlewares;
         void (*handler)(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>);
 };
 

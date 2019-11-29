@@ -19,6 +19,10 @@ using namespace boost::property_tree;
 using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 
 
-void handler(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request);
+class RoomController {
+    public:
+        RoomController() {};
+        static void handler(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request);
+};
 
 #endif

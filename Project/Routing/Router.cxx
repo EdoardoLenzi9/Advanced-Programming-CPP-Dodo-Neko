@@ -12,7 +12,7 @@ void Router::start() {
 
   // Dodo: my routes injection for our endpoints
   for(int i = 0; i < routes.size(); i++){
-    server.resource[routes[i].path][routes[i].httpMethod] = routes[i].handler;
+    server.resource[routes[i].path][routes[i].httpMethod] = routes[i].handle;
   }
 
   server.default_resource["GET"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
