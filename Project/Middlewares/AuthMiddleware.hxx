@@ -2,6 +2,7 @@
 #define AUTH_MIDDLEWARE_HXX
 
 #include "server_http.hpp"
+#include "status_code.hpp"
 
 #define BOOST_SPIRIT_THREADSAFE
 #include <boost/property_tree/json_parser.hpp>
@@ -16,12 +17,13 @@
 
 using namespace std;
 using namespace boost::property_tree;
+using namespace SimpleWeb;
 using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 
 class AuthMiddleware {
     public:
         AuthMiddleware() {};
-        static bool handle(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>);
+        static void handle(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>);
 };
 
 #endif

@@ -4,6 +4,21 @@
 
 #include "AuthMiddleware.hxx"
 
-bool AuthMiddleware::handle(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>) {
-    return false;
+void AuthMiddleware::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
+
+    CaseInsensitiveMultimap query_fields = request->parse_query_string();
+    CaseInsensitiveMultimap::iterator it = query_fields.find("token");
+    
+    if(it == query_fields.end()) {
+        stringstream stream;
+        stream << "401 Unauthorized";
+        response->write(StatusCode::client_error_unauthorized, stream);
+    } else {
+        if(it->second != "1234") {
+            stringstream stream;
+            stream << "401 Unauthorized";
+            response->write(StatusCode::client_error_unauthorized, stream);
+        }
+    }
+
 }

@@ -30,16 +30,16 @@ class Route {
         Route( string path, 
                string httpMethod, 
                void (*handler)(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>),
-               vector<function<bool(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>)>> middlewares)
+               vector<function<void(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>)>> middlewares)
                : path(path), httpMethod(httpMethod), handler(handler), middlewares(middlewares) {};
 
         string path;
         string httpMethod;
 
-        void handle(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>);
+        static void handle(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, Route);
 
     private:
-        vector<function<bool(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>)>> middlewares;
+        vector<function<void(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>)>> middlewares;
         void (*handler)(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>);
 };
 
