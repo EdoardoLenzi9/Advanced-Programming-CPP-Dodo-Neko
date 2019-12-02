@@ -37,3 +37,9 @@ void RoomService::list(){
     for (odb::result<Room>::iterator i (availableRooms->begin ()); i != availableRooms->end (); ++i)
         cout << i->beds() << endl;
 }
+
+long RoomService::bookRoom(long userID, long roomID){
+    UserRoom* userR = rur->creat(new UserRoom(userID, roomID, 1));
+    cout<<"Room is booked" <<userR->id() <<endl;
+    return userR->id();
+}

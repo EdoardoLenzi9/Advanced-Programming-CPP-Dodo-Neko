@@ -22,15 +22,21 @@ class RoomService {
     public:
         RoomService(){
             rr = new Repository<Room>();
+            ru = new Repository<User>();
+            rur = new Repository<UserRoom>();
             us = new UserService();
+
         }
 
         long create(int beds, int tlx, int tly, int brx, int bry);    
         void list();
+        long bookRoom(long userID, long roomID);
         
     private:
         UserService* us;
         Repository<Room>* rr;
+        Repository<User>* ru;
+        Repository<UserRoom>* rur;
 };
 
 #endif
