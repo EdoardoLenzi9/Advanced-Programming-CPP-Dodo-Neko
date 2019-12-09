@@ -39,7 +39,7 @@ void RoomService::list(){
 }
 
 long RoomService::bookRoom(long userID, long roomID){
-    UserRoom* userR = rur->creat(new UserRoom(userID, roomID, 1));
+    UserRoom* userR = rur->create(new UserRoom(userID, roomID, 1));
     cout<<"Room is booked" <<userR->id() <<endl;
     return userR->id();
 }
