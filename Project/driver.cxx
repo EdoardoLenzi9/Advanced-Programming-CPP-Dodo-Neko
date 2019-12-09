@@ -1,5 +1,6 @@
 #include <Router.hxx>
 #include <RoomController.hxx>
+#include <LoginController.hxx>
 
 
 //TODO this is the program entry point, I use this in order to set-up the end points
@@ -12,9 +13,11 @@ int main(){
 
     vector<Route> routes;
 
-    Route r("^/info$", "GET", handler);
+    Route r1("^/info$", "GET", handler);
+    Route r2("^/login$", "POST", login);
 
-    routes.push_back(r);
+    routes.push_back(r1);
+    routes.push_back(r2);
 
     Router router(routes);
     router.start();

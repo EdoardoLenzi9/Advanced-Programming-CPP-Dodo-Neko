@@ -24,11 +24,14 @@ function httpCall( uri, method, headers, body, callback ){
     var url = host + "" + uri
     http.open(method, url, true); // true for asynchronous 
     http.setRequestHeader('Content-Type', 'application/json');
-    headers.forEach(header => {
-        http.setRequestHeader(header[0], header[1]);
-    });
+    if (headers != null) {
+        headers.forEach(header => {
+            http.setRequestHeader(header[0], header[1]);
+        });
+    }
     http.onreadystatechange = function() {
         if(http.readyState == 4 && http.status == 200) {
+            debugger
             callback(http.responseText);
         }
     }
