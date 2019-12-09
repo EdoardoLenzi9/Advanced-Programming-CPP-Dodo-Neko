@@ -35,10 +35,13 @@ all: dependencies odb compile
 
 compile:
 	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) $(SRCS) $(CXXDB)
+
 compile-services:
-	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) ./Services/*.cxx ./driver.cxx $(CXXDB)
+	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) *.cxx ./Services/*.cxx ./Repositories/*.cxx ./Repositories/Entities/*.cxx $(CXXDB)
+
+
 odb: clean
-	cd Repositories/Entities ; \  
+	cd Repositories/Entities ; 
 	odb -d sqlite --generate-query --generate-schema *.hxx
 
 

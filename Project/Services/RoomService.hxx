@@ -23,9 +23,10 @@ class RoomService {
     public:
         RoomService(){
             rr = new Repository<Room>();
-            ur = new Repository<User>();
-            urr = new Repository<UserRoom>();
+            ru = new Repository<User>();
+            rur = new Repository<UserRoom>();
             us = new UserService();
+
         }
 
         long create(int beds, int tlx, int tly, int brx, int bry);    
@@ -35,8 +36,8 @@ class RoomService {
     private:
         UserService* us;
         Repository<Room>* rr;
-        Repository<User>* ur;
-        Repository<UserRoom>* urr;
+        Repository<User>* ru;
+        Repository<UserRoom>* rur;
 };
 
 #endif
