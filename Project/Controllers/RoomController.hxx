@@ -1,7 +1,6 @@
 #ifndef ROOM_CONTROLLER_HXX
 #define ROOM_CONTROLLER_HXX
 
-#include "client_http.hpp"
 #include "server_http.hpp"
 
 #define BOOST_SPIRIT_THREADSAFE

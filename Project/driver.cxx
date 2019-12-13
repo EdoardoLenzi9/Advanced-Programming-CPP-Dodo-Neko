@@ -14,7 +14,7 @@ int main(){
     vector<Route> routes;
 
     Route r("^/info$", "GET", RoomController::info);
-    Route a("^/test$", "GET", RoomController::authTest, { AuthMiddleware::handle });
+    Route a("^/test$", "POST", RoomController::authTest, { AuthMiddleware::handle });
 
     routes.push_back(r);
     routes.push_back(a);

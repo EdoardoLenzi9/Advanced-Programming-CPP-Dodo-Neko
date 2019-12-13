@@ -6,19 +6,14 @@
 
 void AuthMiddleware::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
 
-    CaseInsensitiveMultimap query_fields = request->parse_query_string();
-    CaseInsensitiveMultimap::iterator it = query_fields.find("token");
+    ptree pt;
+    read_json(request->content, pt);
+    string sid = pt.get<string>("auth.sid");
     
-    if(it == query_fields.end()) {
-        stringstream stream;
-        stream << "401 Unauthorized";
-        response->write(StatusCode::client_error_unauthorized, stream);
-    } else {
-        if(it->second != "1234") {
-            stringstream stream;
-            stream << "401 Unauthorized";
-            response->write(StatusCode::client_error_unauthorized, stream);
-        }
-    }
+    if(sid.empty())
+        response->write(StatusCode::client_error_unauthorized, "{ \"status\" : { \"code\" : 401, \"description\" : \"Unauthorized\" } }");
+
+    if(sid.compare("c91b1d6acd383c44c4ec20c9723e758c31182a1f4f0231d63d91259a2ea14b9d") != 0)
+        response->write(StatusCode::client_error_unauthorized, "{ \"status\" : { \"code\" : 401, \"description\" : \"Unauthorized\" } }");
 
 }
