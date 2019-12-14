@@ -3,7 +3,7 @@
 $( document ).ready(function(){ //only run this script after the loading of the page finished
 
 	// please change this to your server
-	var serverUrl = "http://192.168.178.33:8081"
+	var serverUrl = "http://localhost:8080"
 
 	const defaultRequest = {
 	    "auth": {
