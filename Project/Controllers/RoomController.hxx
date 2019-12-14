@@ -1,7 +1,6 @@
 #ifndef ROOM_CONTROLLER_HXX
 #define ROOM_CONTROLLER_HXX
 
-#include "client_http.hpp"
 #include "server_http.hpp"
 
 #define BOOST_SPIRIT_THREADSAFE
@@ -19,6 +18,11 @@ using namespace boost::property_tree;
 using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 
 
-void handler(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request);
+class RoomController {
+    public:
+        RoomController() {};
+        static void info(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request);
+        static void authTest(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request);
+};
 
 #endif

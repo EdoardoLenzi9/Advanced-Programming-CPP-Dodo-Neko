@@ -1,0 +1,50 @@
+REST API Description
+
+############################################
+################# Default ##################
+############################################
+
+Default response format
+{
+    "status": {
+        "code": "<num>",
+        "description": "<string>"
+    },
+    "[data]": {
+        <custom json object>
+    }
+}
+
+Default request format:
+
+{
+    "auth": {
+        "sid":"<string>"
+    },
+    "[data]": {
+        <custom json object>
+    }
+}
+
+############################################
+################ ENDPOINTS #################
+############################################
+
+Endpoint: /book/check
+Type: POST
+Auth: Not required
+
+####### Request ######## 
+
+<default req header> + 
+{
+    "roomID":"<num>"
+}
+
+####### Response ######## 
+
+<default res header> +
+{
+   "roomID: "<num>"
+   "free": "<num>" (0 for booked, 1 for free)
+}

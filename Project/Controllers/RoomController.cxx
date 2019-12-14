@@ -5,7 +5,7 @@
 // and pass them in driver.cxx to the Router in order to set-up the routes
 // if u want to test this handler go to http://localhost:8080/info
 
-void handler(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
+void RoomController::info(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
         stringstream stream;
         stream << "<h1>Request from " << request->remote_endpoint_address() << ":" << request->remote_endpoint_port() << "</h1>";
 
@@ -21,4 +21,9 @@ void handler(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::R
         stream << field.first << ": " << field.second << "<br>";
 
         response->write(stream);
+}
+
+void RoomController::authTest(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
+        string json_test = "{\"status\": {\"code\": \"200\",\"description\": \"Ok\"},\"data\": {\"Room\": {\"id\": 1,\"beds\" : 2,\"tlx\" : 10,\"tly\" : 20,\"brx\" : 50,\"bry\" : 60}}}";
+        response->write(SimpleWeb::StatusCode::success_ok, json_test);
 }
