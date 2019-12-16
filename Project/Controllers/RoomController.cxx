@@ -30,15 +30,33 @@ void RoomController::authTest(shared_ptr<HttpServer::Response> response, shared_
         response->write(SimpleWeb::StatusCode::success_ok, json_test);
 }
 
-void get(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
-        RoomService service;
+void RoomController::test(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
+        //RoomService service;
         
         ptree pt;
         read_json(request->content, pt);
-        long roomId = pt.get<long>("data.roomID");
+        string roomId = pt.get<string>("data.roomID");
+
+        cout << roomId << endl;
+
+        response->write("OK");
+        /*
         
         Room* room = service.get(roomId);
-        string json = "{\"status\": {\"code\": \"200\",\"description\": \"Ok\"},\"data\": {\"roomID\": " + room->id + ",\"beds\" : " + room->beds + ",\"tlx\" : " + room->tlx + ",\"tly\" : " + room->tly + ",\"brx\" : " + room->brx + ",\"bry\" : " + room->bry + "}}";
+        string json = "{\"status\": {\"code\": \"200\",\"description\": \"Ok\"},\"data\": {";
+        json.append("\"roomID\": ");
+        json.append(to_string(room->id()));
+        json.append(",\"beds\" : ");
+        json.append(to_string(room->beds()));
+        json.append(",\"tlx\" : ");
+        json.append(to_string(room->tlx()));
+        json.append(",\"tly\" : ");
+        json.append(to_string(room->tly()));
+        json.append(",\"brx\" : ");
+        json.append(to_string(room->brx()));
+        json.append(",\"bry\" : ");
+        json.append(to_string(room->bry()));
+        json.append("}}");
         response->write(SimpleWeb::StatusCode::success_ok, json);
-
+        */
 }
