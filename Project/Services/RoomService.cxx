@@ -43,3 +43,7 @@ long RoomService::bookRoom(long userID, long roomID){
     cout<<"Room is booked" <<userR->id() <<endl;
     return userR->id();
 }
+
+Room* RoomService::get(long id) {
+    return rr->read(id);
+}

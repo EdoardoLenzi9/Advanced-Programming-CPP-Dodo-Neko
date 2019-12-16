@@ -32,6 +32,7 @@ class RoomService {
         long create(int beds, int tlx, int tly, int brx, int bry);    
         void list();
         long bookRoom(long userID, long roomID);
+        Room* get(long id);
         
     private:
         UserService* us;

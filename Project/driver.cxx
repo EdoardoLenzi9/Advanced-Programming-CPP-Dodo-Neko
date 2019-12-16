@@ -15,9 +15,11 @@ int main(){
 
     Route r("^/info$", "GET", RoomController::info);
     Route a("^/test$", "POST", RoomController::authTest, { AuthMiddleware::handle });
+    Route rb("^/room/get$", "POST", RoomController::get);
 
     routes.push_back(r);
     routes.push_back(a);
+    routes.push_back(rb);
 
     Router router(routes);
     router.start();

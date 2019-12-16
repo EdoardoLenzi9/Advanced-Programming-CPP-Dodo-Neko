@@ -1,5 +1,7 @@
 #include "RoomController.hxx"
 
+#include "Services/RoomService.hxx"
+
 
 // TODO simple example of an handler, here u can define how many handlers u need 
 // and pass them in driver.cxx to the Router in order to set-up the routes
@@ -26,4 +28,17 @@ void RoomController::info(shared_ptr<HttpServer::Response> response, shared_ptr<
 void RoomController::authTest(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
         string json_test = "{\"status\": {\"code\": \"200\",\"description\": \"Ok\"},\"data\": {\"Room\": {\"id\": 1,\"beds\" : 2,\"tlx\" : 10,\"tly\" : 20,\"brx\" : 50,\"bry\" : 60}}}";
         response->write(SimpleWeb::StatusCode::success_ok, json_test);
+}
+
+void get(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
+        RoomService service;
+        
+        ptree pt;
+        read_json(request->content, pt);
+        long roomId = pt.get<long>("data.roomID");
+        
+        Room* room = service.get(roomId);
+        string json = "{\"status\": {\"code\": \"200\",\"description\": \"Ok\"},\"data\": {\"roomID\": " + room->id + ",\"beds\" : " + room->beds + ",\"tlx\" : " + room->tlx + ",\"tly\" : " + room->tly + ",\"brx\" : " + room->brx + ",\"bry\" : " + room->bry + "}}";
+        response->write(SimpleWeb::StatusCode::success_ok, json);
+
 }
