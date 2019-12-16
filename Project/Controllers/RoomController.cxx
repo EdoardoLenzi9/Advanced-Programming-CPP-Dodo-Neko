@@ -23,7 +23,14 @@ void RoomController::info(shared_ptr<HttpServer::Response> response, shared_ptr<
         response->write(stream);
 }
 
+
 void RoomController::authTest(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
         string json_test = "{\"status\": {\"code\": \"200\",\"description\": \"Ok\"},\"data\": {\"Room\": {\"id\": 1,\"beds\" : 2,\"tlx\" : 10,\"tly\" : 20,\"brx\" : 50,\"bry\" : 60}}}";
+        response->write(SimpleWeb::StatusCode::success_ok, json_test);
+}
+
+
+void RoomController::check(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
+        string json_test = "{\"free\": 1 }";
         response->write(SimpleWeb::StatusCode::success_ok, json_test);
 }
