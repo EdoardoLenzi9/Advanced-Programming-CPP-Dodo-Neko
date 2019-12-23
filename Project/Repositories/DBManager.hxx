@@ -10,7 +10,7 @@
 #ifndef DBMANAGER_HPP
 #define DBMANAGER_HPP
 
-
+#include <string>
 #include <odb/database.hxx>
 #include <odb/transaction.hxx>
 #include <odb/schema-catalog.hxx>
@@ -29,16 +29,20 @@ class DBManager // Singleton
     public:
 
         odb::sqlite::database* db = NULL;
-
-        static DBManager& getInstance()
-        {
+        
+        static DBManager& getInstance(){
             static DBManager instance; 
             return instance;
+        }
+        
+
+        void resetDB(){
+            createSchema();
         }
 
 
     private:
-
+        
         void createSchema() 
         {
             {

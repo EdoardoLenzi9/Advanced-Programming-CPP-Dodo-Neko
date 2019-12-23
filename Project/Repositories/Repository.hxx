@@ -27,7 +27,6 @@
 #include "Entities/User-odb.hxx"
 #include "Entities/UserRoom.hxx"
 #include "Entities/UserRoom-odb.hxx"
-
 template<typename Entity>
 class Repository { 
     
@@ -37,7 +36,8 @@ class Repository {
     Repository(){
         dbm = &DBManager::getInstance();
     }
-    
+
+    Repository(DBManager* dbm) : dbm(dbm) { }
 
     Entity* create(Entity* e);
     Entity* read(unsigned long id);
