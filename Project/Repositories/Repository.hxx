@@ -41,7 +41,7 @@ class Repository {
 
     Entity* create(Entity* e);
     Entity* read(unsigned long id);
-    odb::result<Entity>* read(odb::query<Entity> query);
+    vector<Entity> read(odb::query<Entity> query);
     void update(Entity* e);
     long del(unsigned long id);
 

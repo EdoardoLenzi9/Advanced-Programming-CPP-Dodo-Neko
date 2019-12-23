@@ -30,16 +30,24 @@ Entity* Repository<Entity>::create(Entity* e)
 
 
 template<typename Entity>
-odb::result<Entity>* Repository<Entity>::read(odb::query<Entity> query) 
+vector<Entity> Repository<Entity>::read(odb::query<Entity> query) 
 {
-	odb::result<Entity>* res;
+	vector<Entity> res;
 
 	{
 		transaction t (dbm->db->begin ());
 		// int a = dbm->db->query<User> (query::name == "Dodo");
-		res = new odb::result<Entity>(dbm->db->query<Entity> (query));
+		// res = new odb::result<Entity>(dbm->db->query<Entity> (query));
+
+		odb::result<Entity> r(dbm->db->query<Entity> (query));
+
+		for(Entity& e: r){
+			res.push_back(e);
+		}
+
 		t.commit ();
 	}
+
 	return res;
 }
 
