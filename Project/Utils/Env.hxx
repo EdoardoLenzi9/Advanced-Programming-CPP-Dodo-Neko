@@ -29,10 +29,7 @@ class Env {
         
     private:
         string targetDB;
-        bool initSchema;
-
-        string GetEnv(string path);
-        
+        bool initSchema;       
 };
 
 #endif

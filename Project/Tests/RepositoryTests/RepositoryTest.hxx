@@ -10,8 +10,8 @@ class RepositoryTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE_END();
 
  public:
-  void setUp(void) {}    // I don't use setUp or tearDown yet, but let's 
-  void tearDown(void) {} // leave them in so I remember their names
+  void setUp(void) {}     
+  void tearDown(void) {} 
 
   void DBMoqTest(void); 
 };

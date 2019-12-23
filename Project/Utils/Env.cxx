@@ -2,19 +2,9 @@
 
 
 Env::Env(){
-    string env = GetEnv("env.json");
-    json j = json::parse(env);
-    targetDB = j["targetDB"];
+    ifstream i("env.json");
+    json j;
+    i >> j;
     initSchema = j["initSchema"];
-}
-
-
-string Env::GetEnv(string path){
-    ifstream file(path);
-    string content;
-
-    while(file >> content) {
-        cout << content << ' ';
-    }
-    return content;
+    targetDB = j["targetDB"];
 }

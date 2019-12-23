@@ -20,7 +20,7 @@ SRCS = *.cxx \
 	   ../Repositories/*.cxx \
 	   ../Utils/*.cxx \
 	   ../Repositories/Entities/*.cxx \
-	   ./RepositoryTests/RepositoryTest.cxx
+	   ./RepositoryTests/*.cxx
 	   #../Services/*.cxx \
 	   #../Controllers/*.cxx \
 	   #../Middlewares/*.cxx \
