@@ -1,7 +1,6 @@
 <html>
 <head>
 	<title>Spam</title>
-
 </head>
 
 <body>
@@ -16,14 +15,68 @@
 		</tr>
 
 	</table> -->
-	
-	<h1> Check room </h1>
-	<button id="checkRoomSubmit">Check Room</button><input type="number" id="checkRoomNumber" />
-	<p id="checkRoomResponse"></p>
+
+	<h1> Register </h1>
+	<input id="registerfirstname" placeholder="First Name" />
+	<input id="registerlastname" placeholder="Last Name"/>
+	<input id="registeremail" placeholder="Email"/>
+	<input id="registerbirthdate" placeholder="Birthdate"/>
+	<input id="registeraddress" placeholder="Address"/>
+	<input id="registerpassword" placeholder="Password"/>
+	<button id="register">Register</button>
+
+	<h1> Login </h1>
+	<input id="username" />
+	<input id="password" type="password" />
+	<button id="login">Login</button>
+	<button id="logout">Logout</button>
+
+
+	<h1> User Info </h1>
+	<button id="userGetInfo">Get User Info</button>
+	<p id="userfirstName">First Name</p>
+	<p id="userlastName">Last Name</p>
+	<p id="useremail">Email</p>
+	<p id="userbirthdate">Birthdate</p>
+	<p id="useraddress">Address</p>
+
+	<h1> User Update </h1>
+	<input id="updatefirstname" placeholder="First Name" />
+	<input id="updatelastname" placeholder="Last Name"/>
+	<input id="updateemail" placeholder="Email"/>
+	<input id="updatebirthdate" placeholder="Birthdate"/>
+	<input id="updateaddress" placeholder="Address"/>
+	<input id="updatepassword" placeholder="Password"/>
+	<button id="update">Update User</button>
+
+	<h1> Room list </h1>
+	<table id="roomlist" style="border: inset 1px;">
+		<tr>
+			<td>RoomId</td>
+		</tr>
+	</table>
+
+	<h1> Check Room Info </h1>
+	<input id="roomid" />
+	<button id="checkroomid">Check Room Info </button>
+
+	<h1> Hotel Info </h1>
+	<button id="hotelGetInfo">Get Hotel Info</button>
+
+	<p id="hotelname">Hotelname</p>
+	<p id="hotelcontact">Contact</p>
+	<p id="hoteladdress">Address</p>
+	<p id="hoteldescription">Description</p>
+
 
 </body>
 
+<footer>
+
+</footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="bla.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+
+<script src="ui.js"></script>
 
 </html>
