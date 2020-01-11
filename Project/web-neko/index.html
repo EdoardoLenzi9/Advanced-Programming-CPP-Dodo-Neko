@@ -33,7 +33,7 @@
 
 
 	<h1> User Info </h1>
-	<button id="userGetInfo">Get User Info</button>
+	<button id="usergetinfo">Get User Info</button>
 	<p id="userfirstName">First Name</p>
 	<p id="userlastName">Last Name</p>
 	<p id="useremail">Email</p>
@@ -50,24 +50,39 @@
 	<button id="update">Update User</button>
 
 	<h1> Room list </h1>
-	<table id="roomlist" style="border: inset 1px;">
+	<button id="getroomlist">Get room list</button>
+	
+	<table id="roomlist">
 		<tr>
 			<td>RoomId</td>
 		</tr>
 	</table>
 
 	<h1> Check Room Info </h1>
-	<input id="roomid" />
+	<input id="roomidinput" />
 	<button id="checkroomid">Check Room Info </button>
 
+	<p id="roomid">RoomID</p>
+	<p id="coordinatestlx">TLX</p>
+	<p id="coordinatestly">TLY</p>
+	<p id="coordinatesbrx">BRX</p>
+	<p id="coordinatesbry">BRY</p>
+	<p id="baseprice">Baseprice</p>
+
+	<table id="roomfeatures" style="border: inset 1px;">
+		<tr>
+			<td>RoomId</td><td>Name</td><td>PriceMultiplier</td><td>Amount</td>+
+			push
+		</tr>
+	</table>
+
 	<h1> Hotel Info </h1>
-	<button id="hotelGetInfo">Get Hotel Info</button>
+	<button id="hotelgetinfo">Get Hotel Info</button>
 
 	<p id="hotelname">Hotelname</p>
 	<p id="hotelcontact">Contact</p>
 	<p id="hoteladdress">Address</p>
 	<p id="hoteldescription">Description</p>
-
 
 </body>
 

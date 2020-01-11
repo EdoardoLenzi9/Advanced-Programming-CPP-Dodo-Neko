@@ -251,8 +251,9 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	$('#update').click(userUpdate);
 	$('#register').click(userRegister);
 	$('#login').click(login);
+	$('#getroomlist').click(getRooms);
 	$('#logout').click(logout);
-	$('#hotelGetInfo').click(getHotelInfo);
+	$('#hotelgetinfo').click(getHotelInfo);
 	$('#usergetinfo').click(getUserInfo);
 	$('#checkRoomSubmit').click(checkRoom);
 });
