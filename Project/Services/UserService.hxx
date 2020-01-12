@@ -22,13 +22,16 @@ class UserService {
     public:
         UserService(){
             ur = new Repository<User>();
+    
         }
 
         long getRole(long id);
-        long create(long auth, string name, string surname, long role);    
+        long create(long auth, string name, string surname, long role); 
+        long getPassword(string email); 
 
     private:
         Repository<User>* ur;
+
 };
 
 

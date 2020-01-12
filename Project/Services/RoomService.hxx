@@ -30,8 +30,12 @@ class RoomService {
         }
 
         long create(int beds, int tlx, int tly, int brx, int bry);    
-        void list();
+        vector<Room> getList();
         long bookRoom(long userID, long roomID);
+        void unbookRoom(long roomID);
+        
+        //Room* getList();
+       
         
     private:
         UserService* us;
