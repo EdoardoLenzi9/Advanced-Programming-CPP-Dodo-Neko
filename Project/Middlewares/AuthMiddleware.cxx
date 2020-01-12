@@ -5,10 +5,15 @@
 #include "AuthMiddleware.hxx"
 
 void AuthMiddleware::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
-
+        
     ptree pt;
     read_json(request->content, pt);
     string sid = pt.get<string>("auth.sid");
+
+    std::stringstream ss;
+    boost::property_tree::json_parser::write_json(ss, pt);
+
+    std::cout << ss.str() << std::endl;
     
     if(sid.empty())
         response->write(StatusCode::client_error_unauthorized, "{ \"status\" : { \"code\" : 401, \"description\" : \"Unauthorized\" } }");

@@ -32,12 +32,10 @@ void RoomController::authTest(shared_ptr<HttpServer::Response> response, shared_
 
 void RoomController::test(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
         //RoomService service;
-        
-        ptree pt;
-        read_json(request->content, pt);
-        string roomId = pt.get<string>("data.roomID");
 
-        cout << roomId << endl;
+        //ptree pt;
+        //read_json(request->content, pt);
+        //string roomId = pt.get<string>("data.roomID");
 
         response->write("OK");
         /*
