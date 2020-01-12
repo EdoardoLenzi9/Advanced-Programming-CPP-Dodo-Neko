@@ -33,9 +33,8 @@ class RoomService {
         vector<Room> getList();
         long bookRoom(long userID, long roomID);
         void unbookRoom(long roomID);
-        
         //Room* getList();
-       
+        Room* get(long id);
         
     private:
         UserService* us;

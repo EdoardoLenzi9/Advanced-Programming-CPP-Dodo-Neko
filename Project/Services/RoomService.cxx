@@ -51,6 +51,9 @@ long RoomService::bookRoom(long userID, long roomID){
 void RoomService::unbookRoom(long roomID){
     rur->del(roomID);
     cout<<"Room is deleted!"<<roomID<<endl;
+}
 
-    
+Room* RoomService::get(long id) {
+    return rr->read(id);
+
 }
