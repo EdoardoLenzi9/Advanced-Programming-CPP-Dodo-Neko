@@ -30,14 +30,19 @@ long RoomService::create(int beds, int tlx, int tly, int brx, int bry){
     return tmp->id();
 }
 
-
 void RoomService::list(){
     vector<Room> availableRooms = rr->read(odb::query<Room>::beds == 2);
 }
-
 
 long RoomService::bookRoom(long userID, long roomID){
     UserRoom* userR = rur->create(new UserRoom(userID, roomID, 1));
     cout<<"Room is booked" <<userR->id() <<endl;
     return userR->id();
+}
+
+void RoomService::unbookRoom(long roomID){
+    rur->del(roomID);
+    cout<<"Room is deleted!"<<roomID<<endl;
+
+    
 }
