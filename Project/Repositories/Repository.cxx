@@ -88,3 +88,6 @@ template class Repository<Room>;
 template class Repository<Role>;
 template class Repository<User>;
 template class Repository<UserRoom>;
+template class Repository<Authorization>;
+template class Repository<RoomFeature>;
+template class Repository<FeatureType>;
