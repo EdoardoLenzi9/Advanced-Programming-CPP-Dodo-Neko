@@ -42,7 +42,7 @@ void RoomController::test(shared_ptr<HttpServer::Response> response, shared_ptr<
         
         cout << roomId << endl;
 
-        service.list();
+        //service.list();
         /*Room* room = service.get(roomId);
         string json = "{\"status\": {\"code\": \"200\",\"description\": \"Ok\"},\"data\": {";
         json.append("\"roomID\": ");
