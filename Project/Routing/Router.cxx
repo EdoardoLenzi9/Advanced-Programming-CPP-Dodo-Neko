@@ -68,9 +68,10 @@ void Router::start() {
     }
   };
 
-  server.on_error = [](shared_ptr<HttpServer::Request> /*request*/, const SimpleWeb::error_code & /*ec*/) {
+  server.on_error = [](shared_ptr<HttpServer::Request> request, const SimpleWeb::error_code & ec) {
     // Handle errors here
     // Note that connection timeouts will also call this handle with ec set to SimpleWeb::errc::operation_canceled
+    cout << ec.message() << endl;
   };
 
   thread server_thread([&server]() {

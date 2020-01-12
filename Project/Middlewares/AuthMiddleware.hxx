@@ -23,7 +23,7 @@ using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 class AuthMiddleware {
     public:
         AuthMiddleware() {};
-        static void handle(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>);
+        static bool handle(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, string);
 };
 
 #endif
