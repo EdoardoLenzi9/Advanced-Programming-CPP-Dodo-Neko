@@ -15,7 +15,6 @@
   
 #include "BaseEntity.hxx"  
 
-
 using namespace std;
 
 
