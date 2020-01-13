@@ -27,6 +27,13 @@
 #include "Entities/User-odb.hxx"
 #include "Entities/UserRoom.hxx"
 #include "Entities/UserRoom-odb.hxx"
+#include "Entities/Authorization.hxx"
+#include "Entities/Authorization-odb.hxx"
+#include "Entities/RoomFeature.hxx"
+#include "Entities/RoomFeature-odb.hxx"
+#include "Entities/FeatureType.hxx"
+#include "Entities/FeatureType-odb.hxx"
+
 
 template<typename Entity>
 class Repository { 

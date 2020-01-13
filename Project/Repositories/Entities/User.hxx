@@ -26,14 +26,23 @@ class User : public BaseEntity
     public:
 
 		User(){}
-		User (string n, string s, long r) : name_(n), surname_(s), role_(r) { }                
+		User (string u, string p, long r) : username_(u), password_(p), role_(r) { }                
 
 		// Getter and setters
-		void name( string n ) { name_ = n; };
-		string name() { return name_; };
+		void username( string u ) { username_ = u; };
+		string username() { return username_; };\
 
-		void surname( string s ) { surname_ = s; };
-		string surname(){ return surname_; };
+		void email( string e ) { email_ = e; };
+		string email() { return email_; };
+
+		void password( string p ) { password_ = p; };
+		string password(){ return password_; };
+
+		void address( string a ) { address_ = a; };
+		string address(){ return address_; };
+
+		void birthdate( long b ) { birthdate_ = b; };
+		long birthdate(){ return birthdate_; };
 
 		void role( long r ) { role_ = r; };
 		long role(){ return role_; };
@@ -45,8 +54,11 @@ class User : public BaseEntity
 
     private:
   
-		string name_;
-		string surname_;
+		string username_;
+		string email_;
+		string password_;
+		string address_;
+		long birthdate_;
 		long role_;
 
 		#pragma db id auto 

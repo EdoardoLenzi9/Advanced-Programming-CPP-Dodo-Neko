@@ -15,14 +15,16 @@
 
 using namespace std;
 using namespace boost::property_tree;
+using namespace SimpleWeb;
 using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 
 
 class RoomController {
     public:
         RoomController() {};
-        static void info(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request);
-        static void authTest(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request);
+        static void info(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, string content);
+        static void authTest(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, string content);
+        static void test(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, string content);
 };
 
 #endif

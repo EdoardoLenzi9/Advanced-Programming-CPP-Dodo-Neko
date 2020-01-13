@@ -36,6 +36,9 @@ all: dependencies odb compile
 compile:
 	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) $(SRCS) $(CXXDB)
 
+compile-services:
+	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) *.cxx ./Services/*.cxx ./Repositories/*.cxx ./Repositories/Entities/*.cxx $(CXXDB)
+
 
 odb: clean
 	cd Repositories/Entities ; \
