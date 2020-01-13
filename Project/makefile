@@ -41,7 +41,7 @@ compile-services:
 
 
 odb: clean
-	cd Repositories/Entities ; 
+	cd Repositories/Entities ; \
 	odb -d sqlite --generate-query --generate-schema *.hxx
 
 
