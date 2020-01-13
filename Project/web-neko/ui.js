@@ -3,7 +3,7 @@
 $( document ).ready(function(){ //only run this script after the loading of the page finished
 
 	// please change this to your server
-	var serverUrl = "---"
+	var serverUrl = "http://localhost:8080"
 
 	const defaultRequest = {
 	    "auth": {
@@ -104,7 +104,7 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	*/
 
 	function getHotelInfo(){
-	    $.getJSON(`${serverUrl}/hotel`,
+	    $.getJSON(`${serverUrl}/hotel`, '',
 		    function(response) {
 		    	console.log(response);
 
@@ -255,5 +255,5 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	$('#logout').click(logout);
 	$('#hotelgetinfo').click(getHotelInfo);
 	$('#usergetinfo').click(getUserInfo);
-	$('#checkRoomSubmit').click(checkRoom);
+	//$('#checkRoomSubmit').click(checkRoom);
 });

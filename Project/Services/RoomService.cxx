@@ -30,13 +30,11 @@ long RoomService::create(int beds, int tlx, int tly, int brx, int bry){
     return tmp->id();
 }
 
- /* vector<Room> RoomService::getList(){
+ void RoomService::printList(){
     result<Room>* availableRooms = rr->read(odb::query<Room>::beds == 2);
-    vector<Room> rooms;
     for (odb::result<Room>::iterator i (availableRooms->begin ()); i != availableRooms->end (); ++i)
-        rooms.push_back(i->beds);
-    return rooms;
-}*/
+        cout << i->id() << endl;
+}
 
 /*vector<Room> RoomService::getList(){
     vector<Room> availableRooms = rr->read(odb::query<Room>::beds == 2);

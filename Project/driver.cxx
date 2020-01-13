@@ -13,13 +13,17 @@ int main(){
 
     vector<Route> routes;
 
-    Route rb("^/room$", "POST", RoomController::test, { AuthMiddleware::handle });
     Route r("^/info$", "GET", RoomController::info);
-    Route a("^/test$", "POST", RoomController::authTest, { AuthMiddleware::handle });
+    Route rb("^/test$", "POST", RoomController::test);
+    Route a("^/auth/test$", "POST", RoomController::authTest, { AuthMiddleware::handle });
+    Route hotel("^/hotel$", "GET", RoomController::hotel);
+    Route room("^/room/([0-9]+)$", "GET", RoomController::room);
 
     routes.push_back(rb);
     routes.push_back(r);
     routes.push_back(a);
+    routes.push_back(hotel);
+    routes.push_back(room);
 
     Router router(routes);
     router.start();

@@ -25,6 +25,8 @@ class RoomController {
         static void info(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, string content);
         static void authTest(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, string content);
         static void test(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, string content);
+        static void hotel(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, string content);
+        static void room(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, string content);
 };
 
 #endif
