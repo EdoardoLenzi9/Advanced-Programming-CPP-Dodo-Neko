@@ -185,14 +185,15 @@ Request
         "bry":"<float>"
     },
     "features":[
-        "feature":{
+        {
             "id":"<num>",
             "name":"<string>",
             "priceMultiplier":"<num>",
             "amount":"<num>"
         },
         ...
-    ]
+    ],
+    "baseprice":"<float>"
 }
 ```
 
@@ -200,7 +201,6 @@ Request
 ``` json=
 {
     "successful":"boolean" //1 means yes
-
 }
 ```
 
@@ -235,7 +235,7 @@ Response
         "bry":"<float>"
     },
     "features":[
-        "feature":{
+        {
             "id":"<num>",
             "name":"<string>",
             "priceMultiplier":"<num>",
@@ -246,8 +246,6 @@ Response
     "basePrice":"<num>"
 }
 ```
-
-#### /room/
 
 ### /book 
 
