@@ -60,7 +60,7 @@
 
 	<h1> Check Room Info </h1>
 	<input id="roomidinput" />
-	<button id="checkroomid">Check Room Info </button>
+	<button id="checkroomidsubmit">Check Room Info </button>
 
 	<p id="roomid">RoomID</p>
 	<p id="coordinatestlx">TLX</p>
@@ -71,10 +71,30 @@
 
 	<table id="roomfeatures" style="border: inset 1px;">
 		<tr>
-			<td>RoomId</td><td>Name</td><td>PriceMultiplier</td><td>Amount</td>+
-			push
+			<td>RoomId</td><td>Name</td><td>PriceMultiplier</td><td>Amount</td>
 		</tr>
 	</table>
+
+	<h1> Update Room Info </h1>
+
+	<p>
+	<input id="updateroomid" placeholder="RoomID"/>
+	<button id="featurefillroominfo">Get room Info</button>
+	<button id="updateroomidsubmit">Update room info</button>
+	</p>
+
+	<input id="updatecoordinatestlx" placeholder="TLX" />
+	<input id="updatecoordinatestly" placeholder="TLY" />
+	<input id="updatecoordinatesbrx" placeholder="BRX" />
+	<input id="updatecoordinatesbry" placeholder="BRY" />
+	<input id="updatebaseprice" placeholder="Baseprice" />
+
+	<table id="updateroomfeatureslist" style="border: inset 1px;">
+		<tr>
+			<td>RoomId</td><td>Name</td><td>PriceMultiplier</td><td>Amount</td>
+		</tr>
+	</table>
+
 
 	<h1> Hotel Info </h1>
 	<button id="hotelgetinfo">Get Hotel Info</button>
