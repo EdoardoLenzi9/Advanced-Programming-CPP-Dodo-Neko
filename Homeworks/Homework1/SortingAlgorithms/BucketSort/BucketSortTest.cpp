@@ -19,34 +19,67 @@
 
 using namespace std;
 
-
-int main(void)
-{
-    int size = 1000000;
-    vector<int> vec;
+void testSort(int size){
     clock_t t; 
-
+    vector<int> vec;
+    
     vec.reserve(size);
-
-    fill_vector(vec, 0, 10000);
+    fill_vector(vec, 0, size/10);
 
     vector<int> vecp(vec);
-    
-    cout << endl;
 
     BucketSort bs;
+    BucketSortPar bsp;
+
     t = clock(); 
     bs.sort(vec);
     t = clock() - t; 
-    cout << "Vector sorted: " << is_sorted(vec) << " took: " << t << endl
-         << endl;
 
-    BucketSortPar bsp;
+    cout << "Vector sorted: " << is_sorted(vec) << " took: " << t << endl << endl;
+
     t = clock();
     bsp.sort(vecp);
     t = clock() - t; 
-    cout << "Vector sorted: " << is_sorted(vecp) << " took: " << t << endl
-         << endl;
+
+    cout << "Vector sorted: " << is_sorted(vecp) << " took: " << t << endl << endl;
+    /*for(int i = 0; i < vecp.size(); i++){
+        cout << " " << vecp[i];
+    }*/
+}
+
+
+
+void testMax(int size){
+    clock_t t; 
+    vector<int> vec;
+    
+    vec.reserve(size);
+    fill_vector(vec, 0, size/10);
+
+    vector<int> vecp(vec);
+
+    BucketSort bs;
+    BucketSortPar bsp;
+
+    t = clock();
+    int max = bs.get_max(vec);
+    t = clock() - t; 
+
+    cout << "Max" << max << " took: " << t << endl << endl;
+
+    t = clock();
+    max = bsp.get_max(vecp);
+    t = clock() - t;
+
+    cout << "Max" << max << " took: " << t << endl << endl;
+}
+
+int main(void)
+{
+    int dim = 100000000;
+    // int dim = 100;
+
+    testSort(dim);
 
     return 0;
 }

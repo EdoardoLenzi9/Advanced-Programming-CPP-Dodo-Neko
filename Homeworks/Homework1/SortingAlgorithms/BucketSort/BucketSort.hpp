@@ -13,7 +13,6 @@
 #define BUCKETSORT_HPP
 
 #include <vector>
-#include "Utils.hpp"
 
 
 using namespace std;
@@ -23,6 +22,16 @@ class BucketSort {
 
     public:
     
+        int get_max(const vector<int> &vec)
+        {
+            int max = 0;
+            for (int i = 0; i < vec.size(); i++)
+                if (vec[i] > max)
+                    max = vec[i];
+
+            return max;
+        }
+
         /**
         * Sorts the statically created vector with the bucket sort algorithm
         */

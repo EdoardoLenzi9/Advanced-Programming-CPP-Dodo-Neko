@@ -15,8 +15,7 @@
 #include <vector>
 #include "Utils.hpp"
 #include <omp.h>
-#include "Utils.hpp"
-#define THREADS 2
+#define THREADS 4
 
 using namespace std;
 
@@ -35,6 +34,29 @@ class BucketSortPar {
 
     public:
 
+        int get_max(const vector<int> &vec)
+        {
+            int max = 0;
+            int * localMax = new int[omp_get_num_threads()]; 
+
+            #pragma omp parallel
+            {
+                #pragma omp for schedule(static, vec.size() / omp_get_num_threads() - 1)
+                for (int i = 0; i < vec.size(); i++){
+                    if (vec[i] > localMax[omp_get_thread_num()])
+                        localMax[omp_get_thread_num()] = vec[i];
+                }
+
+                #pragma omp critical
+                {
+                    if(localMax[omp_get_thread_num()] > max){
+                        max = localMax[omp_get_thread_num()];
+                    }
+                }
+            }
+            return max;
+        }
+
         /**
         * Sorts the statically created vector with the bucket sort algorithm
         */
@@ -42,28 +64,43 @@ class BucketSortPar {
         {
             const int MAX = get_max(vec);
 
-            // fill the bucket with (max + 1) zeros
-            vector<int> buckets(MAX + 1, 0);
-			
-			/*
-            for (int i = 0; i < vec.size(); i++)
-                buckets[vec[i]]++; // counts the occurence of a number
-			*/
-
-			#pragma omp parallel num_threads(THREADS)
+            vector<vector<int>> buckets;
+            vector<int> bucket(MAX + 1, 0);
+            
+			#pragma omp parallel
 			{
-				cout << "launching thread " << omp_get_thread_num() << endl;
-				fillBucket(buckets, vec, omp_get_thread_num());
-			}
-
-            //print_vector(buckets);
-
-	    for (int i = 0, j = 0; i <= MAX; i++)
-                while (buckets[i])
+                #pragma omp single
                 {
-                    vec[j++] = i; // add next sorted value
-                    buckets[i]--; // decrement the occurence of this value
+                    for(int i = 0; i < omp_get_num_threads(); i++){
+                        vector<int> b(MAX + 1, 0);
+                        buckets.push_back(b);
+                    }
                 }
+
+                #pragma omp for
+                for (int i = 0; i < vec.size(); i++){
+					buckets[omp_get_thread_num()][vec[i]]++;
+				}
+
+                #pragma omp critical
+                {
+                    for (int i = 0; i < buckets[omp_get_thread_num()].size(); i++){
+					    bucket[i] += buckets[omp_get_thread_num()][i];
+				    }
+                }
+
+                #pragma omp barrier
+
+                #pragma omp single
+                {
+                    for (int i = 0, j = 0; i <= MAX; i++)
+                        while (bucket[i])
+                        {
+                            vec[j++] = i; // add next sorted value
+                            bucket[i]--;  // decrement the occurence of this value
+                        }
+                }
+			}
         }
 };
 
