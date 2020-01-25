@@ -1,10 +1,8 @@
 /**
     @author Edoardo Lenzi
     @author Patrick Tschuchnig
-    @author Christian Bauer
-    @author Walter Jensch
     
-    @version 1.0 01/11/19 
+    @version 1.0 24/01/20 
     @license WTFPL v2  
 **/
 
@@ -32,9 +30,6 @@ class BucketSort {
             return max;
         }
 
-        /**
-        * Sorts the statically created vector with the bucket sort algorithm
-        */
         void sort(vector<int> &vec)
         {
             const int MAX = get_max(vec);
@@ -44,8 +39,6 @@ class BucketSort {
 
             for (int i = 0; i < vec.size(); i++)
                 buckets[vec[i]]++; // counts the occurence of a number
-
-	    //print_vector(buckets);
 
             for (int i = 0, j = 0; i <= MAX; i++)
                 while (buckets[i])

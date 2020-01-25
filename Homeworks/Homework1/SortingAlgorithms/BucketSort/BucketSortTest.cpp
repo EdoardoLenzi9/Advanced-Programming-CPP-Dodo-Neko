@@ -1,10 +1,8 @@
 /**
     @author Edoardo Lenzi
     @author Patrick Tschuchnig
-    @author Christian Bauer
-    @author Walter Jensch
     
-    @version 1.0 01/11/19 
+    @version 1.0 24/01/20 
     @license WTFPL v2  
 **/
 
@@ -13,13 +11,12 @@
 #include <iostream>
 #include <time.h>
 #include "BucketSort.hpp"
-#include "BucketSortPar.hpp"
 #include "Utils.hpp"
 
 
 using namespace std;
 
-void testSort(int size){
+void testSort(int size) {
     clock_t t; 
     vector<int> vec;
     
@@ -29,7 +26,6 @@ void testSort(int size){
     vector<int> vecp(vec);
 
     BucketSort bs;
-    BucketSortPar bsp;
 
     t = clock(); 
     bs.sort(vec);
@@ -50,7 +46,6 @@ void testMax(int size){
     vector<int> vecp(vec);
 
     BucketSort bs;
-    BucketSortPar bsp;
 
     t = clock();
     int max = bs.get_max(vec);
@@ -61,7 +56,7 @@ void testMax(int size){
 
 int main(void)
 {
-    int dim = 10000000;
+    int dim = 100000;
     testSort(dim);
     return 0;
 }

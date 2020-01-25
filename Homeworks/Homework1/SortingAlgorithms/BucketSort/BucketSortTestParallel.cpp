@@ -1,10 +1,8 @@
 /**
     @author Edoardo Lenzi
     @author Patrick Tschuchnig
-    @author Christian Bauer
-    @author Walter Jensch
     
-    @version 1.0 01/11/19 
+    @version 1.0 24/01/20 
     @license WTFPL v2  
 **/
 
@@ -12,14 +10,13 @@
 #include <vector>
 #include <iostream>
 #include <time.h>
-#include "BucketSort.hpp"
-#include "BucketSortPar.hpp"
+#include "BucketSortParallel.hpp"
 #include "Utils.hpp"
 
 
 using namespace std;
 
-void testSort(int size){
+void testSort(int size) {
     clock_t t; 
     vector<int> vec;
     
@@ -28,19 +25,17 @@ void testSort(int size){
 
     vector<int> vecp(vec);
 
-    BucketSort bs;
-    BucketSortPar bsp;
+    BucketSortParallel bsp;
 
     t = clock();
     bsp.sort(vecp);
     t = clock() - t; 
 
-    cout << "Vectorp sorted: " << is_sorted(vecp) << " took: " << t << endl << endl;
+    cout << "Vector sorted: " << is_sorted(vecp) << " took: " << t << endl << endl;
 }
 
 
-
-void testMax(int size){
+void testMax(int size) {
     clock_t t; 
     vector<int> vec;
     
@@ -49,8 +44,7 @@ void testMax(int size){
 
     vector<int> vecp(vec);
 
-    BucketSort bs;
-    BucketSortPar bsp;
+    BucketSortParallel bsp;
 
     t = clock();
     int max = bsp.get_max(vecp);
@@ -59,9 +53,9 @@ void testMax(int size){
     cout << "Maxp" << max << " took: " << t << endl << endl;
 }
 
-int main(void)
-{
-    int dim = 10000000;
+
+int main(void) {
+    int dim = 100000;
     testSort(dim);
     return 0;
 }
