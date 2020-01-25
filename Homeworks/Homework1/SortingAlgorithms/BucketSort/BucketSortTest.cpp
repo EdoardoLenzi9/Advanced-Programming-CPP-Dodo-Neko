@@ -11,8 +11,9 @@
 
 #include <vector>
 #include <iostream>
-
+#include <time.h>
 #include "BucketSort.hpp"
+#include "BucketSortPar.hpp"
 #include "Utils.hpp"
 
 
@@ -21,19 +22,30 @@ using namespace std;
 
 int main(void)
 {
-    int size = 10000;
+    int size = 1000000;
     vector<int> vec;
+    clock_t t; 
 
     vec.reserve(size);
 
     fill_vector(vec, 0, 10000);
 
-    print_vector(vec);
+    vector<int> vecp(vec);
+    
     cout << endl;
+
     BucketSort bs;
+    t = clock(); 
     bs.sort(vec);
-    print_vector(vec);
-    cout << "Vector sorted: " << is_sorted(vec) << endl
+    t = clock() - t; 
+    cout << "Vector sorted: " << is_sorted(vec) << " took: " << t << endl
+         << endl;
+
+    BucketSortPar bsp;
+    t = clock();
+    bsp.sort(vecp);
+    t = clock() - t; 
+    cout << "Vector sorted: " << is_sorted(vecp) << " took: " << t << endl
          << endl;
 
     return 0;

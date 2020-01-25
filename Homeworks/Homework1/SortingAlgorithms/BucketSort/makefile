@@ -1,16 +1,18 @@
 CXX = g++
-CXXFLAGS = -o BucketSort.bin -pg -std=c++17 -I../../include
+CXXFLAGS = -o BucketSort.bin -pg -std=c++17 -I../../include -fopenmp
 
-BUCKET = BucketSortTest.cpp BucketSort.hpp
-SRCS = $(BUCKET) 
+BUCKET = BucketSortTest.cpp BucketSort.hpp BucketSortPar.hpp
 OBJS=$(subst .cpp,.o,$SRCS)
 
 .PHONY: all
 
 all:
-	$(CXX) $(CXXFLAGS) $(SRCS)
+	$(CXX) $(CXXFLAGS) $(BUCKET)
+
+norm:
+	$(CXX) $(CXXFLAGS) $(BUCKET)
 
 .PHONY: clean 
 
 clean:
-	$(RM) *.o *.gch a.out main
+	$(RM) *.o *.gch *.out *.bin

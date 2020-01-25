@@ -9,20 +9,32 @@
 **/
 
 
-#ifndef BUCKETSORT_HPP
-#define BUCKETSORT_HPP
+#ifndef BUCKETSORTPAR_HPP
+#define BUCKETSORTPAR_HPP
 
 #include <vector>
 #include "Utils.hpp"
-
+#include <omp.h>
+#include "Utils.hpp"
+#define THREADS 2
 
 using namespace std;
 
 
-class BucketSort {
+class BucketSortPar {
+
+    private:
+    	void fillBucket(vector<int> &bucket, vector<int> &vec, int num){
+			for (int i = 0; i < vec.size(); i++){
+				if (i%THREADS == num){
+					//cout << "thread " << num << " checking " << i << endl;
+					bucket[vec[i]]++;
+				}
+			}
+		}
 
     public:
-    
+
         /**
         * Sorts the statically created vector with the bucket sort algorithm
         */
@@ -32,13 +44,21 @@ class BucketSort {
 
             // fill the bucket with (max + 1) zeros
             vector<int> buckets(MAX + 1, 0);
-
+			
+			/*
             for (int i = 0; i < vec.size(); i++)
                 buckets[vec[i]]++; // counts the occurence of a number
+			*/
 
-	    //print_vector(buckets);
+			#pragma omp parallel num_threads(THREADS)
+			{
+				cout << "launching thread " << omp_get_thread_num() << endl;
+				fillBucket(buckets, vec, omp_get_thread_num());
+			}
 
-            for (int i = 0, j = 0; i <= MAX; i++)
+            //print_vector(buckets);
+
+	    for (int i = 0, j = 0; i <= MAX; i++)
                 while (buckets[i])
                 {
                     vec[j++] = i; // add next sorted value
