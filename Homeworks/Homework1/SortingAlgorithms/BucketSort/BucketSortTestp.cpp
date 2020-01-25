@@ -31,11 +31,11 @@ void testSort(int size){
     BucketSort bs;
     BucketSortPar bsp;
 
-    t = clock(); 
-    bs.sort(vec);
+    t = clock();
+    bsp.sort(vecp);
     t = clock() - t; 
 
-    cout << "Vector sorted: " << is_sorted(vec) << " took: " << t << endl << endl;
+    cout << "Vectorp sorted: " << is_sorted(vecp) << " took: " << t << endl << endl;
 }
 
 
@@ -53,10 +53,10 @@ void testMax(int size){
     BucketSortPar bsp;
 
     t = clock();
-    int max = bs.get_max(vec);
+    int max = bsp.get_max(vecp);
     t = clock() - t; 
 
-    cout << "Max" << max << " took: " << t << endl << endl;
+    cout << "Maxp" << max << " took: " << t << endl << endl;
 }
 
 int main(void)
