@@ -13,6 +13,7 @@
 #include <odb/sqlite/database.hxx>
 
 #include "DBManager.hxx"
+#include "Env.hxx"
 
 using namespace std;
 using namespace odb::core;
@@ -20,12 +21,15 @@ using namespace odb::core;
 
 DBManager::DBManager()
 {
+    Env * env = new Env();
 
     if(db == NULL) 
     {
-        db = new odb::sqlite::database( "mytest.db",
+        db = new odb::sqlite::database( env->getTargetDB(),
              SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE );
-        // createSchema();
+        if(env->getInitSchema()){
+            createSchema();
+        }
     }
 }
 
