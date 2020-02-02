@@ -1,14 +1,17 @@
 #include "Router.hxx"
+#include "Env.hxx"
 
 // TODO this is basically a copy-paste from the SimpleWS example
 // maintaining only the default_resource handler and injecting the custom routes
 // for our endpoints. Try to read the content and simplify it 
 // (split in some methods and cut everything un-necessary)
 
+Env * env = new Env();
 
 void Router::start() {
+
   HttpServer server;
-  server.config.port = 8080;
+  server.config.port = env->getPort();
 
   // Dodo: my routes injection for our endpoints
   for(int i = 0; i < routes.size(); i++){
@@ -17,7 +20,7 @@ void Router::start() {
 
   server.default_resource["GET"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
     try {
-      auto web_root_path = boost::filesystem::canonical("web-neko");
+      auto web_root_path = boost::filesystem::canonical(env->getStaticFolder());
       auto path = boost::filesystem::canonical(web_root_path / request->path);
       // Check if path is within web_root_path
       if(distance(web_root_path.begin(), web_root_path.end()) > distance(path.begin(), path.end()) ||
