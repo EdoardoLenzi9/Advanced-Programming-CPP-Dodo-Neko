@@ -30,7 +30,7 @@ long RoomService::create(int beds, int tlx, int tly, int brx, int bry){
     return tmp->id();
 }
 
-void RoomService::list(){
+void RoomService::printList(){
     vector<Room> availableRooms = rr->read(odb::query<Room>::beds == 2);
 }
 
