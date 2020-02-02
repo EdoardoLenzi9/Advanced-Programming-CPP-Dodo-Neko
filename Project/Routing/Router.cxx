@@ -17,7 +17,7 @@ void Router::start() {
 
   server.default_resource["GET"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
     try {
-      auto web_root_path = boost::filesystem::canonical("web");
+      auto web_root_path = boost::filesystem::canonical("web-neko");
       auto path = boost::filesystem::canonical(web_root_path / request->path);
       // Check if path is within web_root_path
       if(distance(web_root_path.begin(), web_root_path.end()) > distance(path.begin(), path.end()) ||
@@ -68,9 +68,10 @@ void Router::start() {
     }
   };
 
-  server.on_error = [](shared_ptr<HttpServer::Request> /*request*/, const SimpleWeb::error_code & /*ec*/) {
+  server.on_error = [](shared_ptr<HttpServer::Request> request, const SimpleWeb::error_code & ec) {
     // Handle errors here
     // Note that connection timeouts will also call this handle with ec set to SimpleWeb::errc::operation_canceled
+    cout << ec.message() << endl;
   };
 
   thread server_thread([&server]() {
