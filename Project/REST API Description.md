@@ -75,9 +75,9 @@ Response
 }
 ```
 
-Notes
-* What happens if no user is logged in and this is being called?
-* Suggestion: return response, but with all values empty
+##### Notes
+* [TODO] What happens if no user is logged in and this is being called?
+* [TODO] Suggestion: return response, but with all values empty
 
 #### /user/update POST (auth-level customer, staff, admin)
 
@@ -329,6 +329,56 @@ Response
     ]
 }
 ```
+##### Notes
+
+* [TODO] We currently can't actually access a single booking, so we should have another api endpoint like /book/<id> and have list only return a list of all IDs (as user -> only return those associated with the user. as manager / admin -> return all IDs) 
+* [TODO] Make sure the server actually checks if the user is allowed to ask for a specific booking before returning it
+
+Suggestion /book/list: 
+
+Request
+
+```json=
+{
+    
+}
+```
+
+Response
+
+```json=
+{
+    "bookings":[
+        <bookID>,
+        ...
+    ]
+}
+```
+
+Suggestion /book/<id>
+
+Request
+
+```json=
+{
+    "id":"<bookID>"
+}
+```
+
+Response
+
+```json=
+{
+    "booking":{
+        "roomID":"<num>",
+        "userID":"<num>",
+        "bookingID":"<num>",
+        "arrival":"<string>(YYYY-MM-DD)",
+        "depature":"<string>(YYYY-MM-DD)",
+        "paid":"boolean" //1 means paid
+    }
+}
+```
 
 #### /book/update POST (auth-level customer, staff, admin)
 
@@ -366,7 +416,7 @@ Request
 
 ``` json=
 {
-    "bookingID":"<num>"
+    "bookID":"<num>"
 }
 ```
 
