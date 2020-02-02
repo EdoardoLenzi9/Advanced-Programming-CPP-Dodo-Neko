@@ -13,9 +13,6 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	    }
 	};
 
-	
-
-
 	// this is a function i found which corrects the missing headers
 	// for the $.post function. without application/json the server
 	// doesnt really know what to do with the data 
@@ -29,75 +26,6 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	        'success': callback
 	    });
 	};
-
-	/*
-	test function 1, just here for my reference
-	*/
-	// function listUsers(){
-	//     $.getJSON(`${serverUrl}/listUsers`,
-	//     function(data) {
-	//     	console.log(data);
-	//     	$('#userdata').empty();
-	//     	$('#userdata').append('<tr><td> Name </td><td> Profession </td></tr>');
-	//         for (var i = 0; i < data.length; i++){
-	//         	console.log(i + " is: " + data[i]);
-	//         	$('#userdata').append('<tr><td>'+ data[i].name +'</td><td>'+ data[i].profession +'</td></tr>');
-	//         }
- 	//      });
- 	//  };
-
- 	/*
-
-	Implementation of the checkroom endpoint, incomplete
-	TODO
-
-	POST Request: 
-
-	{
-	    "auth": {
-	        "sid": null
-	    },
-	    "data": {
-	        "roomID":"<num>"
-	    }
-	}
-
-	Expected Response:
-
-	{
-	    "status": {
-	        "code": "<num>",
-	        "description": "<something>"
-	    },
-	    "data": {
-	           "roomID: "<num>"
-   			   "free": "<num>" 
-	    }
-	}	
-
-	Note: roomID should be the same as sent.
-		  occupied rooms have 0, every other value is taken as free
-		  description and status code are currently ignored
-
-	*/
-/*	function checkRoom(){
-		var roomNumber = $('#checkRoomNumber').val();
-		console.log("checking room for:" + roomNumber);
-		
-		var request = defaultRequest;
-		request.data = {
-		    	"roomID": roomNumber
-		    }
-		$.postJSON(`${serverUrl}/book/check`,
-		request, 
-		function(response) {
-			if (parseFloat(response.data.free) > 0){
-				$('#checkRoomResponse').text(response.data.roomID + " is occupied"); 
-			} else {
-				$('#checkRoomResponse').text(response.data.roomID + " is free"); 
-			}
-		});
-	};*/
 
 	/*
 		Implementation of the /hotel endpoint
@@ -143,6 +71,7 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	function login(){
 		var roomNumber = $('#checkRoomNumber').val();
 		var request = defaultRequest;
+		request.auth.sid = Cookies.get('sid');
 		
 		request.data = {
 		    	"username": $('#username').val(),
@@ -178,6 +107,7 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	
 	function userRegister(){
 		var request = defaultRequest;
+		request.auth.sid = Cookies.get('sid');
 
 		request.data.firstName=$('#registerfirstname').val();
 		request.data.lastName=$('#registerlastname').val();
@@ -194,11 +124,12 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	}
 
 	/*
-		Implementation of the /user/register endpoint
+		Implementation of the /user/update endpoint
 	*/
 	
 	function userUpdate(){
 		var request = defaultRequest;
+		request.auth.sid = Cookies.get('sid');
 
 		request.data.firstName=$('#updatefirstname').val();
 		request.data.lastName=$('#updatelastname').val();
@@ -235,25 +166,91 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	    $.getJSON(`${serverUrl}/room/`+ $('#roomidinput').val(),
 	    function(response) {
 	    	$('#roomid').text(response.data.roomID);
-	    	$('#coordinatestlx').text();
-	    	$('#coordinatestly').text();
-	    	$('#coordinatesbrx').text();
-	    	$('#coordinatesbry').text();
-	    	$('#baseprice').text();
+	    	$('#coordinatestlx').text(response.data.coordinates.tlx);
+	    	$('#coordinatestly').text(response.data.coordinates.tly);
+	    	$('#coordinatesbrx').text(response.data.coordinates.brx);
+	    	$('#coordinatesbry').text(response.data.coordinates.bry);
+	    	$('#baseprice').text(response.data.baseprice);
 	    	for (var i = 0; i < response.data.features.length; i++){
-	    		$('#roomlist').append('<tr><td>' + response.data.features.feature[i].id + '</td><td>'+ response.data.features.feature[i].name + '</td><td>'+ response.data.features.feature[i].priceMultiplier+ '</td><td>'+ response.data.features.feature[i].amount +'</td></tr>');
+	    		$('#roomlist').append('<tr><td>' + response.data.features[i].id + '</td><td>'+ response.data.features[i].name + '</td><td>'+ response.data.features[i].priceMultiplier+ '</td><td>'+ response.data.features[i].amount +'</td></tr>');
 	    	}
  		});
 	}
 
+	/* 
+		Convenience function to fill the room data from the server before updating
+	*/ 
 
+	function getRoomInfoUpdate(){
+		/* disabled roomid input - very secure!*/
+		$('#updateroomid').prop('disabled' ,true);
 
-	$('#update').click(userUpdate);
-	$('#register').click(userRegister);
-	$('#login').click(login);
-	$('#getroomlist').click(getRooms);
-	$('#logout').click(logout);
-	$('#hotelgetinfo').click(getHotelInfo);
-	$('#usergetinfo').click(getUserInfo);
-	//$('#checkRoomSubmit').click(checkRoom);
+	    $.getJSON(`${serverUrl}/room/`+ $('#updateroomid').val(),
+	    function(response) {
+	    	$('#updateroomid').val(response.data.roomID);
+	    	$('#coordinatestlx').val(response.data.coordinates.tlx);
+	    	$('#coordinatestly').val(response.data.coordinates.tly);
+	    	$('#coordinatesbrx').val(response.data.coordinates.brx);
+	    	$('#coordinatesbry').val(response.data.coordinates.bry);
+	    	$('#updatebaseprice').val(response.data.baseprice);
+	    	for (var i = 0; i < response.data.features.length; i++){
+	    		$('#updateroomfeatureslist').append('<tr><td><input id="updateroomfeatureid'+i+'" value="' + response.data.features[i].id + '" /></td>' + '<td><input id="updateroomfeaturename'+i+'" value="' + response.data.features[i].name + '" /></td>' + '<td><input id="updateroomfeaturepricemultiplier'+i+'" value="' + response.data.features[i].priceMultiplier + '" /></td>' + '<td><input id="updateroomfeatureamount'+i+'" value="' + response.data.features[i].amount + '" /></td>' + '</tr>');
+	    	}
+ 		});
+	}
+
+	/* 
+		Implementation of the /room/update endpoint
+
+	*/
+
+	function updateRoomInfo(){
+		var request = defaultRequest;
+		request.auth.sid = Cookies.get('sid');
+
+		request.data.roomID=$('#updateroomid').val();
+		request.data.coordinates.tlx=$('#updatecoordinatestlx').val();
+		request.data.coordinates.tlx=$('#updatecoordinatestly').val();
+		request.data.coordinates.tlx=$('#updatecoordinatesbrx').val();
+		request.data.coordinates.tlx=$('#updatecoordinatesbry').val();
+		request.data.baseprice=$('#updatebaseprice').val();
+
+		request.data.features = [];
+
+		for (var i = $('#updateroomfeatureslist tr').length-1; i > 0; i--){
+			request.data.features.push({'id':$('#updateroomfeatureid'+i).val(), 'name':$('#updateroomfeaturename'+i).val(), 'priceMultiplier':$('#updateroomfeaturepricemultiplier'+i).val(), 'amount':$('#updateroomfeatureamount'+i).val()});
+		}
+
+		$.postJSON(`${serverUrl}/user/update`,
+		request, 
+		function(response) {
+			alert(response.data.successful);
+		});
+
+		/* clear form */
+		$('#updateroomid').val('');
+	    $('#updatecoordinatestlx').val('');
+	    $('#updatecoordinatestly').val('');
+	    $('#updatecoordinatesbrx').val('');
+	    $('#updatecoordinatesbry').val('');
+	    $('#updatebaseprice').val('');
+
+		$('#updateroomfeatureslist').find("tr:gt(0)").remove(); //remove all tr elements greater than 0
+
+		$('#updateroomid').prop('disabled' , false);
+
+	}
+
+	$('#usergetinfo').click(getUserInfo); 	/* /user */
+	$('#login').click(login); 				/* /user/auth */
+	$('#logout').click(logout); 			/* /user/logout */ 
+	$('#update').click(userUpdate); 		/* /user/update */
+	$('#register').click(userRegister); 	/* /user/register */
+
+	$('#getroomlist').click(getRooms); 		/* /room/list */
+	$('#checkroomidsubmit').click(getRoomInfo); /* /room/# */
+	$('#updateroomidsubmit').click(updateRoomInfo); /* /room/update */
+	$('#featurefillroominfo').click(getRoomInfoUpdate); /* helper */
+
+	$('#hotelgetinfo').click(getHotelInfo); /* /hotel */
 });
