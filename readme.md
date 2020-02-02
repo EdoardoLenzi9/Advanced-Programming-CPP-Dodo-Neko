@@ -2,13 +2,6 @@
 
 In this repo we will expose our homeworks and our projects for the course "Advanced C/C++ Programming"
 
-
-## The team
-
-* Edoardo Lenzi, 11922660
-* Patrick Tschuchnig, xxxxxxxx
-
-
 ## Best practices
 
 * CamelCase for classes (`MyClass`) and files (`MyMatrix.cpp`)
