@@ -65,10 +65,7 @@ dependencies:
 	cd build; \
 	cmake ..; \
 	make
-	@echo "Download and setup npm dependencies"
-	@cd web/; \
-	npm install
-
+	# please dont make the makefile install npm
 
 .PHONY: clean 
 

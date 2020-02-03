@@ -49,3 +49,4 @@ driver
 *.bin
 
 *-odb.*
+*.~lock.*

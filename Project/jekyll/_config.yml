@@ -18,6 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
+# TODO: remove the dependency on these fields in jekyll - this should always be dynamically queried from the REST API
 title: Hotel du Lac
 email: hotelier@dulac.com
 description: >- # this means to ignore newlines until "baseurl:"
@@ -40,7 +41,8 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 # Excluded items can be processed by explicitly listing the directories or
 # their entries' file path in the `include:` list.
 #
-# exclude:
+exclude:
+  - documentation/
 #   - .sass-cache/
 #   - .jekyll-cache/
 #   - gemfiles/
@@ -51,3 +53,4 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
