@@ -1,0 +1,18 @@
+<!DOCTYPE html>                                                                                                                                          
+<html lang="en">
+    {% include head.html %}
+    <body>
+        <!-- header -->
+        {% include header.html %}
+
+        <!-- page content -->
+        <main role="main" class="container">
+            {{content}}
+        </main>
+
+        <!-- footer -->
+        <div class="container">
+        {% include footer.html %}
+        </div>
+    </body>
+</html>

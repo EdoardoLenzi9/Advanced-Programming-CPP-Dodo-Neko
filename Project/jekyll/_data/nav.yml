@@ -1,0 +1,9 @@
+list:
+    - title: "Home"
+      url: /
+    - title: "About"
+      url: /about.html
+    - title: "Pricing"
+      url: /pricing.html
+    - title: "Debug"
+      url: /debug.html
