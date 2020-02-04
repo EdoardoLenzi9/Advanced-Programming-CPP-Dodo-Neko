@@ -27,12 +27,14 @@ class Env {
         string getStaticFolder(){ return staticFolder; }
         string getTargetDB(){ return targetDB; }
         bool getInitSchema(){ return initSchema; }
+        bool getInitData(){ return initData; }
         int getPort(){ return port; }
         
     private:
         string staticFolder;
         string targetDB;
         bool initSchema;   
+        bool initData;   
         int port;    
 };
 

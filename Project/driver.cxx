@@ -2,6 +2,9 @@
 #include <RoomController.hxx>
 #include <AuthMiddleware.hxx>
 
+#include "InitData.hxx"
+#include "Env.hxx"
+
 
 //TODO this is the program entry point, I use this in order to set-up the end points
 // and start the Router
@@ -10,6 +13,10 @@
 
 
 int main(){
+    Env * env = new Env();
+    if(env->getInitData()){
+        InitData();
+    }
 
     vector<Route> routes;
 
