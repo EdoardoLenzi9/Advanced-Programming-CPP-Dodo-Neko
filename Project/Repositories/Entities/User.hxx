@@ -54,7 +54,7 @@ class User : public BaseEntity
 
     private:
   
-		string username_;
+		string username_; //username = firstName.lastName 
 		string email_;
 		string password_;
 		string address_;

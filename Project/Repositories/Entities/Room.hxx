@@ -24,6 +24,7 @@ class Room : public BaseEntity
 	public:
 
 		Room () {}
+		Room (int b) : beds_(b) {}
 		Room (int b, int tlx, int tly, int brx, int bry) : beds_(b), tl_x_(tlx), tl_y_(tly), 
 														   br_x_(brx), br_y_(bry) {}                 
 		
@@ -51,7 +52,7 @@ class Room : public BaseEntity
 
 	private:
     
-		int beds_;
+		int beds_; //also a feature
 
 		// top-left coords
 		int tl_x_;

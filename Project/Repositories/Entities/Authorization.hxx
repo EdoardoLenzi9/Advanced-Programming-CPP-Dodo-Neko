@@ -41,7 +41,7 @@ class Authorization : public BaseEntity
 
 		long user_id_;
 		long session_id_;
-
+		//exp_date
 		#pragma db id auto         
 		unsigned long id_;         
 };

@@ -50,3 +50,5 @@ driver
 
 *-odb.*
 *.~lock.*
+
+Project/jekyll/Gemfile.lock
