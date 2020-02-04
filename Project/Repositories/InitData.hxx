@@ -29,9 +29,9 @@ class InitData{
 
             /* Init roles */
 
-            roleRepo->create(new Role("user"));
-            roleRepo->create(new Role("staff"));
-            roleRepo->create(new Role("admin"));
+            roleRepo->create(new Role("Customer"));
+            roleRepo->create(new Role("Staff"));
+            roleRepo->create(new Role("Administrator"));
 
             /* Init users */
 
