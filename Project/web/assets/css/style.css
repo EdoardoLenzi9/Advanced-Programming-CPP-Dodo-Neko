@@ -1,0 +1,62 @@
+.center{
+    text-align: center;    
+}
+
+.green{
+    color: #00a64c;
+}
+
+.blue{
+    color: #0082fb;
+}
+
+#parallax-caption{
+    background: #fff; 
+    color:#000;
+    opacity: 0.8;
+    position: absolute; 
+    bottom: 50%; 
+    margin-left:0;
+    padding: 10%;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-bottom:-100px;
+    width:100vw;
+}
+
+
+#parallax{
+    margin:0;
+    background: url(https://www.wellness-creation.it/images/gallery-visual/visual-hotel-cervo-lavarone-wellness-lavarone-tn/biosauna-2_rid_63411.jpg) no-repeat 50% 0 fixed;
+    height: 70vh; 
+    position:relative;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.full-panel{
+    height:90vh;
+    display: flex;
+    justify-content: center;
+}
+
+.vcenter{
+    align-self: center;
+    align-items: center;
+    vertical-align: center;
+}
+
+.room{
+    background: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fluxurylaunches.com%2Fwp-content%2Fuploads%2F2018%2F05%2FSuite.jpg&f=1&nofb=1) no-repeat 50% 0;   
+}
+
+.room-caption{
+    background: #fff; 
+    color:#000;
+    opacity: 0.8;
+    width: 100%;
+    padding-left: 15%;
+    padding-right: 15%;
+}
