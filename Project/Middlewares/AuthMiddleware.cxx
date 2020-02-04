@@ -4,25 +4,26 @@
 
 #include "AuthMiddleware.hxx"
 
-bool AuthMiddleware::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, string content) {
+bool AuthMiddleware::user(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content) {
+
+    if(content.find("sid") == content.end()) {
         
-    std::stringstream sRequest;
-    sRequest << content;
+        json res;
+        res["status"]["code"] = 401;
+        res["status"]["description"] = "Unauthorized";
+        res["data"] = "";
+        response->write(res.dump());
 
-    ptree pt;
-    read_json(sRequest, pt);
-    string sid = pt.get<string>("auth.sid");
-
-    std::stringstream ss;
-    boost::property_tree::json_parser::write_json(ss, pt);
-    
-    if(sid.empty()) {
-        response->write(StatusCode::client_error_unauthorized, "{ \"status\" : { \"code\" : 401, \"description\" : \"Unauthorized\" } }");
         return false;
     }
 
-    if(sid.compare("c91b1d6acd383c44c4ec20c9723e758c31182a1f4f0231d63d91259a2ea14b9d") != 0) {
-        response->write(StatusCode::client_error_unauthorized, "{ \"status\" : { \"code\" : 401, \"description\" : \"Unauthorized\" } }");
+    if(false) { // check if sid valid
+        json res;
+        res["status"]["code"] = 401;
+        res["status"]["description"] = "Unauthorized";
+        res["data"] = "";
+        response->write(res.dump());
+
         return false;
     }
 

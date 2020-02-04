@@ -1,5 +1,5 @@
-#ifndef ROOM_CONTROLLER_HXX
-#define ROOM_CONTROLLER_HXX
+#ifndef HOTEL_CONTROLLER_HXX
+#define HOTEL_CONTROLLER_HXX
 
 #include "server_http.hpp"
 
@@ -18,10 +18,10 @@ using json = nlohmann::json;
 using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 
 
-class RoomController {
+class HotelController {
     public:
-        RoomController() {};
-        static void hotel(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
+        HotelController() {};
+        static void get(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
 };
 
 #endif

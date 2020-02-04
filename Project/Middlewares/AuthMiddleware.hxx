@@ -5,8 +5,7 @@
 #include "status_code.hpp"
 
 #define BOOST_SPIRIT_THREADSAFE
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/property_tree/ptree.hpp>
+#include <nlohmann/json.hpp>
 
 #include <algorithm>
 #include <boost/filesystem.hpp>
@@ -16,14 +15,14 @@
 
 
 using namespace std;
-using namespace boost::property_tree;
 using namespace SimpleWeb;
+using json = nlohmann::json;
 using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 
 class AuthMiddleware {
     public:
         AuthMiddleware() {};
-        static bool handle(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, string);
+        static bool user(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, json);
 };
 
 #endif
