@@ -4,7 +4,8 @@ title: Manage
 ---
 
 <div class="canvas">
-    <iframe onclick="alert('asdf');" class="full-width full-height" src="views/hotel/hotel.html"></iframe>
+    <!-- do you really need the iframe? jekyll can embed this via an include directive automatically! then you wouldnt need to load bootstrap and jquery and other javascripts again, for what is basically another browser window -->
+    <iframe onclick="alert('asdf');" class="full-width full-height" src="{{site.baseurl}}/assets/views/hotel/hotel.html"></iframe>
 </div>
 <button onclick="$( '#manageFeatures' ).modal();">onclick</button>
 
