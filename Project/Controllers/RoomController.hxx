@@ -21,7 +21,7 @@ using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 class RoomController {
     public:
         RoomController() {};
-        static void hotel(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
+        static void list(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
 };
 
 #endif

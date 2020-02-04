@@ -22,8 +22,14 @@ int main(){
     vector<Route> routes;
 
     Route hotel("^/hotel$", "GET", HotelController::get);
-
     routes.push_back(hotel);
+
+
+    //Route roomList("^/room/list$", "GET", RoomController::list);
+    //routes.push_back(roomList);
+
+
+    
 
     Router router(routes);
     router.start();
