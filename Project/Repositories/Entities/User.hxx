@@ -25,12 +25,17 @@ class User : public BaseEntity
 
     public:
 
-		User(){}
-		User (string u, string p, long r) : username_(u), password_(p), role_(r) { }                
+		User () { }
+		User (string e, string p, long r) : email_(e), password_(p), role_(r) { }                
+		User (string f, string l, string e, string p, long r) : firstname_(f), lastname_(l), email_(e), 
+																password_(p), role_(r) { }                
 
 		// Getter and setters
-		void username( string u ) { username_ = u; };
-		string username() { return username_; };\
+		void firstname( string f ) { firstname_ = f; };
+		string firstname() { return firstname_; };
+
+		void lastname( string l ) { lastname_ = l; };
+		string lastname() { return lastname_; };
 
 		void email( string e ) { email_ = e; };
 		string email() { return email_; };
@@ -53,8 +58,8 @@ class User : public BaseEntity
   
 
     private:
-  
-		string username_; //username = firstName.lastName 
+		string firstname_;
+		string lastname_;
 		string email_;
 		string password_;
 		string address_;
