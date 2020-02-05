@@ -31,6 +31,7 @@ var user = {
 	"email": "",
 	"birthday": "",
 	"address": "",
+	"password": "",
 	"userid": "",
 	"roleid": ""
 };
@@ -93,13 +94,9 @@ $.postJSON = function(url, data, callback) {
 };
 
 function loadSettings(){
-	if (! loggedIn){
-		loadMainPage()
-	}
 	getUserInfo();
 
-	$('#frm-email').text("user.email")
-
+	$('#frm-email').text(user.email);
 	$('#frm-firstname').text(user.firstname);
 	$('#frm-lastname').text(user.lastname);
 	$('#frm-birthday').text(user.birthday);
@@ -109,7 +106,6 @@ function loadSettings(){
 	if (user.roleid > 1){
 		$('#frm-userid').attr('disabled', false);
 		$('#frm-roleid').attr('disabled', false);
-
 	}
 }
 
@@ -149,10 +145,10 @@ function getUserInfo(){
 			user.firstname = response.data.firstName;
 			user.lastname = response.data.lastName;
 			user.email = response.data.email;
-			user.birthday = response.data.birthday;
+			user.birthday = response.data.birthdate;
 			user.address = response.data.address;
-			user.userid = response.data.userId;
-			user.roleid = response.data.roleId;
+			user.userid = response.data.userid;
+			user.roleid = response.data.roleid;
 		} else {
 			console.log("acquiring user info failed");
 			console.log(response);
@@ -246,7 +242,7 @@ function register(){
 	}
 
 	request.data.address=$('#frm-address').val();
-	request.data.birthday=$('#frm-birthday').val();
+	request.data.birthdate=$('#frm-birthday').val();
 
 	if (! $('#cbx-terms').is(':checked') ) {
 		alert("Please accept our terms!");
@@ -274,20 +270,29 @@ function register(){
 */
 
 function userUpdate(){
+	getUserInfo();
+
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
-	request.data.firstName=$('#updatefirstname').val();
-	request.data.lastName=$('#updatelastname').val();
-	request.data.email=$('#updateemail').val();
-	request.data.birthday=$('#updatebirthday').val();
-	request.data.address=$('#updateaddress').val();
-	request.data.password=$('#updatepassword').val();
+	request.data.firstName = user.firstname;
+	request.data.lastName = user.lastname;
+	request.data.email = user.email;
+	request.data.birthdate = user.birthday;
+	request.data.address = user.address;
+	request.data.password = user.password;
+	request.data.roleid = user.roleid;
+	request.data.userid = user.userid;
 
 	$.postJSON(`${serverUrl}/user/update`,
 	request, 
 	function(response) {
-		// no response
+		if (response.status.code == 401){
+			alert("no authentication");
+		} else if (response.status.code != 200 ) {
+			alert("something else went wrong...");
+			console.log(response);
+		}
 	});
 }
 
@@ -394,7 +399,6 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 
 	// not yet correctly implemented functions
 	$('#usergetinfo').click(getUserInfo); 	/* /user */
-	$('#update').click(userUpdate); 		/* /user/update */
 
 	$('#getroomlist').click(getRooms); 		/* /room/list */
 	$('#checkroomidsubmit').click(getRoomInfo); /* /room/# */
@@ -407,7 +411,9 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	$('#btn-login').click(login);			/* /user/auth */
 	$('#btn-logout').click(logout);			/* /user/logout */
 	$('#btn-register').click(register);		/* /user/register */
-	$('#btn-usersettings').click(loadSettings);
+	$('#btn-settings').click(loadSettings);
+	$('#btn-settings-update').click(userUpdate); /* /user/update */
+
 
 	// show hotel info in the footer
 	getHotelInfo();							/* /hotel */

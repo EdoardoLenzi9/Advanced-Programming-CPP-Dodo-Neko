@@ -14,5 +14,12 @@
         <div class="container">
         {% include footer.html %}
         </div>
+
+        <!-- Modals -->
+        <!-- Bootstrap modals tend to glitch neatly when
+            placed under any element that uses "fixed" positioning
+            anywhere. so declaring them here is avoiding that -->
+        {% include modals.html %}
+        
     </body>
 </html>

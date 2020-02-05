@@ -17,16 +17,17 @@
 		<div id="nav-register" class="navbar-nav nav-item">
 			<a class="nav-link mr-2" href="{{site.baseurl}}/register.html">Register</a>
 		</div>
-		<span class="icon d-none">
-			<a href="{{site.baseurl}}/settings.html">
-				<i class="white fa fa-cog"></i>
-			</a>
-		</span>
-		<!-- login button -->
-		<div id="btn-login-dropdown" class="btn-group">
-			<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+		<div class="btn-group">
+
+			<button id="btn-settings" type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-settings">
+  				<i class="white fa fa-cog"></i>
+			</button>
+			<!-- the code for the user settings dialogue can be found in the modals.html include -->
+
+			<button id="btn-login-dropdown" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
 				Login <span class="caret"></span>
 			</button>
+
 			<div class="dropdown-menu dropdown-menu-right">
 				<form class="px-4 py-3">
 					<div class="form-group">
@@ -49,11 +50,9 @@
 				<a class="dropdown-item" href="#">New around here? Sign up</a>
 				<a class="dropdown-item" href="#">Forgot password?</a>
 			</div>
-		</div>
-		<!-- logout button -->
-		<div class="btn-group">
+
 			<button id="btn-logout" type="button" class="btn btn-danger d-none">
-				Logout <span class="caret"></span>
+				Logout
 			</button>
 		</div>
 	</div>

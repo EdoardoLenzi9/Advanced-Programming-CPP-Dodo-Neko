@@ -1,5 +1,11 @@
 # REST API Changelog
 
+## Hotfix v1.1.1
+
+### Fixes
+
+* Changed all occurances of `Id` to `id` for uniformity.
+
 ## Release v.1.1
 
 ### Additions
