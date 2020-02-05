@@ -5,47 +5,70 @@ title: Settings
 
 <div class="full-panel">
 	<form class="vcenter">
-		<div class="form-row">
-			<div class="form-group col-md-6">
-				<label for="inputEmail4">Email</label>
-				<input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-			</div>
-			<div class="form-group col-md-6">
-				<label for="inputPassword4">Password</label>
-				<input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+		<div class="accordion" id="acc-settings">
+			<div class="card">
+				<div class="card-header">
+					<h2 class="mb-0">
+						<button id="btn-usersettings" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+							User Settings
+						</button>
+					</h2>
+				</div>
+				<div id="acc-user" class="collapse" aria-labelledby="headingTwo" data-parent="#acc-settings">
+					<div class="card-body">
+						<form>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="frm-email">Email</label>
+									<input type="email" class="form-control" id="frm-email" placeholder="Email">
+								</div>
+								<div class="form-group col-md-6">
+									<label for="frm-pass">Password</label>
+									<input type="password" class="form-control" id="frm-pass" placeholder="Password">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="frm-firstname">First Name</label>
+									<input type="text" class="form-control" id="frm-firstname" placeholder="Max">
+								</div>
+								<div class="form-group col-md-6">
+									<label for="frm-lastname">Last Name</label>
+									<input type="text" class="form-control" id="frm-lastname" placeholder="Power">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="frm-address">Address</label>
+									<input type="text" class="form-control" id="frm-address" placeholder="Energy Street 9001, Explosions Oblast, Nukistan">
+								</div>
+								<div class="form-group col-md-6">
+									<label for="frm-birthday">Birthday</label>
+									<input type="text" class="form-control" id="frm-birthday" placeholder="20.4.1969">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="frm-userid">User ID</label>
+									<input type="text" class="form-control" id="frm-userid" placeholder="1234" disabled>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="frm-roleid">Role ID</label>
+									<input type="text" class="form-control" id="frm-roleid" placeholder="1" disabled>
+								</div>
+							</div>
+
+							<div class="form-group">
+							</div>
+							<div class="form-group form-check">
+								<input class="form-check-input" type="checkbox" id="cbx-terms">
+								<label class="form-check-label" for="cbx-terms">Accept term conditions</label>
+							</div>
+							<button id="btn-submit" type="button" class="btn btn-primary full-width">Submit</button>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="form-group">
-			<label for="inputAddress">Address</label>
-			<input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-		</div>
-		<div class="form-group">
-			<label for="inputAddress2">Address 2</label>
-			<input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-		</div>
-		<div class="form-row">
-			<div class="form-group col-md-6">
-				<label for="inputCity">City</label>
-				<input type="text" class="form-control" id="inputCity">
-			</div>
-			<div class="form-group col-md-4">
-				<label for="inputState">State</label>
-				<select id="inputState" class="form-control">
-					<option selected>Choose...</option>
-					<option>...</option>
-				</select>
-			</div>
-			<div class="form-group col-md-2">
-				<label for="inputZip">Zip</label>
-				<input type="text" class="form-control" id="inputZip">
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="form-check">
-				<input class="form-check-input" type="checkbox" id="gridCheck">
-				<label class="form-check-label" for="gridCheck">Accept term conditions</label>
-			</div>
-		</div>
-		<button type="submit" onclick="alert('Registered clicked!')" class="btn btn-primary full-width">Sign in</button>
 	</form>
 </div>
