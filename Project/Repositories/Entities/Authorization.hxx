@@ -23,14 +23,14 @@ class Authorization : public BaseEntity
 	public:
     
 	    Authorization () {}
-	    Authorization (long u, long s) : user_id_(u), session_id_(s) {}                 
+	    Authorization (long u, string s) : user_id_(u), session_id_(s) {}                 
 		
 		// Getter and setters
 		void user_id( long u ) { user_id_ = u; };
 		long user_id() { return user_id_; };
 
 		void session_id( long s ) { session_id_ = s; };
-		long session_id() { return session_id_; };
+		string session_id() { return session_id_; };
 		
 		unsigned long id ( ) { return id_; } ;
 		
@@ -40,7 +40,7 @@ class Authorization : public BaseEntity
 	private:
 
 		long user_id_;
-		long session_id_;
+		string session_id_;
 		//exp_date
 		#pragma db id auto         
 		unsigned long id_;         

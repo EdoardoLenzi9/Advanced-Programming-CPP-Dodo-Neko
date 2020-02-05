@@ -8,8 +8,10 @@ CXXINCLUDE = -I. \
 			 -I../Middlewares \
 			 -I../Routing \
 			 -I../Utils \
+			 -I../SHA256 \
 			 -I../Include/Simple-Web-Server \
-			 -I./RepositoryTests 
+			 -I./RepositoryTests \
+			 -I./ServicesTests 
 CXXDEBUG = -ggdb
 CXXPROF = -pg -no-pie
 CXXDB = -lodb-sqlite -lodb
@@ -20,8 +22,10 @@ SRCS = *.cxx \
 	   ../Repositories/*.cxx \
 	   ../Utils/*.cxx \
 	   ../Repositories/Entities/*.cxx \
-	   ./RepositoryTests/*.cxx
-	   #../Services/*.cxx \
+	   ./RepositoryTests/*.cxx \
+	   ./ServicesTests/*.cxx \
+	   ../SHA256/*.cxx \
+	   ../Services/*.cxx 
 	   #../Controllers/*.cxx \
 	   #../Middlewares/*.cxx \
 	   #../Routing/*.cxx \
@@ -46,7 +50,7 @@ test: compile
 
 
 odb: clean
-	cd ../Repositories/Entities ; 
+	cd ../Repositories/Entities ; \
 	odb -d sqlite --generate-query --generate-schema *.hxx
 
 
@@ -62,7 +66,8 @@ prof:
 
 
 clean:
-	$(FIND) '*.db' $(RM)
-	$(FIND) '*odb.*' $(RM)
-	$(FIND) '*.bin' $(RM)
+	cd ../Repositories/Entities ; \
+	$(FIND) '*.db' $(RM) ; \
+	$(FIND) '*odb.*' $(RM) ; \
+	$(FIND) '*.bin' $(RM) ; \
 	$(FIND) '*.o' $(RM)

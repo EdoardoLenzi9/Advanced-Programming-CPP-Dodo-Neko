@@ -1,29 +1,25 @@
 #include <string>
 #include <iostream>
+#include <time.h>
+
 #include "AuthorizationService.hxx"
 #include "Repository.hxx"
+#include "sha256.hxx"
 
 
-long AuthorizationService::getToken(long id){
-    return au->read(id)->session_id();
-}
-
-
-long AuthorizationService::createSession(long user_id_, long session_id_){
-    Authorization* auth = au->create(new Authorization(user_id_, session_id_));
+string AuthorizationService::createSession(long user_id_){
+    Authorization* auth = au->create(new Authorization(user_id_, sha256(to_string(clock()))));
     cout<< "Session created"<<auth->id()<<endl;
-    return auth->id();
+    return auth->session_id();
 }
 
-long AuthorizationService::getUserID(long id){
-    return au->read(id)->user_id();
-}
-long AuthorizationService::getSession(long session_id){
-    if(getToken(session_id)!=0){
-        return getUserID(session_id);
+long AuthorizationService::getSession(string session_id){
+
+    vector<Authorization> sessions = au->read(odb::query<Authorization>::session_id == session_id);
+
+    if(sessions.size() > 0){
+        return sessions[0].user_id();
     }
     cerr << "Auth level exception" << endl;
     return 0;
 }
-
-

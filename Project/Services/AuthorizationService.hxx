@@ -16,7 +16,6 @@
 
 #include "Repository.hxx"
 
-
 class AuthorizationService { 
     
     public:
@@ -24,10 +23,8 @@ class AuthorizationService {
             au = new Repository<Authorization>();
 
         }
-        long createSession(long user_id_, long session_id_);
-        long getToken(long id);
-        long getUserID(long id);
-        long getSession(long session_id);
+        string createSession(long user_id_);
+        long getSession(string session_id);
         
    
     private:
