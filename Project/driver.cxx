@@ -27,7 +27,7 @@ int main(){
 
     Route hotelGet("^/hotel$", "GET", HotelController::get);
 
-    Route userGet("^/user$", "POST", UserController::get); //Maybe change to HTTP GET
+    Route userGet("^/user$", "POST", UserController::get, { AuthMiddleware::user }); //Maybe change to HTTP GET
     Route userRegister("^/user/register$", "POST", UserController::create);
     Route userUpdate("^/user/update$", "POST", UserController::update);
     Route userLogout("^/user/logout$", "POST", UserController::logout);
