@@ -10,6 +10,7 @@ CXXINCLUDE = -I. \
 			 -I./Middlewares \
 			 -I./Routing \
 			 -I./Utils \
+			 -I./SHA256 \
 			 -I./Include/Simple-Web-Server 
 CXXDEBUG = -ggdb
 CXXPROF = -pg -no-pie
@@ -24,6 +25,7 @@ SRCS = *.cxx \
 	   ./Middlewares/*.cxx \
 	   ./Routing/*.cxx \
 	   ./Utils/*.cxx \
+	   ./SHA256/*.cxx \
 	   ./Include/Simple-Web-Server/client_http.hpp ./Include/Simple-Web-Server/server_http.hpp
 FIND = find . -type f -name 
 RM = -exec rm {} +

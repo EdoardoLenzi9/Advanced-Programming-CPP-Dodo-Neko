@@ -1,5 +1,5 @@
-#ifndef USER_REPOSITORY_TEST_HXX
-#define USER_REPOSITORY_TEST_HXX
+#ifndef REGISTRATION_TEST_HXX
+#define REGISTRATION_TEST_HXX
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
@@ -9,12 +9,11 @@
 #include "User.hxx"
 #include "Fixture.hxx"
 
-class UserRepositoryTest : public CppUnit::TestFixture {
-    CPPUNIT_TEST_SUITE( UserRepositoryTest );
+
+class RegistrationTests : public CppUnit::TestFixture {
+    CPPUNIT_TEST_SUITE( RegistrationTests );
     
-    CPPUNIT_TEST( CreateUserTest );
-    CPPUNIT_TEST( CreateUsersTest );
-    CPPUNIT_TEST( QueryUsersTest );
+    CPPUNIT_TEST( RegistrationTest );
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -30,14 +29,12 @@ class UserRepositoryTest : public CppUnit::TestFixture {
             delete ur; 
         } 
 
-        void CreateUserTest(void);
-        void CreateUsersTest(void);
-        void QueryUsersTest(void); 
+        void RegistrationTest(void);
   
     private:
-        Fixture * f;        
+        Fixture * f;
         Repository<User> * ur;
         DBManager * db;
 };
 
-#endif /* USER_REPOSITORY_TEST_HXX */
+#endif /* REGISTRATION_TEST_HXX */

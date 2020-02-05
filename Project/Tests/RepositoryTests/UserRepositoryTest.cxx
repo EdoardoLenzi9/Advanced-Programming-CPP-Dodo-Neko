@@ -23,7 +23,7 @@ void UserRepositoryTest::CreateUserTest(void) {
 
     // Assert
 
-    AssertEqual( res, u);
+    f->AssertEqual( res, u);
 }
 
 
@@ -43,8 +43,8 @@ void UserRepositoryTest::CreateUsersTest(void) {
 
     // Assert
 
-    AssertEqual( res1, u1);
-    AssertEqual( res2, u2);
+    f->AssertEqual( res1, u1);
+    f->AssertEqual( res2, u2);
 }
 
 
@@ -60,17 +60,9 @@ void UserRepositoryTest::QueryUsersTest(void) {
     // Act
 
     User * res1 = ur->read(u1->id());
-    vector<User> res2 = ur->read(odb::query<User>::name == "A1");
+    vector<User> res2 = ur->read(odb::query<User>::username == "A1");
 
     // Assert
 
-    AssertEqual( res1, u1);
-}
-
-
-void UserRepositoryTest::AssertEqual( User * u1, User * u2){
-    CPPUNIT_ASSERT( u1->id() == u2->id() );
-    CPPUNIT_ASSERT( u1->name() == u2->name() );
-    CPPUNIT_ASSERT( u1->surname() == u2->surname() );
-    CPPUNIT_ASSERT( u1->role() == u2->role() );
+    f->AssertEqual( res1, u1);
 }
