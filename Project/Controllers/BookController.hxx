@@ -1,5 +1,5 @@
-#ifndef ROOM_CONTROLLER_HXX
-#define ROOM_CONTROLLER_HXX
+#ifndef BOOK_CONTROLLER_HXX
+#define BOOK_CONTROLLER_HXX
 
 #include "server_http.hpp"
 
@@ -18,14 +18,15 @@ using json = nlohmann::json;
 using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 
 
-class RoomController {
+class BookController {
     public:
-        RoomController() {};
+        BookController() {};
         static void create(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
         static void get(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
         static void list(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
         static void update(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
         static void del(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
+        static void check(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
 };
 
 #endif

@@ -1,28 +1,27 @@
-#ifndef AUTH_MIDDLEWARE_HXX
-#define AUTH_MIDDLEWARE_HXX
+#ifndef HOTEL_CONTROLLER_HXX
+#define HOTEL_CONTROLLER_HXX
 
 #include "server_http.hpp"
-#include "status_code.hpp"
 
 #define BOOST_SPIRIT_THREADSAFE
-#include <nlohmann/json.hpp>
 
 #include <algorithm>
 #include <boost/filesystem.hpp>
 #include <fstream>
 #include <vector>
 #include <string>
-
+#include <nlohmann/json.hpp>
 
 using namespace std;
 using namespace SimpleWeb;
 using json = nlohmann::json;
 using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 
-class AuthMiddleware {
+
+class HotelController {
     public:
-        AuthMiddleware() {};
-        static bool user(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, json);
+        HotelController() {};
+        static void get(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
 };
 
 #endif

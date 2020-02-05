@@ -67,14 +67,20 @@ void Router::start() {
         throw invalid_argument("could not read file");
     }
     catch(const exception &e) {
-      response->write(SimpleWeb::StatusCode::client_error_bad_request, "Could not open path " + request->path + ": " + e.what());
+      json res;
+      res["status"]["code"] = 400;
+      res["status"]["description"] = "Bad Request";
+      res["data"] = "Could not open path " + request->path + ": " + e.what();
+      response->write(SimpleWeb::StatusCode::client_error_bad_request, res.dump());
     }
   };
 
   server.on_error = [](shared_ptr<HttpServer::Request> request, const SimpleWeb::error_code & ec) {
     // Handle errors here
     // Note that connection timeouts will also call this handle with ec set to SimpleWeb::errc::operation_canceled
-    cout << ec.message() << endl;
+    if(ec != SimpleWeb::errc::operation_canceled){
+      cout << ec.message() << endl;
+    }
   };
 
   thread server_thread([&server]() {
