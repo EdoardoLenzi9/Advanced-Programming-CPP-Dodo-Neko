@@ -3,10 +3,16 @@
 #include "Services/RoomService.hxx"
 
 
+void RoomController::create(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content) {
 
+}
+
+void RoomController::get(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content) {
+
+}
 
 void RoomController::list(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content) {
-        RoomService service;
+        /*RoomService service;
         vector<Room> rooms = service.getList();
 
         json res;
@@ -23,5 +29,13 @@ void RoomController::list(shared_ptr<HttpServer::Response> response, shared_ptr<
                  res["data"]["rooms"][index]["coordinates"]["bry"] = r.bry();      
         }
 
-        response->write(res.dump());
+        response->write(res.dump());*/
+}
+
+void RoomController::update(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content) {
+
+}
+
+void RoomController::del(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content) {
+
 }
