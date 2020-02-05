@@ -12,7 +12,7 @@ bool AuthMiddleware::user(shared_ptr<HttpServer::Response> response, shared_ptr<
         res["status"]["code"] = 401;
         res["status"]["description"] = "Unauthorized";
         res["data"] = "";
-        response->write(res.dump());
+        response->write(SimpleWeb::StatusCode::client_error_unauthorized, res.dump());
 
         return false;
     }
@@ -22,7 +22,7 @@ bool AuthMiddleware::user(shared_ptr<HttpServer::Response> response, shared_ptr<
         res["status"]["code"] = 401;
         res["status"]["description"] = "Unauthorized";
         res["data"] = "";
-        response->write(res.dump());
+        response->write(SimpleWeb::StatusCode::client_error_unauthorized, res.dump());
 
         return false;
     }

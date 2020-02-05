@@ -2,17 +2,33 @@
 
 #include "Services/RoomService.hxx"
 
-
-void RoomController::create(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content) {
-
+void RoomController::create(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content)
+{
+	json res;
+	res["status"]["code"] = 501;
+	res["status"]["description"] = "Not Implemented";
+	res["data"] = "";
+	response->write(SimpleWeb::StatusCode::server_error_not_implemented, res.dump());
 }
 
-void RoomController::get(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content) {
-
+void RoomController::get(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content)
+{
+	json res;
+	res["status"]["code"] = 501;
+	res["status"]["description"] = "Not Implemented";
+	res["data"] = "";
+	response->write(SimpleWeb::StatusCode::server_error_not_implemented, res.dump());
 }
 
-void RoomController::list(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content) {
-        /*RoomService service;
+void RoomController::list(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content)
+{
+	json res;
+	res["status"]["code"] = 501;
+	res["status"]["description"] = "Not Implemented";
+	res["data"] = "";
+	response->write(SimpleWeb::StatusCode::server_error_not_implemented, res.dump());
+
+	/*RoomService service;
         vector<Room> rooms = service.getList();
 
         json res;
@@ -32,10 +48,20 @@ void RoomController::list(shared_ptr<HttpServer::Response> response, shared_ptr<
         response->write(res.dump());*/
 }
 
-void RoomController::update(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content) {
-
+void RoomController::update(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content)
+{
+	json res;
+	res["status"]["code"] = 501;
+	res["status"]["description"] = "Not Implemented";
+	res["data"] = "";
+	response->write(SimpleWeb::StatusCode::server_error_not_implemented, res.dump());
 }
 
-void RoomController::del(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content) {
-
+void RoomController::del(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content)
+{
+	json res;
+	res["status"]["code"] = 501;
+	res["status"]["description"] = "Not Implemented";
+	res["data"] = "";
+	response->write(SimpleWeb::StatusCode::server_error_not_implemented, res.dump());
 }
