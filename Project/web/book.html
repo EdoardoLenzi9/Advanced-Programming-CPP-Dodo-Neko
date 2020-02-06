@@ -3,7 +3,7 @@
     <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Hotel du Lac | </title>
+    <title>Hotel du Lac | prices</title>
     <link rel="stylesheet" href="/assets/css/bootstrap.css" />
     <link rel="stylesheet" href="/assets/css/sticky-footer-navbar.css" />
     <!-- <link rel="stylesheet" href="/assets/css/style.css" /> -->
@@ -41,7 +41,7 @@
 					<a class="nav-link" href="/pricing.html">Pricing </a>
 				</li>
 			
-				<li id="nav-book" class="nav-item  ">
+				<li id="nav-book" class="nav-item active ">
 					<a class="nav-link" href="/book.html">Book </a>
 				</li>
 			
@@ -109,26 +109,23 @@
 
         <!-- page content -->
         <main role="main" class="container">
-            <style type="text/css" media="screen">
-  .container {
-    margin: 10px auto;
-    max-width: 600px;
-    text-align: center;
-  }
-  h1 {
-    margin: 30px 0;
-    font-size: 4em;
-    line-height: 1;
-    letter-spacing: -1px;
-  }
-</style>
-
-<div class="container">
-  <h1>404</h1>
-
-  <p><strong>Page not found :(</strong></p>
-  <p>The requested page could not be found.</p>
-</div>
+            <h1>Book a room!</h1>
+<table id="tbl-roomlist" class="table">
+	<thead>
+		<tr>
+			<th scope="col">Room #</th>
+			<th scope="col">Features</th>
+			<th scope="col">Beds</th>
+			<th scope="col">Price</th>
+			<th scope="col">Book</th>
+		</tr>
+	</thead>
+	<tbody>
+		<!-- dynamically filled -->
+	</tbody>
+	<!-- dirty hack to load the room list on page load --> 
+	<script>$( document ).ready(function(){ getRooms();});</script>
+</table>
 
         </main>
 

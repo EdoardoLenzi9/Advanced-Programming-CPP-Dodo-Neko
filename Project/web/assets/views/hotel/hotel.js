@@ -1,14 +1,12 @@
 var scene, camera, controls, renderer, group, raycaster, mouseVector;
 
-
-
 function Init(){
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 	camera.position.z = 5;
 	InitControl();
 
-	LoadArchitecture("mesh.json");
+	LoadArchitecture("/assets/views/hotel/mesh.json");
 	raycaster = new THREE.Raycaster();
 	mouseVector = new THREE.Vector3();
 

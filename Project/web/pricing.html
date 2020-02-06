@@ -6,10 +6,10 @@
     <title>Hotel du Lac | prices</title>
     <link rel="stylesheet" href="/assets/css/bootstrap.css" />
     <link rel="stylesheet" href="/assets/css/sticky-footer-navbar.css" />
-    <link rel="stylesheet" href="/assets/css/style.css" />
+    <!-- <link rel="stylesheet" href="/assets/css/style.css" /> -->
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
     <script src="/assets/js/jquery-3.4.1.min.js"></script>
-    <link rel="shortcut icon" href="/assets/favicon.ico">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
     <!-- yeah i get theyre supposed to be in the footer, but this fucking garbage script loads last and then the ui script breaks. please tell me how to fix it. -->
 
 </head>
@@ -41,16 +41,16 @@
 					<a class="nav-link" href="/pricing.html">Pricing </a>
 				</li>
 			
+				<li id="nav-book" class="nav-item  ">
+					<a class="nav-link" href="/book.html">Book </a>
+				</li>
+			
 				<li id="nav-manage" class="nav-item  d-none">
 					<a class="nav-link" href="/manage.html">Manage </a>
 				</li>
 			
 				<li id="nav-admin" class="nav-item  d-none">
 					<a class="nav-link" href="/admin.html">Admin </a>
-				</li>
-			
-				<li id="nav-settings" class="nav-item  d-none">
-					<a class="nav-link" href="/settings.html">Settings </a>
 				</li>
 			
 				<li id="nav-debug" class="nav-item  d-none">
@@ -62,50 +62,43 @@
 		<div id="nav-register" class="navbar-nav nav-item">
 			<a class="nav-link mr-2" href="/register.html">Register</a>
 		</div>
-		<div id="nav-login" class="navbar-nav nav-item">
-			<a class="nav-link mr-2" href="/login.html">
-				<button type="button" class="btn btn-success">
-					Login <span class="caret"></span>
-				</button>
-			</a>
-		</div>
-		<span class="icon">
-			<a href="/settings.html">
-				<i class="white fa fa-cog"></i>
-			</a>
-		</span>
-		<!-- login button 
-		<div id="btn-login-dropdown" class="btn-group">
-			<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+
+		<button id="btn-login-dropdown" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
 				Login <span class="caret"></span>
-			</button>
-			<div class="dropdown-menu dropdown-menu-right">
-				<form class="px-4 py-3">
-					<div class="form-group">
-						<label for="frm-username">Username</label>
-						<input type="email" class="form-control" id="frm-username" placeholder="firstname.surname">
-					</div>
-					<div class="form-group">
-						<label for="frm-password">Password</label>
-						<input type="password" class="form-control" id="frm-password" placeholder="password">
-					</div>
-					<div class="form-check">
-						<input type="checkbox" class="form-check-input" id="dropdownCheck">
-						<label id="cbx-remember-me" class="form-check-label" for="dropdownCheck">
-							Remember me
-						</label>
-					</div>
-					<button id="btn-login" type="button" class="btn btn-primary mt-3">Sign in</button>
-				</form>
-				<div class="dropdown-divider"></div>
-				<a class="dropdown-item" href="#">New around here? Sign up</a>
-				<a class="dropdown-item" href="#">Forgot password?</a>
-			</div>
-		</div>-->
-		<!-- logout button -->
+		</button>
+
+		<div class="dropdown-menu dropdown-menu-right">
+			<form class="px-4 py-3">
+				<div class="form-group">
+					<label for="frm-username">Username</label>
+					<input type="email" class="form-control" id="frm-username" placeholder="firstname.surname">
+				</div>
+				<div class="form-group">
+					<label for="frm-password">Password</label>
+					<input type="password" class="form-control" id="frm-password" placeholder="password">
+				</div>
+				<div class="form-check">
+					<input type="checkbox" class="form-check-input" id="dropdownCheck">
+					<label id="cbx-remember-me" class="form-check-label" for="dropdownCheck">
+						Remember me
+					</label>
+				</div>
+				<button id="btn-login" type="button" class="btn btn-primary mt-3">Sign in</button>
+			</form>
+			<div class="dropdown-divider"></div>
+			<a class="dropdown-item" href="#">New around here? Sign up</a>
+			<a class="dropdown-item" href="#">Forgot password?</a>
+		</div>
+
 		<div class="btn-group">
+
+			<button id="btn-settings" type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#mod-settings">
+  				<i class="white fa fa-cog"></i>
+			</button>
+			<!-- the code for the user settings dialogue can be found in the modals.html include -->
+
 			<button id="btn-logout" type="button" class="btn btn-danger d-none">
-				Logout <span class="caret"></span>
+				Logout
 			</button>
 		</div>
 	</div>
@@ -198,5 +191,106 @@
 
 
         </div>
+
+        <!-- Modals -->
+        <!-- Bootstrap modals tend to glitch neatly when
+            placed under any element that uses "fixed" positioning
+            anywhere. so declaring them here is avoiding that -->
+        <!-- modal for user settings -->
+<div class="modal fade" id="mod-settings" tabindex="-1" role="dialog" aria-labelledby="mod-settings-label" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="mod-settings-label">Settings</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="full-panel">
+					<form class="vcenter">
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="frm-email">Email</label>
+								<input type="email" class="form-control" id="frm-email" placeholder="Email">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="frm-pass">Password</label>
+								<input type="password" class="form-control" id="frm-pass" placeholder="leave empty to keep">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="frm-firstname">First Name</label>
+								<input type="text" class="form-control" id="frm-firstname" placeholder="Max">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="frm-lastname">Last Name</label>
+								<input type="text" class="form-control" id="frm-lastname" placeholder="Power">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="frm-address">Address</label>
+								<input type="text" class="form-control" id="frm-address" placeholder="Energy Street 9001, Explosions Oblast, Nukistan">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="frm-birthday">Birthday</label>
+								<input type="text" class="form-control" id="frm-birthday" placeholder="20.4.1969">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="frm-userid">User ID</label>
+								<input type="text" class="form-control" id="frm-userid" placeholder="1234" disabled>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="frm-roleid">Role ID</label>
+								<input type="text" class="form-control" id="frm-roleid" placeholder="1" disabled>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button id="btn-settings-update" type="button" class="btn btn-primary full-width">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- modal for feature list -->
+<div class="modal fade" id="mod-features" tabindex="-1" role="dialog" aria-labelledby="mod-features-label" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="mod-features-label">Features</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="full-panel">
+					<table id="tbl-featurelist" class="table">
+						<thead>
+							<tr>
+								<th scope="col">Feature</th>
+								<th scope="col">Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- dynamically filled -->
+						</tbody>
+					</table>				
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+        
     </body>
 </html>
