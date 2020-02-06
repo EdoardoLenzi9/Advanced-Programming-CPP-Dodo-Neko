@@ -14,6 +14,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <time.h>
 
 #include "Repository.hxx"
 #include "UserService.hxx"

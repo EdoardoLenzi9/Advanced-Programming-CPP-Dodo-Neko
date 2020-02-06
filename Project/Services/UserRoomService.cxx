@@ -9,23 +9,18 @@
 #include <string>
 #include <iostream>
 
-#include <odb/database.hxx>
-#include <odb/transaction.hxx>
-#include <odb/schema-catalog.hxx>
-#include <odb/sqlite/database.hxx>
-
 #include "UserRoomService.hxx"
-#include "Repository.hxx"
 
 
 long UserRoomService::create(long user_id, int room_id){
-    UserRoom* tmp = urr->create(new UserRoom(user_id, room_id, 0));
+    long currentTime = (long)clock();
+    UserRoom* tmp = urr->create(new UserRoom(user_id, room_id, currentTime));
     cout << "UserRoom created" << tmp->id() << endl;
     return tmp->id();
 }
 
 
 void UserRoomService::del(long id){
-    urr->del(id);
+    urr->archive(id);
     cout << "UserRoom deleted" << id << endl;
 }

@@ -31,6 +31,6 @@ void AuthorizationService::deleteSession(string session_id){
     vector<Authorization> sessions = au->read(odb::query<Authorization>::session_id == session_id);
 
     for(Authorization session : sessions){
-        au->del(session.id());
+        au->archive(session.id());
     }
 }

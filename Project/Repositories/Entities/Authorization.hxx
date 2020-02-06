@@ -37,6 +37,9 @@ class Authorization : public BaseEntity
 
 		unsigned long id ( ) { return id_; } ;
 		
+		bool archived() {return archived_; };
+		void archived(bool a) {archived_ = a; };
+
 		friend class odb::access;  
 
 	
@@ -47,7 +50,8 @@ class Authorization : public BaseEntity
 		long expiration_time_;
 
 		#pragma db id auto         
-		unsigned long id_;         
+		unsigned long id_;   
+		bool archived_;      
 };
 
 #pragma db object(Authorization)

@@ -54,6 +54,9 @@ class User : public BaseEntity
 		
 		unsigned long id ( ) { return id_; } ;
 		
+		bool archived() {return archived_; };
+		void archived(bool a) {archived_ = a; };
+		
 		friend class odb::access;  
   
 
@@ -67,7 +70,8 @@ class User : public BaseEntity
 		long role_;
 
 		#pragma db id auto 
-		unsigned long id_;         
+		unsigned long id_; 
+		bool archived_;        
 };
 
 #pragma db object(User)
