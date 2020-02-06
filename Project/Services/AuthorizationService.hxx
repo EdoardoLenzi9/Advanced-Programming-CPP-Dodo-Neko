@@ -19,12 +19,14 @@
 #include "sha256.hxx"
 #include "DtoException.hxx"
 #include "Const.hxx"
+#include "Env.hxx"
 
 class AuthorizationService { 
     
     public:
         AuthorizationService(){
             au = new Repository<Authorization>();
+            env = new Env();
         }
 
         string createSession(long user_id_);
@@ -33,6 +35,7 @@ class AuthorizationService {
    
     private:
         Repository<Authorization>* au;
+        Env* env;
    
 };
 
