@@ -4,7 +4,7 @@
 
 
 // please change this to your server
-var serverUrl = "http://localhost:8080"
+var serverUrl = "https://e06f6d86-e0bd-4a75-a8fe-bfcf40cfe849.mock.pstmn.io"
 
 // filled via rest api
 var loggedIn = 0;
@@ -72,7 +72,13 @@ function showElementsbyState(){
 
 		$('#btn-login-dropdown').addClass('d-none');
 		$('#btn-logout').removeClass('d-none');
+		$('#btn-settings').removeClass('d-none');
 	}
+}
+
+function round(num){
+	// https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary/18358056#18358056
+	return +(Math.round(num + "e+2") + "e-2");
 }
 
 function checkLoginState(){
@@ -94,7 +100,6 @@ $.postJSON = function(url, data, callback) {
 };
 
 function loadSettings(){
-	getUserInfo();
 
 	$('#frm-email').text(user.email);
 	$('#frm-firstname').text(user.firstname);
@@ -138,22 +143,45 @@ function getUserInfo(){
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
-	$.postJSON(`${serverUrl}/user`,
-	request,
+	if ( request.auth.sid ) {
+		$.postJSON(`${serverUrl}/user`,
+		request,
+		function(response) {
+			if ( response.status.code == "200" ){
+				console.log("successful");
+				user.firstname = response.data.firstName;
+				user.lastname = response.data.lastName;
+				user.email = response.data.email;
+				user.birthday = response.data.birthdate;
+				user.address = response.data.address;
+				user.userid = response.data.userid;
+				user.roleid = response.data.roleid;
+				loggedIn = 1;
+			} else {
+				console.log("acquiring user info failed");
+				console.log(response);
+			}
+ 		});
+	}
+}
+
+function displayFeatures(roomid){
+
+	$('#tbl-featurelist tbody tr').each (function (val) { $(this).remove(); })
+	$.getJSON(`${serverUrl}/room/${roomid}`,
 	function(response) {
-		if ( response.status.code == "200" ){
-			user.firstname = response.data.firstName;
-			user.lastname = response.data.lastName;
-			user.email = response.data.email;
-			user.birthday = response.data.birthdate;
-			user.address = response.data.address;
-			user.userid = response.data.userid;
-			user.roleid = response.data.roleid;
+		if (response.status.code == 200){
+			console.log("success");
+			features = response.data.features;
+
+			for (var i = 0; i < features.length; i++) {
+				$('#tbl-featurelist').append('<tr name="featurerow"><td>' + features[i].name + '</td><td>' + features[i].amount + '</td></tr>');
+			}
 		} else {
-			console.log("acquiring user info failed");
+			console.log("getting roominfo failed");
 			console.log(response);
 		}
- 	});
+	});
 }
 
 /*
@@ -199,7 +227,12 @@ function logout(){
 		$.postJSON(`${serverUrl}/user/auth`,
 		request, 
 		function(response) {
-			// no response
+			if(response.status.code == 200){
+				loadMainPage();
+			} else {
+				console.log("logout went wrong");
+				console.log(response);
+			}
 		});
 	}
 }
@@ -275,14 +308,14 @@ function userUpdate(){
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
-	request.data.firstName = user.firstname;
-	request.data.lastName = user.lastname;
-	request.data.email = user.email;
-	request.data.birthdate = user.birthday;
-	request.data.address = user.address;
-	request.data.password = user.password;
-	request.data.roleid = user.roleid;
-	request.data.userid = user.userid;
+	request.data.firstName = $('#frm-firstname').val();
+	request.data.lastName = $('#frm-lastname').val();
+	request.data.email = $('#frm-email').val();
+	request.data.birthdate = $('#frm-birthday').val();
+	request.data.address = $('#frm-address').val();
+	request.data.password = $('#frm-password').val();
+	request.data.userid = $('#frm-userid').val();
+	request.data.roleid = $('#frm-roleid').val();
 
 	$.postJSON(`${serverUrl}/user/update`,
 	request, 
@@ -300,31 +333,76 @@ function userUpdate(){
 	Implementation of the /room/list endpoint
 */
 
+/*
+// this implementation suffers from asynchronity - actually in this piece of shit language
+// you cant even make sure you actually have values in a variable
+
 function getRooms(){
+	console.log("trying to get rooms");
+	console.log(`${serverUrl}/room/list`);
 	$.getJSON(`${serverUrl}/room/list`,
 	function(response) {
+		console.log(response);
 		for (var i = 0; i < response.data.rooms.length; i++){
-			$('#roomlist').append('<tr><td>' + response.data.rooms[i] + '</td></tr>');
+			room = getRoomInfo(response.data.rooms[i]);
+			while (! room) { }
+			$('#tbl-roomlist').append('<tr><th id="tbl-rooms-' + i + '-id" scope="row">' + room.roomID + '</th><td id="tbl-rooms-' + i + '-features">' + '<button id="tbl-btn-rooms-' + i + '-features" class="btn"><i class="fa fa-eye"></i></button>' + '</td><td id="tbl-rooms-' + i + '-beds">' + "" + '</td><td id="tbl-rooms-' + i + '-price">' + room.basePrice + '</td><td id="tbl-rooms-' + i + '-book"><button id="tbl-btn-rooms-' + i + '-book" class="btn"><i class="fa fa-book"></i></button></td></tr>');
 		}
 	});
 }
+*/
+function getRooms(){
+	console.log("trying to get rooms");
+	console.log(`${serverUrl}/room/list`);
+	$.getJSON(`${serverUrl}/room/list`,
+	function(response) {
+		console.log(response);
+		for (var i = 0; i < response.data.rooms.length; i++){
+			console.log(`checking room ${response.data.rooms[i]}`);
+			roomid = response.data.rooms[i];
+			$.getJSON(`${serverUrl}/room/${roomid}`,
+			function(response) {
+				if (response.status.code == 200){
+					room = response.data;
 
+					// determine how many beds the room has
+					bedfeature = room.features.filter(function(val) { return val.id === "1"; }); // returns the feature object with id 1 (beds)
+					beds = bedfeature[0].amount;
+
+					var price = Number(room.baseprice);
+					for (var i = 0; i < room.features.length; i++){
+						price += (Number(room.baseprice)*Number(room.features[i].pricemultiplier))-Number(room.baseprice);
+					}
+
+					price = round(price);
+
+					// create table row
+					$('#tbl-roomlist').append('<tr><th class="align-middle" id="tbl-rooms-' + i + '-id" scope="row">' + room.roomid + '</th><td class="align-middle" id="tbl-rooms-' + i + '-features">' + '<button id="tbl-btn-rooms-' + i + '-features" data-toggle="modal" data-target="#mod-features" class="btn"><i class="fa fa-eye"></i></button>' + '</td><td class="align-middle" id="tbl-rooms-' + i + '-beds">' + beds + '</td><td class="align-middle" id="tbl-rooms-' + i + '-price">' + price + ' €</td><td class="align-middle" id="tbl-rooms-' + i + '-book"><button id="tbl-btn-rooms-' + i + '-book" class="btn"><i class="fa fa-book"></i></button></td></tr>');
+				} else {
+					console.log("getting roominfo failed");
+					console.log(response);
+				}
+			});	
+		}
+	});
+}
 /* 
 	Implementation of the /room/<roomid> endpoint
 */
-function getRoomInfo(){
-	$.getJSON(`${serverUrl}/room/`+ $('#roomidinput').val(),
+function getRoomInfo(roomid){
+	console.log("getting room info for");
+	console.log(roomid);
+	var returndata;
+	$.getJSON(`${serverUrl}/room/${roomid}`,
 	function(response) {
-		$('#roomid').text(response.data.roomID);
-		$('#coordinatestlx').text(response.data.coordinates.tlx);
-		$('#coordinatestly').text(response.data.coordinates.tly);
-		$('#coordinatesbrx').text(response.data.coordinates.brx);
-		$('#coordinatesbry').text(response.data.coordinates.bry);
-		$('#baseprice').text(response.data.baseprice);
-		for (var i = 0; i < response.data.features.length; i++){
-			$('#roomlist').append('<tr><td>' + response.data.features[i].id + '</td><td>'+ response.data.features[i].name + '</td><td>'+ response.data.features[i].priceMultiplier+ '</td><td>'+ response.data.features[i].amount +'</td></tr>');
+		if (response.status.code == 200){
+			console.log("success");
+			return response.data;
+		} else {
+			console.log("getting roominfo failed");
+			console.log(response);
 		}
-		});
+	});
 }
 
 /* 
@@ -414,9 +492,16 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	$('#btn-settings').click(loadSettings);
 	$('#btn-settings-update').click(userUpdate); /* /user/update */
 
+	$('#tbl-roomlist tbody').on('click', 'button', function(){
+		roomid = $(this).closest('tr').children()[0].innerHTML;
+		displayFeatures(roomid);
+	});
 
 	// show hotel info in the footer
 	getHotelInfo();							/* /hotel */
+
+	// acquire info about the current user, if a SID is found
+	getUserInfo();
 
 	// show hidden navbar items depending on the logged in state
 	showElementsbyState();

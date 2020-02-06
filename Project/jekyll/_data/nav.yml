@@ -11,6 +11,10 @@ list:
       url: /pricing.html
       hidden: "no"
       id: "nav-pricing"
+    - title: "Book"
+      url: /book.html
+      hidden: "no"
+      id: "nav-book"
     - title: "Manage"
       url: /manage.html
       hidden: "yes"
@@ -19,10 +23,6 @@ list:
       url: /admin.html
       hidden: "yes"
       id: "nav-admin"
-    - title: "Settings"
-      url: "/settings.html"
-      hidden: "yes"
-      id: "nav-settings"
     - title: "Debug"
       url: /debug.html
       hidden: "yes"

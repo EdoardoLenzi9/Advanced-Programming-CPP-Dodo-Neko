@@ -1,5 +1,13 @@
 # REST API Changelog
 
+## Hotfix v1.1.2
+
+### Fixes
+
+* Fixed the wording in the `/user/update` endpoint. Sending an empty field should mean "don't change it"
+* removed all occurances of camelcase in the specification, since it was completely random. Everything is lowercase now.
+* removed `successful` as a response from `/room/update` - use the status code in the default response instead.
+
 ## Hotfix v1.1.1
 
 ### Fixes

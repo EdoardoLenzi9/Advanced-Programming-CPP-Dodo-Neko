@@ -1,5 +1,5 @@
 <!-- modal for user settings -->
-<div class="modal fade" id="mod-settings" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="mod-settings" tabindex="-1" role="dialog" aria-labelledby="mod-settings-label" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -18,7 +18,7 @@
 							</div>
 							<div class="form-group col-md-6">
 								<label for="frm-pass">Password</label>
-								<input type="password" class="form-control" id="frm-pass" placeholder="Password">
+								<input type="password" class="form-control" id="frm-pass" placeholder="leave empty to keep">
 							</div>
 						</div>
 						<div class="form-row">
@@ -57,6 +57,38 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				<button id="btn-settings-update" type="button" class="btn btn-primary full-width">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- modal for feature list -->
+<div class="modal fade" id="mod-features" tabindex="-1" role="dialog" aria-labelledby="mod-features-label" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="mod-features-label">Features</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="full-panel">
+					<table id="tbl-featurelist" class="table">
+						<thead>
+							<tr>
+								<th scope="col">Feature</th>
+								<th scope="col">Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- dynamically filled -->
+						</tbody>
+					</table>				
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
