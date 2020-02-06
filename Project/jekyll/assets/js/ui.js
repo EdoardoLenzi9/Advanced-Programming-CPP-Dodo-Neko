@@ -125,7 +125,6 @@ function loadMainPage(){
 function getHotelInfo(){
 	$.getJSON(`${serverUrl}/hotel`, '',
 		function(response) {
-			console.log(response);
 
 			$('#cnt-hotelname').text(response.data.name);
 			$('#cnt-contact').text(response.data.contact);
@@ -149,19 +148,20 @@ function getUserInfo(){
 		function(response) {
 			if ( response.status.code == "200" ){
 				console.log("successful");
-				user.firstname = response.data.firstName;
-				user.lastname = response.data.lastName;
+				user.firstname = response.data.firstname;
+				user.lastname = response.data.lastname;
 				user.email = response.data.email;
 				user.birthday = response.data.birthdate;
 				user.address = response.data.address;
 				user.userid = response.data.userid;
 				user.roleid = response.data.roleid;
 				loggedIn = 1;
+				showElementsbyState();
 			} else {
 				console.log("acquiring user info failed");
 				console.log(response);
 			}
- 		});
+		});
 	}
 }
 
@@ -203,6 +203,7 @@ function login(){
 			console.log("authentication successful");
 			console.log(response.data.sid);
 			Cookies.set('sid', response.data.sid, { expires: 7, path: '' }); // 7 days	
+			loadMainPage();
 		} else if (response.status.code == "401") {
 			// TODO: needs a nicer way of displaying this, maybe some shaking-animation on the login menu
 			alert("authentication failed");
@@ -223,12 +224,15 @@ function login(){
 function logout(){
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
-	if (! request.auth.sid ){
+
+	if ( request.auth.sid ){
 		$.postJSON(`${serverUrl}/user/auth`,
 		request, 
 		function(response) {
 			if(response.status.code == 200){
+				Cookies.remove('sid');
 				loadMainPage();
+				loggedIn = 0;
 			} else {
 				console.log("logout went wrong");
 				console.log(response);
@@ -254,7 +258,7 @@ function register(){
 	var empty = "0";
 
 	if (! $('#frm-email').val() || ! $('#frm-pass').val() ) {
-		//alert("password or email empty");
+		alert("password or email empty");
 		empty = 1;
 	}
 
@@ -262,15 +266,15 @@ function register(){
 	request.data.password=$('#frm-pass').val();
 
 	if (! $('#frm-firstname').val() || ! $('#frm-lastname').val() ) {
-		//alert("name not entered correctly");
+		alert("name not entered correctly");
 		empty = 1;
 	}
 
-	request.data.firstName=$('#frm-firstname').val();
-	request.data.lastName=$('#frm-lastname').val();
+	request.data.firstname=$('#frm-firstname').val();
+	request.data.lastname=$('#frm-lastname').val();
 
 	if (! $('#frm-address').val() || ! $('#frm-birthday').val() ) {
-		//alert("address of birthday empty");
+		alert("address of birthday empty");
 		empty = 1;
 	}
 
@@ -308,8 +312,8 @@ function userUpdate(){
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
-	request.data.firstName = $('#frm-firstname').val();
-	request.data.lastName = $('#frm-lastname').val();
+	request.data.firstname = $('#frm-firstname').val();
+	request.data.lastname = $('#frm-lastname').val();
 	request.data.email = $('#frm-email').val();
 	request.data.birthdate = $('#frm-birthday').val();
 	request.data.address = $('#frm-address').val();
@@ -436,7 +440,7 @@ function updateRoomInfo(){
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
-	request.data.roomID=$('#updateroomid').val();
+	request.data.roomid=$('#updateroomid').val();
 	request.data.coordinates.tlx=$('#updatecoordinatestlx').val();
 	request.data.coordinates.tlx=$('#updatecoordinatestly').val();
 	request.data.coordinates.tlx=$('#updatecoordinatesbrx').val();

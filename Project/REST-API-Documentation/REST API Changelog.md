@@ -14,7 +14,7 @@
 
 * Changed all occurances of `Id` to `id` for uniformity.
 
-## Release v.1.1
+## Release v1.1
 
 ### Additions
 
