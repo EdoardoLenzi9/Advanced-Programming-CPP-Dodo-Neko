@@ -27,8 +27,8 @@ class User : public BaseEntity
 
 		User () { }
 		User (string e, string p, long r) : email_(e), password_(p), role_(r) { }                
-		User (string f, string l, string e, string p, long r) : firstname_(f), lastname_(l), email_(e), 
-																password_(p), role_(r) { }                
+		User (string f, string l, string e, string p, string a, long b, long r) 
+			  : firstname_(f), lastname_(l), email_(e), password_(p), address_(a), birthdate_(b), role_(r) { }                
 
 		// Getter and setters
 		void firstname( string f ) { firstname_ = f; };

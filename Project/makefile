@@ -8,6 +8,7 @@ CXXINCLUDE = -I. \
 			 -I./Services \
 			 -I./Controllers \
 			 -I./Middlewares \
+			 -I./Exceptions \
 			 -I./Routing \
 			 -I./Utils \
 			 -I./SHA256 \

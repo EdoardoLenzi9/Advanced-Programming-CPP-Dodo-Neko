@@ -26,8 +26,9 @@ class UserService {
         }
 
         long getRole(long id);
-        long create(long auth, string name, string surname, long role); 
-        long getPassword(string email); 
+        long create(string firstname, string lastname, string email,
+                    string password, string address, long birthdate, long role);
+        string getPassword(string email); 
 
     private:
         Repository<User>* ur;
