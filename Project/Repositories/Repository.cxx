@@ -37,8 +37,6 @@ vector<Entity> Repository<Entity>::readAll(odb::query<Entity> query)
 
 	{
 		transaction t (dbm->db->begin ());
-		// int a = dbm->db->query<User> (query::name == "Dodo");
-		// res = new odb::result<Entity>(dbm->db->query<Entity> (query));
 
 		odb::result<Entity> r(dbm->db->query<Entity> (query));
 

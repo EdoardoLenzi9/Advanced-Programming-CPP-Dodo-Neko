@@ -24,7 +24,7 @@ long UserService::create(string firstname, string lastname, string email,
     
     if(role > 1){
         // a normal user cannot create an admin profile!
-        throw new DtoException(Code::Unauthorized, UNAUTHORIZED);
+        throw DtoException(Code::Unauthorized, UNAUTHORIZED);
     }
 
     User* user = ur->create(new User(firstname, lastname, email, password, address, birthdate, role));
@@ -37,5 +37,5 @@ string UserService::getPassword(string email){
     if(users.size() > 0){
         return users[0].password();
     }
-    throw new DtoException(Code::WrongPassword, WRONG_PASSWORD);
+    throw DtoException(Code::WrongPassword, WRONG_PASSWORD);
 }

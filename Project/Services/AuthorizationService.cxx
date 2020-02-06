@@ -22,7 +22,7 @@ long AuthorizationService::getSession(string session_id){
         }
     }
     
-    throw new DtoException(Code::Unauthorized, UNAUTHORIZED);
+    throw DtoException(Code::Unauthorized, UNAUTHORIZED);
 }
 
 
