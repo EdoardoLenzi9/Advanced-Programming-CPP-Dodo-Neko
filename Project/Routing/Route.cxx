@@ -3,8 +3,7 @@
 void Route::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, Route obj) {
 
     try {
-        string content = request->content.string();
-        json j = json::parse(content);
+        json j = json::parse(request->content.string());
 
         for(function<bool(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, json)> middleware : obj.middlewares) {
             if(!middleware(response, request, j))
