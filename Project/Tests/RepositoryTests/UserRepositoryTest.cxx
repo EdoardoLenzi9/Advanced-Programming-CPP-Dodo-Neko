@@ -60,7 +60,7 @@ void UserRepositoryTest::QueryUsersTest(void) {
     // Act
 
     User * res1 = ur->read(u1->id());
-    vector<User> res2 = ur->read(odb::query<User>::username == "A1");
+    vector<User> res2 = ur->read(odb::query<User>::email == "A1");
 
     // Assert
 

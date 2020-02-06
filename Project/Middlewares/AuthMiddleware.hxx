@@ -21,8 +21,16 @@ using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 
 class AuthMiddleware {
     public:
+        static const int USER = 1;
+        static const int STAFF = 2;
+        static const int ADMIN = 3;
         AuthMiddleware() {};
         static bool user(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, json);
+        static bool staff(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, json);
+        static bool admin(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, json);
+    
+    private:
+        static bool handle(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, json, int);
 };
 
 #endif

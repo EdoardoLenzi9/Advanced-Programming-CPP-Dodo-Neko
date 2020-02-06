@@ -1,5 +1,5 @@
 #include "AuthorizationServiceTests.hxx"
-
+#include "DtoException.hxx"
 
 CPPUNIT_TEST_SUITE_REGISTRATION( AuthorizationServiceTests );
 
@@ -33,11 +33,6 @@ void AuthorizationServiceTests::GetSessionTest(void) {
 
 
 void AuthorizationServiceTests::UnauthorizedSessionTest(void) {
-    // Act
-
-    long retrievedId = as->getSession("unauthorizedsession");
-
-    // Assert
-
-    CPPUNIT_ASSERT( 0 == retrievedId );
+    // Act & Assert
+    CPPUNIT_ASSERT_THROW(as->getSession("unauthorizedsession"), DtoException);
 }

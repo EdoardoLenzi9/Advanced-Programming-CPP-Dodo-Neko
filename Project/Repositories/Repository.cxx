@@ -8,6 +8,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include <odb/database.hxx>
 #include <odb/transaction.hxx>
@@ -21,11 +22,46 @@ template<typename Entity>
 Entity* Repository<Entity>::create(Entity* e) 
 {
     {
-      transaction t (dbm->db->begin ());
+      	transaction t (dbm->db->begin ());
+	  	e->archived(false);
     	dbm->db->persist ( *e );
     	t.commit ();
     }
     return e;
+}
+
+template<typename Entity>
+vector<Entity> Repository<Entity>::readAll(odb::query<Entity> query) 
+{
+	vector<Entity> res;
+
+	{
+		transaction t (dbm->db->begin ());
+
+		odb::result<Entity> r(dbm->db->query<Entity> (query));
+
+		for(Entity& e: r){
+			res.push_back(e);
+		}
+
+		t.commit ();
+	}
+
+	return res;
+}
+
+
+template<typename Entity>
+Entity* Repository<Entity>::readAll(unsigned long id) 
+{   
+	Entity* res;
+    {
+		transaction t (dbm->db->begin ());
+		Entity* pivot(dbm->db->load<Entity> (id));
+		res = pivot; 
+		t.commit ();
+  	}
+ 	return res;
 }
 
 
@@ -36,13 +72,13 @@ vector<Entity> Repository<Entity>::read(odb::query<Entity> query)
 
 	{
 		transaction t (dbm->db->begin ());
-		// int a = dbm->db->query<User> (query::name == "Dodo");
-		// res = new odb::result<Entity>(dbm->db->query<Entity> (query));
 
 		odb::result<Entity> r(dbm->db->query<Entity> (query));
 
 		for(Entity& e: r){
-			res.push_back(e);
+			if(!e.archived()){
+				res.push_back(e);
+			}
 		}
 
 		t.commit ();
@@ -62,6 +98,11 @@ Entity* Repository<Entity>::read(unsigned long id)
 		res = pivot; 
 		t.commit ();
   	}
+
+	if(res->archived()){
+		return NULL;
+	}  
+
  	return res;
 }
 
@@ -82,15 +123,30 @@ void Repository<Entity>::update(Entity* e)
 
 
 template<typename Entity>
-long Repository<Entity>::del(unsigned long id){
+long Repository<Entity>::archive(unsigned long id){
+	{
+		transaction t (dbm->db->begin ());
+
+		Entity* pivot (dbm->db->load<Entity> (id)); 
+		pivot->archived(true);
+		dbm->db->update(*pivot);
+
+		t.commit ();
+	}
+}
+
+
+template<typename Entity>
+bool Repository<Entity>::del(unsigned long id){
     {
       	transaction t (dbm->db->begin ());
       	dbm->db->erase<Entity> (id);
       	t.commit ();
     }
 
-	return id; //FIX: this was missing, dodo, i put it in to avoid the compiler warning. maybe this should return a boolean instead.
+	return true;
 }
+
 
 template class Repository<Room>;
 template class Repository<Role>;

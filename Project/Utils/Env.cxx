@@ -6,8 +6,10 @@ Env::Env(){
     json j;
     i >> j;
 
-    initSchema = j["initSchema"];
-    targetDB = j["targetDB"];
-    staticFolder = j["staticFolder"];
     port = j["port"];
+    staticFolder = j["staticFolder"];
+    targetDB = j["targetDB"];
+    initSchema = j["initSchema"];
+    initData = j["initData"];
+    sessionTime = j["sessionTime"];
 }

@@ -35,6 +35,9 @@ class RoomFeature : public BaseEntity
 		
 		unsigned long id ( ) { return id_; } ;
 		
+		bool archived() {return archived_; };
+		void archived(bool a) {archived_ = a; };
+		
 		friend class odb::access;  
 
 	
@@ -45,7 +48,8 @@ class RoomFeature : public BaseEntity
 		long room_number_;
 
 		#pragma db id auto         
-		unsigned long id_;         
+		unsigned long id_;      
+		bool archived_;   
 };
 
 #pragma db object(RoomFeature)

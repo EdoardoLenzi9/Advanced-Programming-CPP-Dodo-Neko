@@ -23,7 +23,7 @@ class Authorization : public BaseEntity
 	public:
     
 	    Authorization () {}
-	    Authorization (long u, string s) : user_id_(u), session_id_(s) {}                 
+	    Authorization (long u, string s, long e) : user_id_(u), session_id_(s), expiration_time_(e) {}                 
 		
 		// Getter and setters
 		void user_id( long u ) { user_id_ = u; };
@@ -32,8 +32,14 @@ class Authorization : public BaseEntity
 		void session_id( long s ) { session_id_ = s; };
 		string session_id() { return session_id_; };
 		
+		void expiration_time( long e ) { expiration_time_ = e; };
+		long expiration_time() { return expiration_time_; };
+
 		unsigned long id ( ) { return id_; } ;
 		
+		bool archived() {return archived_; };
+		void archived(bool a) {archived_ = a; };
+
 		friend class odb::access;  
 
 	
@@ -41,9 +47,11 @@ class Authorization : public BaseEntity
 
 		long user_id_;
 		string session_id_;
-		//exp_date
+		long expiration_time_;
+
 		#pragma db id auto         
-		unsigned long id_;         
+		unsigned long id_;   
+		bool archived_;      
 };
 
 #pragma db object(Authorization)

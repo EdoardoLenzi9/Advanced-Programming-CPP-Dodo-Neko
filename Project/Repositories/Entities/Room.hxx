@@ -46,6 +46,9 @@ class Room : public BaseEntity
 		int bry() { return br_y_; };
 
 		unsigned long id ( ) { return id_; } ;
+		
+		bool archived() {return archived_; };
+		void archived(bool a) {archived_ = a; };
 
 		friend class odb::access;  
 
@@ -63,7 +66,8 @@ class Room : public BaseEntity
 		int br_y_;
 
 		#pragma db id auto         
-		unsigned long id_;         
+		unsigned long id_;  
+		bool archived_;       
 };
 
 #pragma db object(Room)
