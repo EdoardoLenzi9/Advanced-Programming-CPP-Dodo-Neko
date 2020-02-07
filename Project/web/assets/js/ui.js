@@ -159,7 +159,7 @@ function getUserInfo(){
 				user.address = response.data.address;
 				user.userid = response.data.userid;
 				user.roleid = response.data.roleid;
-				loggedIn = 1;
+				//loggedIn = 1;
 				showElementsbyState();
 			} else {
 				console.log("acquiring user info failed");
@@ -188,6 +188,19 @@ function displayFeatures(roomid){
 	});
 }
 
+function displayBooking(roomid){
+	getUserInfo();
+	if (loggedIn == 1) {
+		console.log(loggedIn);
+		$('#mod-booking-guest').addClass('d-none');
+		$('#mod-booking-user').removeClass('d-none');
+	} else {
+		console.log(loggedIn);
+		$('#mod-booking-guest').removeClass('d-none');
+		$('#mod-booking-user').addClass('d-none');
+	}
+}
+
 /*
 	Implementation of the /user/auth endpoint
 */
@@ -209,7 +222,7 @@ function login(){
 			console.log("authentication successful");
 			console.log(response.data.sid);
 			Cookies.set('sid', response.data.sid, { expires: 7, path: '' }); // 7 days	
-			loadMainPage();
+			//loadMainPage();
 		} else if (response.status.code == "401") {
 			// TODO: needs a nicer way of displaying this, maybe some shaking-animation on the login menu
 			alert("authentication failed");
@@ -388,7 +401,7 @@ function getRooms(){
 					price = round(price);
 
 					// create table row
-					$('#tbl-roomlist').append('<tr><th class="align-middle" id="tbl-rooms-' + i + '-id" scope="row">' + room.roomid + '</th><td class="align-middle" id="tbl-rooms-' + i + '-features">' + '<button id="tbl-btn-rooms-' + i + '-features" data-toggle="modal" data-target="#mod-features" class="btn"><i class="fa fa-eye"></i></button>' + '</td><td class="align-middle" id="tbl-rooms-' + i + '-beds">' + beds + '</td><td class="align-middle" id="tbl-rooms-' + i + '-price">' + price + ' €</td><td class="align-middle" id="tbl-rooms-' + i + '-book"><button id="tbl-btn-rooms-' + i + '-book" class="btn"><i class="fa fa-book"></i></button></td></tr>');
+					$('#tbl-roomlist').append('<tr><th class="align-middle" id="tbl-rooms-' + i + '-id" scope="row">' + room.roomid + '</th><td class="align-middle" id="tbl-rooms-' + i + '-features">' + '<button id="tbl-btn-rooms-' + i + '-features" data-toggle="modal" data-target="#mod-features" class="btn"><i class="fa fa-eye"></i></button>' + '</td><td class="align-middle" id="tbl-rooms-' + i + '-beds">' + beds + '</td><td class="align-middle" id="tbl-rooms-' + i + '-price">' + price + ' €</td><td class="align-middle" id="tbl-rooms-' + i + '-book"><button id="tbl-btn-rooms-' + i + '-book" data-toggle="modal" data-target="#mod-booking" class="btn"><i class="fa fa-book"></i></button></td></tr>');
 				} else {
 					console.log("getting roominfo failed");
 					console.log(response);
@@ -503,11 +516,26 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	$('#btn-settings').click(loadSettings);
 	$('#btn-settings-update').click(userUpdate); /* /user/update */
 
+	// listener for dynamic table content of the booking page, feature button
+	$('#tbl-roomlist tbody').on('click', 'button[id*="features"]', function(){
+		roomid = $(this).closest('tr').children()[0].innerHTML;
+		displayFeatures(roomid);
+
+	});
+
+	$('#tbl-roomlist tbody').on('click', 'button[id*="book"]', function(){
+
+		roomid = $(this).closest('tr').children()[0].innerHTML;
+		displayBooking(roomid);
+
+	});
+	/*
+	// listener for dynamic table content of the booking page, book button
 	$('#tbl-roomlist tbody').on('click', 'button', function(){
 		roomid = $(this).closest('tr').children()[0].innerHTML;
 		displayFeatures(roomid);
 	});
-
+	*/
 	// show hotel info in the footer
 	getHotelInfo();							/* /hotel */
 

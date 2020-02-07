@@ -159,7 +159,7 @@ function getUserInfo(){
 				user.address = response.data.address;
 				user.userid = response.data.userid;
 				user.roleid = response.data.roleid;
-				//loggedIn = 1;
+				loggedIn = 1;
 				showElementsbyState();
 			} else {
 				console.log("acquiring user info failed");
@@ -222,7 +222,7 @@ function login(){
 			console.log("authentication successful");
 			console.log(response.data.sid);
 			Cookies.set('sid', response.data.sid, { expires: 7, path: '' }); // 7 days	
-			loadMainPage();
+			//loadMainPage();
 		} else if (response.status.code == "401") {
 			// TODO: needs a nicer way of displaying this, maybe some shaking-animation on the login menu
 			alert("authentication failed");
