@@ -4,8 +4,8 @@
 
 
 // please change this to your server
-var serverUrl = "https://e06f6d86-e0bd-4a75-a8fe-bfcf40cfe849.mock.pstmn.io"
-
+//var serverUrl = "https://e06f6d86-e0bd-4a75-a8fe-bfcf40cfe849.mock.pstmn.io"
+var serverUrl = "http://localhost:8080"
 // filled via rest api
 var loggedIn = 0;
 
@@ -88,14 +88,16 @@ function checkLoginState(){
 // this is a function i found which corrects the missing headers
 // for the $.post function. without application/json the server
 // doesnt really know what to do with the data 
-$.postJSON = function(url, data, callback) {
+$.postJSON = function(url, data, successcallback) {
 	return jQuery.ajax({
 		'type': 'POST',
 		'url': url,
 		'contentType': 'application/json',
 		'data': JSON.stringify(data),
 		'dataType': 'json',
-		'success': callback
+		'success': successcallback,
+		'error': function(){ alert("accessing the api failed"); },
+		'timeout': 3000
 	});
 };
 
@@ -123,15 +125,16 @@ function loadMainPage(){
 */
 
 function getHotelInfo(){
-	$.getJSON(`${serverUrl}/hotel`, '',
+	$.getJSON(`${serverUrl}/hotel`,
 		function(response) {
-			console.log(response);
-
-			$('#cnt-hotelname').text(response.data.name);
-			$('#cnt-contact').text(response.data.contact);
-			$('#cnt-address').text(response.data.address);
-			$('#cnt-description').text(response.data.description);
-
+			if (response.status.code == "200" ){
+				$('#cnt-hotelname').text(response.data.name);
+				$('#cnt-contact').text(response.data.contact);
+				$('#cnt-address').text(response.data.address);
+				$('#cnt-description').text(response.data.description);
+			} else {
+				console.log("getting hotel info failed");
+			}
  		 });
 }
 
@@ -149,19 +152,20 @@ function getUserInfo(){
 		function(response) {
 			if ( response.status.code == "200" ){
 				console.log("successful");
-				user.firstname = response.data.firstName;
-				user.lastname = response.data.lastName;
+				user.firstname = response.data.firstname;
+				user.lastname = response.data.lastname;
 				user.email = response.data.email;
 				user.birthday = response.data.birthdate;
 				user.address = response.data.address;
 				user.userid = response.data.userid;
 				user.roleid = response.data.roleid;
 				loggedIn = 1;
+				showElementsbyState();
 			} else {
 				console.log("acquiring user info failed");
 				console.log(response);
 			}
- 		});
+		});
 	}
 }
 
@@ -190,10 +194,12 @@ function displayFeatures(roomid){
 
 function login(){
 	var request = defaultRequest;
+	Cookies.remove('sid');
+
 	request.auth.sid = Cookies.get('sid');
 	
 	request.data = {
-			"username": $('#frm-username').val(),
+			"email": $('#frm-username').val(),
 			"password": $('#frm-password').val()
 		}
 	$.postJSON(`${serverUrl}/user/auth`,
@@ -203,10 +209,12 @@ function login(){
 			console.log("authentication successful");
 			console.log(response.data.sid);
 			Cookies.set('sid', response.data.sid, { expires: 7, path: '' }); // 7 days	
+			loadMainPage();
 		} else if (response.status.code == "401") {
 			// TODO: needs a nicer way of displaying this, maybe some shaking-animation on the login menu
 			alert("authentication failed");
 		} else {
+			alert("authentication failed due to unknown reasons (check log)");
 			console.log("login failed")
 			console.log(response);
 		}
@@ -223,12 +231,15 @@ function login(){
 function logout(){
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
-	if (! request.auth.sid ){
+
+	if ( request.auth.sid ){
 		$.postJSON(`${serverUrl}/user/auth`,
 		request, 
 		function(response) {
 			if(response.status.code == 200){
+				Cookies.remove('sid');
 				loadMainPage();
+				loggedIn = 0;
 			} else {
 				console.log("logout went wrong");
 				console.log(response);
@@ -254,7 +265,7 @@ function register(){
 	var empty = "0";
 
 	if (! $('#frm-email').val() || ! $('#frm-pass').val() ) {
-		//alert("password or email empty");
+		alert("password or email empty");
 		empty = 1;
 	}
 
@@ -262,15 +273,15 @@ function register(){
 	request.data.password=$('#frm-pass').val();
 
 	if (! $('#frm-firstname').val() || ! $('#frm-lastname').val() ) {
-		//alert("name not entered correctly");
+		alert("name not entered correctly");
 		empty = 1;
 	}
 
-	request.data.firstName=$('#frm-firstname').val();
-	request.data.lastName=$('#frm-lastname').val();
+	request.data.firstname=$('#frm-firstname').val();
+	request.data.lastname=$('#frm-lastname').val();
 
 	if (! $('#frm-address').val() || ! $('#frm-birthday').val() ) {
-		//alert("address of birthday empty");
+		alert("address of birthday empty");
 		empty = 1;
 	}
 
@@ -308,8 +319,8 @@ function userUpdate(){
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
-	request.data.firstName = $('#frm-firstname').val();
-	request.data.lastName = $('#frm-lastname').val();
+	request.data.firstname = $('#frm-firstname').val();
+	request.data.lastname = $('#frm-lastname').val();
 	request.data.email = $('#frm-email').val();
 	request.data.birthdate = $('#frm-birthday').val();
 	request.data.address = $('#frm-address').val();
@@ -436,7 +447,7 @@ function updateRoomInfo(){
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
-	request.data.roomID=$('#updateroomid').val();
+	request.data.roomid=$('#updateroomid').val();
 	request.data.coordinates.tlx=$('#updatecoordinatestlx').val();
 	request.data.coordinates.tlx=$('#updatecoordinatestly').val();
 	request.data.coordinates.tlx=$('#updatecoordinatesbrx').val();

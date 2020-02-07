@@ -4,8 +4,8 @@
 
 
 // please change this to your server
-var serverUrl = "https://e06f6d86-e0bd-4a75-a8fe-bfcf40cfe849.mock.pstmn.io"
-
+//var serverUrl = "https://e06f6d86-e0bd-4a75-a8fe-bfcf40cfe849.mock.pstmn.io"
+var serverUrl = "http://localhost:8080"
 // filled via rest api
 var loggedIn = 0;
 
@@ -88,14 +88,16 @@ function checkLoginState(){
 // this is a function i found which corrects the missing headers
 // for the $.post function. without application/json the server
 // doesnt really know what to do with the data 
-$.postJSON = function(url, data, callback) {
+$.postJSON = function(url, data, successcallback) {
 	return jQuery.ajax({
 		'type': 'POST',
 		'url': url,
 		'contentType': 'application/json',
 		'data': JSON.stringify(data),
 		'dataType': 'json',
-		'success': callback
+		'success': successcallback,
+		'error': function(){ alert("accessing the api failed"); },
+		'timeout': 3000
 	});
 };
 
@@ -123,14 +125,16 @@ function loadMainPage(){
 */
 
 function getHotelInfo(){
-	$.getJSON(`${serverUrl}/hotel`, '',
+	$.getJSON(`${serverUrl}/hotel`,
 		function(response) {
-
-			$('#cnt-hotelname').text(response.data.name);
-			$('#cnt-contact').text(response.data.contact);
-			$('#cnt-address').text(response.data.address);
-			$('#cnt-description').text(response.data.description);
-
+			if (response.status.code == "200" ){
+				$('#cnt-hotelname').text(response.data.name);
+				$('#cnt-contact').text(response.data.contact);
+				$('#cnt-address').text(response.data.address);
+				$('#cnt-description').text(response.data.description);
+			} else {
+				console.log("getting hotel info failed");
+			}
  		 });
 }
 
@@ -190,10 +194,12 @@ function displayFeatures(roomid){
 
 function login(){
 	var request = defaultRequest;
+	Cookies.remove('sid');
+
 	request.auth.sid = Cookies.get('sid');
 	
 	request.data = {
-			"username": $('#frm-username').val(),
+			"email": $('#frm-username').val(),
 			"password": $('#frm-password').val()
 		}
 	$.postJSON(`${serverUrl}/user/auth`,
@@ -208,6 +214,7 @@ function login(){
 			// TODO: needs a nicer way of displaying this, maybe some shaking-animation on the login menu
 			alert("authentication failed");
 		} else {
+			alert("authentication failed due to unknown reasons (check log)");
 			console.log("login failed")
 			console.log(response);
 		}

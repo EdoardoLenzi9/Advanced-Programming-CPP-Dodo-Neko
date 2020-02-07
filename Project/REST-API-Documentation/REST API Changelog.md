@@ -7,6 +7,9 @@
 * Fixed the wording in the `/user/update` endpoint. Sending an empty field should mean "don't change it"
 * removed all occurances of camelcase in the specification, since it was completely random. Everything is lowercase now.
 * removed `successful` as a response from `/room/update` - use the status code in the default response instead.
+* removed `successful` as a response from `/user/logout` - use the status code in the default response instead.
+* changed `username` to `email` in `/user/auth`
+* added 2 new status codes: ``
 
 ## Hotfix v1.1.1
 

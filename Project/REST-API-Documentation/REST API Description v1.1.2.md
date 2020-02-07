@@ -39,6 +39,7 @@ A list of common server response codes. The descriptions are only a general idea
 | ---- | ---- | ---- |
 | 200 | success | Everything was done according to request |
 | 401 | failure | Request not possible, authentication required or auth level too low. Also returned when authentication fails on the `/user/auth` endpoint. |
+| 406 | failure | failed to parse JSON |
 | 501 | failure | not implemented, returned when accessing an invalid endpoint |
 
 
@@ -146,7 +147,7 @@ Response
 
 ```json=
 {
-    "successful":"boolean" // 1 is yes
+
 }
 ```
 
@@ -180,7 +181,7 @@ Request
 
 ```json=
 {
-    "username":"<string>",
+    "email":"<string>",
     "password":"<string>(sha256)"
 }
 ```
