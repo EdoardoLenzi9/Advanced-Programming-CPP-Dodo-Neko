@@ -19,16 +19,16 @@ void UserController::create(shared_ptr<HttpServer::Response> response, shared_pt
 
 	if(id > 0){
 		json res;
-		res["status"]["code"] = 200;
-		res["status"]["description"] = "OK";
+		res["status"]["code"] = Code::Ok;
+		res["status"]["description"] = OK;
 		res["data"] = "";
-		response->write(SimpleWeb::StatusCode::success_ok, res.dump());
+		*response << serialize(res);
 	} else {
 		json res;
-		res["status"]["code"] = 400;
-		res["status"]["description"] = "Bad Request";
+		res["status"]["code"] = Code::InternalServerError;
+		res["status"]["description"] = SERVER_ERROR;
 		res["data"] = "";
-		response->write(SimpleWeb::StatusCode::client_error_bad_request, res.dump());
+		*response << serialize(res);
 	}
 
 }
@@ -42,10 +42,25 @@ void UserController::get(shared_ptr<HttpServer::Response> response, shared_ptr<H
 }
 
 void UserController::update(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
-    json res;
-	res["status"]["code"] = Code::InternalServerError;
-	res["status"]["description"] = NOT_IMPLEMENTED;
+	UserService service;
+
+	long userid = content["data"]["userid"].get<long>();
+	long roleid = content["data"]["roleid"].get<long>();
+	long birthdate = content["data"]["birthdate"].get<long>(); 
+
+	string firstname = content["data"]["firstname"].get<string>();
+	string lastname = content["data"]["lastname"].get<string>();
+	string email = content["data"]["email"].get<string>();
+	string address = content["data"]["address"].get<string>();
+	string password = content["data"]["password"].get<string>();
+
+	service.update(userid, firstname, lastname, email, password, address, birthdate, roleid);
+
+	json res;
+	res["status"]["code"] = Code::Ok;
+	res["status"]["description"] = OK;
 	res["data"] = "";
+
 	*response << serialize(res);
 }
 
