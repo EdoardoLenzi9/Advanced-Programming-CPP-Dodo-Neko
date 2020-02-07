@@ -89,7 +89,7 @@ void UserController::login(shared_ptr<HttpServer::Response> response, shared_ptr
 		res["status"]["code"] = e.getCode();
 		res["status"]["description"] = e.getDescription();
 		res["data"] = "";
-		response->write(SimpleWeb::StatusCode::server_error_internal_server_error, res.dump());
+		*response << serialize(res);
 	} 
 	/*catch {
 

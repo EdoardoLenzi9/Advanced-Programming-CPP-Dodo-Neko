@@ -20,10 +20,9 @@ void Route::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpSer
         
     } catch (exception) {
         json res;
-        res["status"]["code"] = 406;
+        res["status"]["code"] = Code::NotAcceptable;
         res["status"]["description"] = "Could not parse json!";
         res["data"] = "";
-        response->write(res.dump());
+        *response << BaseController::serialize(res);
     }
-
 }

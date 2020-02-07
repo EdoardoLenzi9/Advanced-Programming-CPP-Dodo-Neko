@@ -3,6 +3,8 @@
 
 #include "server_http.hpp"
 #include "Env.hxx"
+#include "BaseController.hxx"
+#include "Const.hxx"
 
 #define BOOST_SPIRIT_THREADSAFE
 #include <boost/property_tree/json_parser.hpp>
