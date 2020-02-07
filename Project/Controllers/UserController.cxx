@@ -81,6 +81,7 @@ void UserController::login(shared_ptr<HttpServer::Response> response, shared_ptr
 		res["status"]["code"] = Code::Ok;
 		res["status"]["description"] = Ok;
 		res["data"]["sid"] = session;
+      	*response << serialize(res);
 
       	*response << serialize(res);
 
