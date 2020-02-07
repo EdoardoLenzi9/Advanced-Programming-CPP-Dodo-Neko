@@ -5,44 +5,49 @@
 #include "AuthMiddleware.hxx"
 #include <AuthorizationService.hxx>
 #include <UserService.hxx>
+#include <Const.hxx>
 
 bool AuthMiddleware::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content, int authlevel) {
+
     if(content["auth"].count("sid") == 0) {
         
         json res;
-        res["status"]["code"] = 401;
-        res["status"]["description"] = "Unauthorized";
+        res["status"]["code"] = Code::Unauthorized;
+        res["status"]["description"] = Unauthorized;
         res["data"] = "";
-        response->write(SimpleWeb::StatusCode::client_error_unauthorized, res.dump());
+        *response << serialize(res);
 
         return false; 
     }
 
     AuthorizationService service;
     UserService userService;
-    long userId = service.getSession(content["auth"]["sid"].get<string>());
+    long userId = 0;
+
+    userId = service.getSession(content["auth"]["sid"].get<string>());    
 
     if(userId == 0) {
         json res;
-        res["status"]["code"] = 401;
-        res["status"]["description"] = "Unauthorized";
+        res["status"]["code"] = Code::Unauthorized;
+        res["status"]["description"] = Unauthorized;
         res["data"] = "";
-        response->write(SimpleWeb::StatusCode::client_error_unauthorized, res.dump());
+        *response << serialize(res);
 
         return false;
     }
 
     if(userService.getRole(userId) < authlevel) {
         json res;
-        res["status"]["code"] = 401;
-        res["status"]["description"] = "Unauthorized";
+        res["status"]["code"] = Code::Unauthorized;
+        res["status"]["description"] = Unauthorized;
         res["data"] = "";
-        response->write(SimpleWeb::StatusCode::client_error_unauthorized, res.dump());
+        *response << serialize(res);
 
         return false;
     }
 
     return true;
+
 }
 
 bool AuthMiddleware::user(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content) {

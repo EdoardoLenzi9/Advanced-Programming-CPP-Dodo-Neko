@@ -3,6 +3,7 @@
 
 #include "server_http.hpp"
 #include "status_code.hpp"
+#include "BaseMiddleware.hxx"
 
 #define BOOST_SPIRIT_THREADSAFE
 #include <nlohmann/json.hpp>
@@ -19,7 +20,7 @@ using namespace SimpleWeb;
 using json = nlohmann::json;
 using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 
-class AuthMiddleware {
+class AuthMiddleware: public BaseMiddleware {
     public:
         static const int USER = 1;
         static const int STAFF = 2;
