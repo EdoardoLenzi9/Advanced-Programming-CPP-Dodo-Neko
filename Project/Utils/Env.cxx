@@ -12,4 +12,5 @@ Env::Env(){
     initSchema = j["initSchema"];
     initData = j["initData"];
     sessionTime = j["sessionTime"];
+    debugMode = j["debugMode"];
 }

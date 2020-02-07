@@ -2,6 +2,7 @@
 #define ROUTE_HXX
 
 #include "server_http.hpp"
+#include "Env.hxx"
 
 #define BOOST_SPIRIT_THREADSAFE
 #include <boost/property_tree/json_parser.hpp>
@@ -27,13 +28,13 @@ class Route {
         Route( string path, 
                string httpMethod, 
                void (*handler)(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, json))
-               : path(path), httpMethod(httpMethod), handler(handler) {};
+               : path(path), httpMethod(httpMethod), handler(handler) { };
 
         Route( string path, 
                string httpMethod, 
                void (*handler)(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, json),
                vector<function<bool(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, json)>> middlewares)
-               : path(path), httpMethod(httpMethod), handler(handler), middlewares(middlewares) {};
+               : path(path), httpMethod(httpMethod), handler(handler), middlewares(middlewares) { };
 
         string path;
         string httpMethod;

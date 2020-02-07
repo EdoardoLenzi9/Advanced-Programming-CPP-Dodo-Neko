@@ -30,6 +30,7 @@ class Env {
         bool getInitSchema(){ return initSchema; }
         bool getInitData(){ return initData; }
         long getSessionTime(){ return sessionTime; }
+        bool getDebugMode() { return debugMode; }
         
     private:
         int port;    
@@ -38,6 +39,7 @@ class Env {
         bool initSchema;   
         bool initData;   
         long sessionTime;
+        bool debugMode;
 };
 
 #endif
