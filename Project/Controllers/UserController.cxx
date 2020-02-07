@@ -82,9 +82,7 @@ void UserController::login(shared_ptr<HttpServer::Response> response, shared_ptr
 		res["status"]["description"] = Ok;
 		res["data"]["sid"] = session;
       	*response << serialize(res);
-
-      	*response << serialize(res);
-
+		  
 	} catch (DtoException e) {
 		json res;
 		res["status"]["code"] = e.getCode();
