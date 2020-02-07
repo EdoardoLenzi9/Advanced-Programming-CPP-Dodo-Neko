@@ -27,7 +27,7 @@ void Route::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpSer
         string statusCode = to_string(dtoe.getCode());
         string statusCodeLabel = CodeLabels[statusCode];
         string dump = res.dump();
-        *response << "HTTP/1.1 " + statusCode + " " + statusCodeLabel +"\r\n" + "Content-Length: " + to_string(dump.length()) + "\r\n" + "Content-Type: application/json\r\n\r\n" + dump;
+        *response << BaseController::serialize(res);
     } catch (exception e) {
         json res;
         res["status"]["code"] = 501;
