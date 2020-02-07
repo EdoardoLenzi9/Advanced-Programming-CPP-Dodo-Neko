@@ -27,6 +27,8 @@ class Room : public BaseEntity
 		Room (int b) : beds_(b) {}
 		Room (int b, int tlx, int tly, int brx, int bry) : beds_(b), tl_x_(tlx), tl_y_(tly), 
 														   br_x_(brx), br_y_(bry) {}                 
+		Room (long id, int b, int tlx, int tly, int brx, int bry) : id_(id), beds_(b), tl_x_(tlx), 
+																	tl_y_(tly), br_x_(brx), br_y_(bry) {}                 
 		
 		// Getter and setters
 

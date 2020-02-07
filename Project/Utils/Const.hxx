@@ -8,10 +8,12 @@ using namespace std;
 
 enum Code { 
     Unauthorized, 
-    WrongPassword 
+    WrongPassword,
+    EmptyList 
 };
 
 const string UNAUTHORIZED = "Unauthorized";
 const string WRONG_PASSWORD = "Wrong password!";
+const string EMPTY_LIST = "No avaliable rooms";
 
 #endif

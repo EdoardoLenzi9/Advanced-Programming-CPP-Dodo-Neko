@@ -30,6 +30,7 @@ Entity* Repository<Entity>::create(Entity* e)
     return e;
 }
 
+
 template<typename Entity>
 vector<Entity> Repository<Entity>::readAll(odb::query<Entity> query) 
 {
@@ -104,6 +105,27 @@ Entity* Repository<Entity>::read(unsigned long id)
 	}  
 
  	return res;
+}
+
+
+template<typename Entity>
+vector<Entity> Repository<Entity>::read() 
+{   
+	vector<Entity> res;
+
+	{
+		transaction t (dbm->db->begin ());
+
+		odb::result<Entity> r(dbm->db->query<Entity> (odb::query<Entity>::archived == false));
+
+		for(Entity& e: r){
+			res.push_back(e);
+		}
+
+		t.commit ();
+	}
+
+	return res;
 }
 
 

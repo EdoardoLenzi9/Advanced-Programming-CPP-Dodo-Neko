@@ -48,10 +48,14 @@ class Repository {
     Repository(DBManager* dbm) : dbm(dbm) { }
 
     Entity* create(Entity* e);
+    
     Entity* read(unsigned long id);
     vector<Entity> read(odb::query<Entity> query);
+    vector<Entity> read();
+    
     Entity* readAll(unsigned long id);
     vector<Entity> readAll(odb::query<Entity> query);
+    
     void update(Entity* e);
     long archive(unsigned long id);
     bool del(unsigned long id);

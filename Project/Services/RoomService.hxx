@@ -16,6 +16,8 @@
 
 #include "Repository.hxx"
 #include "UserService.hxx"
+#include "DtoException.hxx"
+#include "Const.hxx"
 
 
 class RoomService { 
@@ -30,11 +32,12 @@ class RoomService {
         }
 
         long create(int beds, int tlx, int tly, int brx, int bry);    
-        vector<Room> getList();
+        void printList();
         long bookRoom(long userID, long roomID);
         void unbookRoom(long roomID);
-        void printList();
-        Room* get(long id);
+        Room* getRoom(long id);
+        vector<Room> getList(long id);
+        void update(long id, int beds, int tlx, int tly, int brx, int bry);
         
     private:
         UserService* us;

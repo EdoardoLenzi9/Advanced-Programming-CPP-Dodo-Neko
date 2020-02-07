@@ -29,6 +29,9 @@ class UserService {
         long create(string firstname, string lastname, string email,
                     string password, string address, long birthdate, long role);
         string getPassword(string email); 
+        void del(long id);
+        void update(long id, string firstname, string lastname, string email,
+                    string password, string address, long birthdate, long role);
 
     private:
         Repository<User>* ur;
