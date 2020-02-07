@@ -1,5 +1,22 @@
 # REST API Changelog
 
+## Release v1.3
+
+Completely redesigned the REST API Implementation:
+
+* All occurances of time have been changed to be in Unix-Time.
+* All occruances of passwords are changed to be clear-text as hashing should be done on the server.
+* `/user/list` was added to return a list of users for administrative use.
+* `/room/list` has been completely redesigned to only return a list of bookings depending on a date range. Instead of returning all rooms, it will return the rooms available during that time period, including their features baked into the room object.
+* `/room/<roomid>` was completely removed, as features come backed into `/room/list` now.
+* `/room/update` was completely removed.
+* `/book/confirmpayment` was removed to allow managers to confirm the received payment on a booking without the Update-Room functionality.
+* `/book/check` was completely removed, checking the availability of a room is baked into `/room/list` now.
+* `/book/create` was reworked. The `userid` was removed from the request (to be determined via the `sid`). Removed the `successful` from the response, use statuscode instead.
+* `/book/list` was completely reworked to return a list of booking objects containing all the needed information like userdata and roomdata (including features).
+* `/book/update` was simplified to only allow changing the arrival and departure times.
+* Removed the `successful` from the response in `/book/delete`, use statuscode instead. 
+
 ## Hotfix v1.1.2
 
 ### Fixes
