@@ -81,8 +81,7 @@ void UserController::login(shared_ptr<HttpServer::Response> response, shared_ptr
 		res["status"]["code"] = Code::Ok;
 		res["status"]["description"] = Ok;
 		res["data"]["sid"] = session;
-		BaseController b;
-      	*response << b.serialize(res);
+      	*response << serialize(res);
 
 	} catch (DtoException e) {
 		json res;
