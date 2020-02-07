@@ -30,7 +30,24 @@ void RoomService::unbookRoom(long roomID){
     cout<<"Room is deleted!"<<roomID<<endl;
 }
 
-Room* RoomService::get(long id) {
+Room* RoomService::getRoom(long id) {
     return rr->read(id);
 
+}
+vector<Room> RoomService::getList(long id){
+    vector<Room> rooms = rr->readAll(odb::query<Room>::beds==2);
+    if(rooms.size()>0){
+        return rooms->read(id);
+    }
+    throw DtoException(Code::EmptyList, EMPTY_LIST);
+}
+long RoomService::update(int beds, int tlx, int tly, int brx, int bry){
+
+    vector<Room> rooms = rr->read(odb::query<Room>::beds ==2) ;
+    for(Room room: rooms){
+        if(room.id() == getRoom()){
+        return rr->update(new Room(beds, tlx, tly, brx, bry));
+    }
+    }
+    
 }

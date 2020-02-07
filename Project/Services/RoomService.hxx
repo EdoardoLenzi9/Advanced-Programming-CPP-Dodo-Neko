@@ -34,7 +34,8 @@ class RoomService {
         long bookRoom(long userID, long roomID);
         void unbookRoom(long roomID);
         void printList();
-        Room* get(long id);
+        Room* getRoom(long id);
+        long update(int beds, int tlx, int tly, int brx, int bry);
         
     private:
         UserService* us;
