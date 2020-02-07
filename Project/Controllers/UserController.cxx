@@ -51,18 +51,18 @@ void UserController::get(shared_ptr<HttpServer::Response> response, shared_ptr<H
 
 void UserController::update(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
     json res;
-	res["status"]["code"] = 501;
-	res["status"]["description"] = "Not Implemented";
+	res["status"]["code"] = Code::InternalServerError;
+	res["status"]["description"] = NOT_IMPLEMENTED;
 	res["data"] = "";
-	response->write(SimpleWeb::StatusCode::server_error_not_implemented, res.dump());
+	*response << serialize(res);
 }
 
 void UserController::del(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
     json res;
-	res["status"]["code"] = 501;
-	res["status"]["description"] = "Not Implemented";
+	res["status"]["code"] = Code::InternalServerError;
+	res["status"]["description"] = NOT_IMPLEMENTED;
 	res["data"] = "";
-	response->write(SimpleWeb::StatusCode::server_error_not_implemented, res.dump());
+	*response << serialize(res);
 }
 
 
