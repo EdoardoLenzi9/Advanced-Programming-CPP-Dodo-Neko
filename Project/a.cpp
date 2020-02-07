@@ -7,8 +7,12 @@ using namespace std;
 using json = nlohmann::json;
 
 int main(){
-    
-    string content = "{\"auth\":{\"sid\":\"testsid\"},\"data\":{\n\"username\": \"asdfasdf\",\n\"password\":\"asdf\"\n}}";
-    json j = json::parse(content);
-    cout << j["auth"];
+    int a = 200;
+
+    map<string, string> CodeLabels = {
+        {to_string(a), "OK"},
+        {"201", "Unauthorized"},
+        {"202", "Not Acceptable"},
+        {"203", "Internal Server Error"}
+    };
 }

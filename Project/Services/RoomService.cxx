@@ -45,7 +45,7 @@ vector<Room> RoomService::getList(long id){
     if(rooms.size() > 0){
         return rooms;
     }
-    throw DtoException(Code::EmptyList, EMPTY_LIST);
+    throw DtoException(Code::InternalServerError, EMPTY_LIST);
 }
 
 

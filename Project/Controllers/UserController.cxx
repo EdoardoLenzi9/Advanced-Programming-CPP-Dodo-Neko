@@ -82,10 +82,7 @@ void UserController::login(shared_ptr<HttpServer::Response> response, shared_ptr
 		res["status"]["description"] = Ok;
 		res["data"]["sid"] = session;
 
-      	*response << "HTTP/1.1 200 OK\r\n"
-                  << "Content-Length: " << res.dump().length() << "\r\n"
-				  << "Content-Type: application/json\r\n\r\n"
-                  << res.dump();
+      	*response << serialize(res);
 
 	} catch (DtoException e) {
 		json res;

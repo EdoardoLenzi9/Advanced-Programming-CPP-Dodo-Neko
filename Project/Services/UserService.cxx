@@ -44,7 +44,7 @@ string UserService::loginUser(string email, string password){
 		}
     }
 
-    throw DtoException(Code::WrongPassword, WRONG_PASSWORD);
+    throw DtoException(Code::Unauthorized, WRONG_PASSWORD);
 }
 
 
