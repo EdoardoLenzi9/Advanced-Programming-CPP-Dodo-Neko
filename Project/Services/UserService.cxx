@@ -37,7 +37,9 @@ string UserService::loginUser(string email, string password){
 
     vector<User> users = ur->read(odb::query<User>::email == email);
     if(users.size() > 0){
-		if(users[0].password().compare(sha256(password))) {    
+        string pw1 = users[0].password();
+        string pw2 = sha256(password);
+		if(pw1.compare(pw2) == 0) {    
             return as->createSession(users[0].id());
 		}
     }
