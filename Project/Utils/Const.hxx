@@ -13,12 +13,14 @@ enum Code {
     InternalServerError = 501,
 };
 
+
 map<string, string> CodeLabels = {
     {to_string(Code::Ok), "OK"},
     {to_string(Code::Unauthorized), "Unauthorized"},
     {to_string(Code::NotAcceptable), "Not Acceptable"},
     {to_string(Code::InternalServerError), "Internal Server Error"}
 };
+
 
 const string OK = "Ok";
 const string UNAUTHORIZED = "Unauthorized";
