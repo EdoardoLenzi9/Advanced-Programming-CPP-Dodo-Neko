@@ -30,7 +30,7 @@ class UserService {
                     string password, string address, long birthdate, long role);
         string getPassword(string email); 
         void del(long id);
-        long update(string firstname, string lastname, string email,
+        void update(long id, string firstname, string lastname, string email,
                     string password, string address, long birthdate, long role);
 
     private:

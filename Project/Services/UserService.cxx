@@ -39,12 +39,16 @@ string UserService::getPassword(string email){
     }
     throw DtoException(Code::WrongPassword, WRONG_PASSWORD);
 }
+
+
 void UserService::del(long id_user){
     ur->archive(id_user);
     cout<<"User is deleted!"<<endl;
 }
-long UserService::update(string firstname, string lastname, string email,
-                    	 string password, string address, long birthdate, long role){
 
-    return ur->update(new User(firstname, lastname, email, password, address, birthdate, role))
-                         }
+
+void UserService::update(long id, string firstname, string lastname, string email,
+                    	 string password, string address, long birthdate, long role){
+    User * user = new User(id, firstname, lastname, email, password, address, birthdate, role);
+    ur->update(user);
+}
