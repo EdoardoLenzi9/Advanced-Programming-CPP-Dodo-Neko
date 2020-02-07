@@ -67,6 +67,7 @@ void UserController::del(shared_ptr<HttpServer::Response> response, shared_ptr<H
 	response->write(SimpleWeb::StatusCode::server_error_not_implemented, res.dump());
 }
 
+
 void UserController::login(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
 	try{
 		UserService service;
