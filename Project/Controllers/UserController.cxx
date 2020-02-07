@@ -72,23 +72,31 @@ void UserController::login(shared_ptr<HttpServer::Response> response, shared_ptr
 		UserService service;
 		AuthorizationService authService;
 		json res;
-		
+
 		string email = content["data"]["email"].get<string>();
 		string password = content["data"]["password"].get<string>();
 
 		string session = service.loginUser(email, password);
-
+		
 		res["status"]["code"] = Code::Ok;
 		res["status"]["description"] = Ok;
 		res["data"]["sid"] = session;
-		response->write(SimpleWeb::StatusCode::success_ok, res.dump());
+
+      	*response << "HTTP/1.1 200 OK\r\n"
+                  << "Content-Length: " << res.dump().length() << "\r\n"
+				  << "Content-Type: application/json\r\n\r\n"
+                  << res.dump();
+
 	} catch (DtoException e) {
 		json res;
 		res["status"]["code"] = e.getCode();
 		res["status"]["description"] = e.getDescription();
 		res["data"] = "";
 		response->write(SimpleWeb::StatusCode::server_error_internal_server_error, res.dump());
-	}
+	} 
+	/*catch {
+
+	}*/
 }
 
 void UserController::logout(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
