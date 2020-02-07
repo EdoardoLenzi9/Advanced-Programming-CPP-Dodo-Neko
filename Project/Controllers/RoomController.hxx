@@ -2,6 +2,7 @@
 #define ROOM_CONTROLLER_HXX
 
 #include "server_http.hpp"
+#include "BaseController.hxx"
 
 #define BOOST_SPIRIT_THREADSAFE
 
@@ -18,7 +19,7 @@ using json = nlohmann::json;
 using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 
 
-class RoomController {
+class RoomController : public BaseController {
     public:
         RoomController() {};
         static void create(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
