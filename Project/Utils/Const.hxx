@@ -14,7 +14,7 @@ enum Code {
 };
 
 
-map<string, string> CodeLabels = {
+static map<string, string> CodeLabels = {
     {to_string(Code::Ok), "OK"},
     {to_string(Code::Unauthorized), "Unauthorized"},
     {to_string(Code::NotAcceptable), "Not Acceptable"},
