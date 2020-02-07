@@ -1,4 +1,5 @@
 #include "Route.hxx"
+#include <DtoException.hxx>
 
 void Route::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, Route obj) {
     Env* env = new Env();
@@ -18,10 +19,19 @@ void Route::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpSer
 
         obj.handler(response, request, j);
         
-    } catch (exception) {
+    } catch (DtoException dtoe) {
         json res;
-        res["status"]["code"] = 406;
-        res["status"]["description"] = "Could not parse json!";
+        res["status"]["code"] = dtoe.getCode();
+        res["status"]["description"] = dtoe.getDescription();
+        res["data"] = "";
+        string statusCode = to_string(dtoe.getCode());
+        string statusCodeLabel = CodeLabels[statusCode];
+        string dump = res.dump();
+        *response << "HTTP/1.1 " + statusCode + " " + statusCodeLabel +"\r\n" + "Content-Length: " + to_string(dump.length()) + "\r\n" + "Content-Type: application/json\r\n\r\n" + dump;
+    } catch (exception e) {
+        json res;
+        res["status"]["code"] = 501;
+        res["status"]["description"] = e.what();
         res["data"] = "";
         response->write(res.dump());
     }

@@ -30,7 +30,7 @@ int main(){
     Route userGet("^/user$", "POST", UserController::get, { AuthMiddleware::user }); //Maybe change to HTTP GET
     Route userRegister("^/user/register$", "POST", UserController::create);
     Route userUpdate("^/user/update$", "POST", UserController::update);
-    Route userLogout("^/user/logout$", "POST", UserController::logout);
+    Route userLogout("^/user/logout$", "POST", UserController::logout, { AuthMiddleware::user });
     Route userLogin("^/user/auth$", "POST", UserController::login);
 
     Route roomGet("^/room/([0-9]+)$", "GET", RoomController::get);
