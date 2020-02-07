@@ -1,9 +1,9 @@
 #include "UserController.hxx"
+#include "Const.hxx"
 
 #include <UserService.hxx>
 #include <AuthorizationService.hxx>
 #include <DtoException.hxx>
-
 
 void UserController::create(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
 
@@ -71,15 +71,17 @@ void UserController::login(shared_ptr<HttpServer::Response> response, shared_ptr
 	try{
 		UserService service;
 		AuthorizationService authService;
+		json res;
+		
+		string email = content["data"]["email"].get<string>();
+		string password = content["data"]["password"].get<string>();
 
-		string pwd = service.getPassword(content["data"]["username"].get<string>());
+		string session = service.loginUser(email, password);
 
-		if(pwd.compare(content["data"]["password"].get<string>())) {
-			
-		} else {
-			
-		}
-
+		res["status"]["code"] = Code::Ok;
+		res["status"]["description"] = Ok;
+		res["data"]["sid"] = session;
+		response->write(SimpleWeb::StatusCode::success_ok, res.dump());
 	} catch (DtoException e) {
 		json res;
 		res["status"]["code"] = e.getCode();
@@ -87,7 +89,6 @@ void UserController::login(shared_ptr<HttpServer::Response> response, shared_ptr
 		res["data"] = "";
 		response->write(SimpleWeb::StatusCode::server_error_internal_server_error, res.dump());
 	}
-
 }
 
 void UserController::logout(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){

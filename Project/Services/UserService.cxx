@@ -12,6 +12,7 @@
 #include "Repository.hxx"
 #include "DtoException.hxx"
 #include "Const.hxx"
+#include "sha256.hxx"
 
 
 long UserService::getRole(long id){
@@ -27,16 +28,20 @@ long UserService::create(string firstname, string lastname, string email,
         throw DtoException(Code::Unauthorized, UNAUTHORIZED);
     }
 
-    User* user = ur->create(new User(firstname, lastname, email, password, address, birthdate, role));
+    User* user = ur->create(new User(firstname, lastname, email, sha256(password), address, birthdate, role));
     return user->id();
 }
 
 
-string UserService::getPassword(string email){
+string UserService::loginUser(string email, string password){
+
     vector<User> users = ur->read(odb::query<User>::email == email);
     if(users.size() > 0){
-        return users[0].password();
+		if(users[0].password().compare(sha256(password))) {    
+            return as->createSession(users[0].id());
+		}
     }
+
     throw DtoException(Code::WrongPassword, WRONG_PASSWORD);
 }
 

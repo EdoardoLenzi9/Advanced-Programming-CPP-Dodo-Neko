@@ -7,6 +7,7 @@ using namespace std;
 #include "Room.hxx"
 #include "RoomFeature.hxx"
 #include "User.hxx"
+#include "sha256.hxx"
 
 
 class InitData{
@@ -35,14 +36,14 @@ class InitData{
 
             /* Init users */
 
-            userRepo->create(new User("admin1", "pw1", 3));
+            userRepo->create(new User("admin1", sha256("pw1"), 3));
 
-            userRepo->create(new User("staff1", "pw1", 2));
-            userRepo->create(new User("staff2", "pw2", 2));
+            userRepo->create(new User("staff1", sha256("pw1"), 2));
+            userRepo->create(new User("staff2", sha256("pw2"), 2));
             
-            userRepo->create(new User("user1", "pw1", 1));
-            userRepo->create(new User("user2", "pw2", 1));
-            userRepo->create(new User("user3", "pw3", 1));
+            userRepo->create(new User("user1", sha256("pw1"), 1));
+            userRepo->create(new User("user2", sha256("pw2"), 1));
+            userRepo->create(new User("user3", sha256("pw3"), 1));
 
             /* Init rooms */
 
