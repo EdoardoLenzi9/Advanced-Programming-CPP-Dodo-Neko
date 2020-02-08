@@ -3,6 +3,7 @@
 
 #include "server_http.hpp"
 #include "BaseController.hxx"
+#include "RoomService.hxx"
 
 #define BOOST_SPIRIT_THREADSAFE
 
@@ -22,11 +23,8 @@ using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 class RoomController : public BaseController {
     public:
         RoomController() {};
-        static void create(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
         static void get(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
         static void list(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
-        static void update(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
-        static void del(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
 };
 
 #endif

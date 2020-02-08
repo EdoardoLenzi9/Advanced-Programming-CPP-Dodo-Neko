@@ -47,32 +47,113 @@ class InitData{
 
             /* Init rooms */
 
-            roomRepo->create(new Room(1));
-            roomRepo->create(new Room(1));
-            roomRepo->create(new Room(1));
-            roomRepo->create(new Room(1));
+            roomRepo->create(new Room(101));
+            roomRepo->create(new Room(102));
+            roomRepo->create(new Room(103));
+            roomRepo->create(new Room(104));
 
-            roomRepo->create(new Room(2));
-            roomRepo->create(new Room(2));
-            roomRepo->create(new Room(2));
-            roomRepo->create(new Room(2));
+            roomRepo->create(new Room(201));
+            roomRepo->create(new Room(202));
+            roomRepo->create(new Room(203));
+            roomRepo->create(new Room(237));
 
-            roomRepo->create(new Room(3));
-            roomRepo->create(new Room(3));
+            roomRepo->create(new Room(301));
+            roomRepo->create(new Room(302));
 
-            roomRepo->create(new Room(4));
-            roomRepo->create(new Room(4));
+            roomRepo->create(new Room(401));
+            roomRepo->create(new Room(402));
             
             /* Init features */
 
-            featureRepo->create(new FeatureType("private parking", 10));
-            featureRepo->create(new FeatureType("spa", 30));
-            featureRepo->create(new FeatureType("massage", 10));
-            featureRepo->create(new FeatureType("swim pool", 10));
-            featureRepo->create(new FeatureType("sauna", 15));
-            featureRepo->create(new FeatureType("dinner", 20));
-            featureRepo->create(new FeatureType("breakfast", 5));
-            featureRepo->create(new FeatureType("gym", 0));
-            featureRepo->create(new FeatureType("air-conditioning", 3));
+            featureRepo->create(new FeatureType("Baseprice", 25));          /*1*/
+            featureRepo->create(new FeatureType("Beds", 10));               /*2*/
+            featureRepo->create(new FeatureType("Swimming pool", 10));      /*3*/
+            featureRepo->create(new FeatureType("Gym", 20));                /*4*/
+            featureRepo->create(new FeatureType("Air-conditioning", 3));    /*5*/
+            featureRepo->create(new FeatureType("Sauna", 20));              /*6*/
+            featureRepo->create(new FeatureType("Private parking", 10));    /*7*/
+            featureRepo->create(new FeatureType("Mountain View", 10000));   /*8*/
+
+            /* Room features */
+
+            /* First floor*/
+            RoomFeatureRepo->create(new RoomFeature(1, 1, 1)); // base price
+            RoomFeatureRepo->create(new RoomFeature(1, 2, 1)); // beds
+            RoomFeatureRepo->create(new RoomFeature(1, 5, 1)); // air-conditioning
+            RoomFeatureRepo->create(new RoomFeature(1, 7, 1)); // private parking
+
+            RoomFeatureRepo->create(new RoomFeature(2, 1, 1)); // base price
+            RoomFeatureRepo->create(new RoomFeature(2, 2, 2)); // beds
+            RoomFeatureRepo->create(new RoomFeature(2, 5, 1)); // air-conditioning
+            RoomFeatureRepo->create(new RoomFeature(2, 7, 1)); // private parking
+
+            RoomFeatureRepo->create(new RoomFeature(3, 1, 1)); // base price
+            RoomFeatureRepo->create(new RoomFeature(3, 2, 1)); // beds
+            RoomFeatureRepo->create(new RoomFeature(3, 7, 1)); // private parking
+
+            RoomFeatureRepo->create(new RoomFeature(4, 1, 1)); // base price
+            RoomFeatureRepo->create(new RoomFeature(4, 2, 2)); // beds
+            RoomFeatureRepo->create(new RoomFeature(4, 7, 1)); // private parking
+
+            /* Second floor*/
+            RoomFeatureRepo->create(new RoomFeature(5, 1, 1)); // base price
+            RoomFeatureRepo->create(new RoomFeature(5, 2, 1)); // beds
+            RoomFeatureRepo->create(new RoomFeature(5, 4, 1)); // gym
+            RoomFeatureRepo->create(new RoomFeature(5, 5, 1)); // air-conditioning
+            RoomFeatureRepo->create(new RoomFeature(5, 7, 1)); // private parking
+
+            RoomFeatureRepo->create(new RoomFeature(6, 1, 1)); // base price
+            RoomFeatureRepo->create(new RoomFeature(6, 2, 2)); // beds
+            RoomFeatureRepo->create(new RoomFeature(6, 4, 1)); // gym
+            RoomFeatureRepo->create(new RoomFeature(6, 5, 1)); // air-conditioning
+            RoomFeatureRepo->create(new RoomFeature(6, 7, 1)); // private parking
+
+            RoomFeatureRepo->create(new RoomFeature(7, 1, 1)); // base price
+            RoomFeatureRepo->create(new RoomFeature(7, 2, 1)); // beds
+            RoomFeatureRepo->create(new RoomFeature(7, 4, 1)); // gym
+            RoomFeatureRepo->create(new RoomFeature(7, 5, 1)); // air-conditioning
+            RoomFeatureRepo->create(new RoomFeature(7, 7, 1)); // private parking
+
+            RoomFeatureRepo->create(new RoomFeature(8, 1, 1)); // base price
+            RoomFeatureRepo->create(new RoomFeature(8, 2, 2)); // beds
+            RoomFeatureRepo->create(new RoomFeature(8, 4, 1)); // gym
+            RoomFeatureRepo->create(new RoomFeature(8, 5, 1)); // air-conditioning
+            RoomFeatureRepo->create(new RoomFeature(8, 7, 1)); // private parking
+
+            /* Third floor*/
+            RoomFeatureRepo->create(new RoomFeature(9, 1, 1)); // base price
+            RoomFeatureRepo->create(new RoomFeature(9, 2, 3)); // beds
+            RoomFeatureRepo->create(new RoomFeature(9, 3, 1)); // pool
+            RoomFeatureRepo->create(new RoomFeature(9, 4, 1)); // gym
+            RoomFeatureRepo->create(new RoomFeature(9, 5, 1)); // air-conditioning
+            RoomFeatureRepo->create(new RoomFeature(9, 6, 1)); // sauna
+            RoomFeatureRepo->create(new RoomFeature(9, 7, 1)); // private parking
+
+            RoomFeatureRepo->create(new RoomFeature(10, 1, 1)); // base price
+            RoomFeatureRepo->create(new RoomFeature(10, 2, 4)); // beds
+            RoomFeatureRepo->create(new RoomFeature(10, 3, 1)); // pool
+            RoomFeatureRepo->create(new RoomFeature(10, 4, 1)); // gym
+            RoomFeatureRepo->create(new RoomFeature(10, 5, 1)); // air-conditioning
+            RoomFeatureRepo->create(new RoomFeature(10, 6, 1)); // sauna
+            RoomFeatureRepo->create(new RoomFeature(10, 7, 1)); // private parking
+
+            /* Last floor*/            
+            RoomFeatureRepo->create(new RoomFeature(11, 1, 1)); // base price
+            RoomFeatureRepo->create(new RoomFeature(11, 2, 2)); // beds
+            RoomFeatureRepo->create(new RoomFeature(11, 3, 1)); // pool
+            RoomFeatureRepo->create(new RoomFeature(11, 4, 1)); // gym
+            RoomFeatureRepo->create(new RoomFeature(11, 5, 1)); // air-conditioning
+            RoomFeatureRepo->create(new RoomFeature(11, 6, 1)); // sauna
+            RoomFeatureRepo->create(new RoomFeature(11, 7, 1)); // private parking
+            RoomFeatureRepo->create(new RoomFeature(11, 8, 1)); // mountain view
+
+            RoomFeatureRepo->create(new RoomFeature(12, 1, 1)); // base price
+            RoomFeatureRepo->create(new RoomFeature(12, 2, 2)); // beds
+            RoomFeatureRepo->create(new RoomFeature(12, 3, 1)); // pool
+            RoomFeatureRepo->create(new RoomFeature(12, 4, 1)); // gym
+            RoomFeatureRepo->create(new RoomFeature(12, 5, 1)); // air-conditioning
+            RoomFeatureRepo->create(new RoomFeature(12, 6, 1)); // sauna
+            RoomFeatureRepo->create(new RoomFeature(12, 7, 1)); // private parking
+            RoomFeatureRepo->create(new RoomFeature(12, 8, 1)); // mountain view
         }
 };

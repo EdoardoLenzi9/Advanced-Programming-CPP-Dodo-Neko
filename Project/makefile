@@ -5,6 +5,7 @@ CXXFLAGS = -o driver.bin -std=c++11
 CXXINCLUDE = -I. \
 			 -I./Repositories \
 			 -I./Repositories/Entities \
+			 -I./Repositories/Dto \
 			 -I./Services \
 			 -I./Controllers \
 			 -I./Middlewares \

@@ -24,28 +24,10 @@ class Room : public BaseEntity
 	public:
 
 		Room () {}
-		Room (int b) : beds_(b) {}
-		Room (int b, int tlx, int tly, int brx, int bry) : beds_(b), tl_x_(tlx), tl_y_(tly), 
-														   br_x_(brx), br_y_(bry) {}                 
-		Room (long id, int b, int tlx, int tly, int brx, int bry) : id_(id), beds_(b), tl_x_(tlx), 
-																	tl_y_(tly), br_x_(brx), br_y_(bry) {}                 
-		
-		// Getter and setters
+		Room (int n): roomnumber_(n) {}
 
-		void beds( int b ) { beds_ = b; };
-		int beds() { return beds_; };
-
-		void tlx( int tlx ) { tl_x_ = tlx; };
-		int tlx() { return tl_x_; };
-
-		void tly( int tly ) { tl_y_ = tly; };
-		int tly() { return tl_y_; };
-
-		void brx( int brx ) { br_x_ = brx; };
-		int brx() { return br_x_; };
-
-		void bry( int bry ) { br_y_ = bry; };
-		int bry() { return br_y_; };
+		int roomnumber() {return roomnumber_; };
+		int roomnumber(int n) {roomnumber_ = n; };
 
 		unsigned long id ( ) { return id_; } ;
 		
@@ -56,16 +38,7 @@ class Room : public BaseEntity
 
 
 	private:
-    
-		int beds_; //also a feature
-
-		// top-left coords
-		int tl_x_;
-		int tl_y_;
-		
-		// bottom-right coords
-		int br_x_;
-		int br_y_;
+		int roomnumber_;
 
 		#pragma db id auto         
 		unsigned long id_;  

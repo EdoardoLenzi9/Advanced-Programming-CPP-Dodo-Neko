@@ -246,17 +246,16 @@ Response
 ```json=
 {
     "rooms":[
-        "<roomid>": {
-            "features":[
-                {
-                    "id":"<num>",
-                    "name":"<string>",
-                    "price":"<num>",
-                    "amount":"<num>",
-                },	
-                ...
-            ],
-        }
+        "<roomid>": <id>,
+        "features":[
+            {
+                "id":"<num>",
+                "name":"<string>",
+                "price":"<num>",
+                "amount":"<num>",
+            },	
+            ...
+        ],
 	],
 	...
 }

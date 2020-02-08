@@ -17,6 +17,7 @@
 #include "Repository.hxx"
 #include "UserService.hxx"
 #include "DtoException.hxx"
+#include "RoomDto.hxx"
 #include "Const.hxx"
 
 
@@ -26,24 +27,27 @@ class RoomService {
         RoomService(){
             rr = new Repository<Room>();
             ru = new Repository<User>();
+            rf = new Repository<RoomFeature>();
+            rft = new Repository<FeatureType>();
             rur = new Repository<UserRoom>();
             us = new UserService();
 
         }
 
         long create(int beds, int tlx, int tly, int brx, int bry);    
-        void printList();
         long bookRoom(long userID, long roomID);
         void unbookRoom(long roomID);
         Room* getRoom(long id);
-        vector<Room> getList(long id);
+        vector<RoomDto> getAvailableRooms(long startdate, long enddate);
         void update(long id, int beds, int tlx, int tly, int brx, int bry);
         
     private:
         UserService* us;
         Repository<Room>* rr;
+        Repository<RoomFeature>* rf;
         Repository<User>* ru;
         Repository<UserRoom>* rur;
+        Repository<FeatureType>* rft;
 };
 
 #endif

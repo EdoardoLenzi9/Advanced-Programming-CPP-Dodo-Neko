@@ -33,9 +33,8 @@ int main(){
     Route userLogout("^/user/logout$", "POST", UserController::logout, { AuthMiddleware::user });
     Route userLogin("^/user/auth$", "POST", UserController::login);
 
-    Route roomGet("^/room/([0-9]+)$", "GET", RoomController::get);
-    Route roomList("^/room/list$", "GET", RoomController::list);
-    Route roomUpdate("^/room/update$", "POST", RoomController::update);
+    Route roomGet("^/room/([0-9]+)$", "POST", RoomController::get);
+    Route roomList("^/room/list$", "POST", RoomController::list);
 
     Route bookCheck("^/book/check$", "POST", BookController::check);
     Route bookCreate("^/book/create$", "POST", BookController::create);
@@ -53,7 +52,6 @@ int main(){
 
     routes.push_back(roomGet);
     routes.push_back(roomList);
-    routes.push_back(roomUpdate);
 
     routes.push_back(bookCheck);
     routes.push_back(bookCreate);

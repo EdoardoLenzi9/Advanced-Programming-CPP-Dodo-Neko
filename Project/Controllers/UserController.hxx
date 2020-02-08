@@ -3,6 +3,10 @@
 
 #include "server_http.hpp"
 #include "BaseController.hxx"
+#include "Const.hxx"
+#include "UserService.hxx"
+#include "AuthorizationService.hxx"
+#include "DtoException.hxx"
 
 #define BOOST_SPIRIT_THREADSAFE
 

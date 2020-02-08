@@ -1,10 +1,6 @@
 #include "UserController.hxx"
-#include "Const.hxx"
 
-#include <UserService.hxx>
-#include <AuthorizationService.hxx>
-#include <DtoException.hxx>
-
+// TODO be aware of the role of the new user
 void UserController::create(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
 
 	UserService service;
@@ -41,6 +37,7 @@ void UserController::get(shared_ptr<HttpServer::Response> response, shared_ptr<H
 	*response << serialize(res);
 }
 
+// TODO be aware of the role of the new user
 void UserController::update(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
 	UserService service;
 
