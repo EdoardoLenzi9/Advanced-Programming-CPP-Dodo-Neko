@@ -26,6 +26,17 @@ tuple<int,int,int> RoomService::castDate(long date) {
 }
 
 
+void RoomService::confirmPayment(long role, long bookid) {
+    if(role > 1){
+        UserRoom* booking = rur->read(bookid);
+        booking->paid(true);
+        rur->update(booking);
+    } else {
+        throw DtoException(Code::Unauthorized, UNAUTHORIZED);
+    }
+}
+
+
 long RoomService::bookRoom(long userID, long roomID, long arrival, long departure){
     // todo invalid date
     int nights = (departure - arrival) % 86400;

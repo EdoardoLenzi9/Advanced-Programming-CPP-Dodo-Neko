@@ -27,7 +27,7 @@ class BookController : public BaseController {
         static void list(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
         static void update(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
         static void del(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
-        static void check(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
+        static void confirmPayment(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
 };
 
 #endif

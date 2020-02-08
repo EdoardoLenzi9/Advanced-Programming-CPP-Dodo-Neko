@@ -58,10 +58,19 @@ void BookController::del(shared_ptr<HttpServer::Response> response, shared_ptr<H
 	response->write(SimpleWeb::StatusCode::server_error_not_implemented, res.dump());
 }
 
-void BookController::check(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
-    json res;
-	res["status"]["code"] = 501;
-	res["status"]["description"] = "Not Implemented";
+void BookController::confirmPayment(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
+    AuthorizationService authService;
+	UserService userService;
+	RoomService roomService;
+
+	long role = userService.getRole(authService.getSession(content["auth"]["sid"].get<string>()));
+	long bookid = content["data"]["bookid"].get<long>();
+
+	roomService.confirmPayment(role, bookid);
+	
+	json res;
+	res["status"]["code"] = Code::Ok;
+	res["status"]["description"] = OK;
 	res["data"] = "";
-	response->write(SimpleWeb::StatusCode::server_error_not_implemented, res.dump());
+	*response<<serialize(res);
 }

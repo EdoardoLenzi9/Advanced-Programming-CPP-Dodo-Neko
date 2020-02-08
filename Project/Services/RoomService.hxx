@@ -32,7 +32,6 @@ class RoomService {
             rft = new Repository<FeatureType>();
             rur = new Repository<UserRoom>();
             us = new UserService();
-
         }
 
         long create(int beds, int tlx, int tly, int brx, int bry);    
@@ -43,6 +42,7 @@ class RoomService {
         vector<RoomDto> getAvailableRooms(long startdate, long enddate);
         void update(long id, int beds, int tlx, int tly, int brx, int bry);
         vector<BookDto> bookingList(long userid, long role);
+        void confirmPayment(long role, long bookid);
 
     private:
         UserService* us;

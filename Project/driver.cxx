@@ -36,11 +36,11 @@ int main(){
     Route roomGet("^/room/([0-9]+)$", "POST", RoomController::get);
     Route roomList("^/room/list$", "POST", RoomController::list);
 
-    Route bookCheck("^/book/check$", "POST", BookController::check);
+    Route bookConfirmPayment("^/book/confirmpayment$", "POST", BookController::confirmPayment, { AuthMiddleware::staff });
     Route bookCreate("^/book/create$", "POST", BookController::create, { AuthMiddleware::user });
-    Route bookList("^/book/list$", "POST", BookController::list);
-    Route bookUpdate("^/book/update$", "POST", BookController::update);
-    Route bookDelete("^/book/delete$", "POST", BookController::del);
+    Route bookList("^/book/list$", "POST", BookController::list, { AuthMiddleware::user });
+    Route bookUpdate("^/book/update$", "POST", BookController::update, { AuthMiddleware::user });
+    Route bookDelete("^/book/delete$", "POST", BookController::del, { AuthMiddleware::user });
 
     routes.push_back(hotelGet);
 
@@ -53,7 +53,7 @@ int main(){
     routes.push_back(roomGet);
     routes.push_back(roomList);
 
-    routes.push_back(bookCheck);
+    routes.push_back(bookConfirmPayment);
     routes.push_back(bookCreate);
     routes.push_back(bookList);
     routes.push_back(bookUpdate);
