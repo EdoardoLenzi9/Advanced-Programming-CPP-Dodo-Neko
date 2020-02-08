@@ -3,6 +3,7 @@
 
 #include "server_http.hpp"
 #include "BaseController.hxx"
+#include "UserRoomService.hxx"
 
 #define BOOST_SPIRIT_THREADSAFE
 

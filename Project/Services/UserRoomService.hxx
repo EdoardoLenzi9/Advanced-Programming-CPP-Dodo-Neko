@@ -7,12 +7,14 @@
 **/
 
 
-#ifndef ROOM_SERVICE_HPP
-#define ROOM_SERVICE_HPP
+#ifndef USER_ROOM_SERVICE_HPP
+#define USER_ROOM_SERVICE_HPP
+
 
 #include <iostream>
 #include <string>
 #include <vector>
+#include <time.h>
 
 #include "Repository.hxx"
 #include "UserService.hxx"
@@ -21,11 +23,10 @@
 #include "BookDto.hxx"
 #include "Const.hxx"
 
-
-class RoomService { 
+class UserRoomService { 
     
     public:
-        RoomService(){
+        UserRoomService(){
             rr = new Repository<Room>();
             ru = new Repository<User>();
             rf = new Repository<RoomFeature>();
@@ -34,11 +35,11 @@ class RoomService {
             us = new UserService();
         }
 
-        long create(int beds, int tlx, int tly, int brx, int bry);    
-        tuple<int,int,int> castDate(long date);
-        Room* getRoom(long id);
-        vector<RoomDto> getAvailableRooms(long startdate, long enddate);
-        void update(long id, int beds, int tlx, int tly, int brx, int bry);
+        void del(long id);    
+        void unbookRoom(long roomID);
+        long bookRoom(long userID, long roomID, long arrival, long departure);
+        void confirmPayment(long role, long bookid);
+        vector<BookDto> bookingList(long userid, long role);
 
     private:
         UserService* us;
@@ -48,5 +49,6 @@ class RoomService {
         Repository<UserRoom>* rur;
         Repository<FeatureType>* rft;
 };
+
 
 #endif
