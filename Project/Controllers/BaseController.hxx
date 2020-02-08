@@ -20,13 +20,11 @@ class BaseController {
         static json serialize(vector<BookDto> bookings){
             json j;
 
-            if(bookings.size() > 0){
-                j["data"]["bookings"] = {};
-                
-                for(BookDto b: bookings){
-                    json book = serialize(b);
-                    j["data"]["bookings"].push_back(book["data"]); 
-                }
+            j["data"]["bookings"] = {};
+            
+            for(BookDto b: bookings){
+                json book = serialize(b);
+                j["data"]["bookings"].push_back(book["data"]); 
             }
 
             return j;
@@ -36,11 +34,11 @@ class BaseController {
         static json serialize(vector<RoomDto> rooms){
             json j;
 
-            if(rooms.size() > 0){
-                for(RoomDto r: rooms){
-                    json room = serialize(r);
-                    j["data"]["rooms"].push_back( room["data"] );
-                }
+            j["data"]["rooms"] = {};
+
+            for(RoomDto r: rooms){
+                json room = serialize(r);
+                j["data"]["rooms"].push_back( room["data"] );
             }
 
             return j;
