@@ -5,8 +5,12 @@ void Route::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpSer
     Env* env = new Env();
     
     try {
+        json j;
         string content = request->content.string(); 
-        json j = json::parse(content);
+
+        if(obj.httpMethod != "GET"){
+            j = json::parse(content);
+        }
 
         if(env->getDebugMode()){
             cout << "REQUEST:" << content << endl << endl;
