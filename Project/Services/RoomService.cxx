@@ -15,8 +15,32 @@ long RoomService::create(int beds, int tlx, int tly, int brx, int bry){
     return tmp->id();
 }*/
 
+tuple<int,int,int> RoomService::castDate(long date) {
+    time_t tm = date;
+    auto lt = std::localtime(&tm);
+    lt->tm_hour = 0;
+    lt->tm_min = 0;
+    lt->tm_sec = 0;   
+
+    return { lt->tm_mday, lt->tm_mon + 1, lt->tm_year + 1900 };
+}
+
+
 long RoomService::bookRoom(long userID, long roomID, long arrival, long departure){
-    UserRoom* userR = rur->create(new UserRoom(userID, roomID, arrival, departure, 0.0, false));
+    // todo invalid date
+    int nights = (departure - arrival) % 86400;
+    float price = 0;
+
+    vector<FeatureType> types = rft->read();
+    vector<RoomFeature> features = rf->read();
+
+    for(RoomFeature f: features){
+        if(f.room_id() == roomID){
+            price += types[f.feature_type_id() - 1].price() * f.amount();
+        }
+    }
+
+    UserRoom* userR = rur->create(new UserRoom(userID, roomID, arrival, departure, price, false));
     return userR->id();
 }
 
