@@ -86,8 +86,8 @@ class BaseController {
             json room = serialize(book.room);
             json user = serialize(book.user);
 
-            j["data"]["room"].push_back( room["data"] );
-            j["data"]["user"].push_back( user["data"] );
+            j["data"]["room"] = room["data"];
+            j["data"]["user"] = user["data"];
             j["data"]["bookid"] = book.bookid;
             j["data"]["arrival"] = book.arrival;
             j["data"]["departure"] = book.departure;
