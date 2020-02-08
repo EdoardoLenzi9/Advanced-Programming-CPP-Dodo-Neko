@@ -10,6 +10,7 @@ using json = nlohmann::json;
 
 #include "Const.hxx"
 #include "RoomDto.hxx"
+#include "UserDto.hxx"
 
 class BaseController {
 
@@ -35,6 +36,21 @@ class BaseController {
 
                 j["data"]["rooms"].push_back( room["room"] );
             }
+
+            return j;
+        }
+
+        
+        static json serialize(UserDto user){
+            json j;
+
+            j["data"]["firstname"] = user.firstname;
+            j["data"]["lastname"] = user.lastname;
+            j["data"]["email"] = user.email;
+            j["data"]["birthdate"] = user.birthdate;
+            j["data"]["address"] = user.address;
+            j["data"]["userid"] = user.userid;
+            j["data"]["roleid"] = user.roleid;
 
             return j;
         }

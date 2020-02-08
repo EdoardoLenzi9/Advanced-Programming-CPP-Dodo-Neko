@@ -30,10 +30,17 @@ void UserController::create(shared_ptr<HttpServer::Response> response, shared_pt
 }
 
 void UserController::get(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
-	json res;
-	res["status"]["code"] = Code::InternalServerError;
-	res["status"]["description"] = NOT_IMPLEMENTED;
-	res["data"] = "";
+	AuthorizationService authService;
+	UserService userService;
+
+	long userId = authService.getSession(content["auth"]["sid"].get<string>());    
+	UserDto user = userService.get(userId);
+
+	json res = serialize(user);
+
+	res["status"]["code"] = Code::Ok;
+	res["status"]["description"] = OK;
+
 	*response << serialize(res);
 }
 

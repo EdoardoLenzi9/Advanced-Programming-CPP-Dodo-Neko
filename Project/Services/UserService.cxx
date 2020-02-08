@@ -15,8 +15,16 @@
 #include "sha256.hxx"
 
 
+
 long UserService::getRole(long id){
     return ur->read(id)->role();
+}
+
+
+UserDto UserService::get(long id){
+    User * user = ur->read(id);
+    return UserDto(user->firstname(), user->lastname(), user->email(), 
+                   user->birthdate(), user->address(), user->id(), user->role());
 }
 
 

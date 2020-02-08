@@ -2,7 +2,7 @@
 
 
 string AuthorizationService::createSession(long user_id_){
-    long currentTime = (long)clock();
+    long currentTime = time(0);
     long expirationTime = currentTime + env->getSessionTime();
     Authorization* auth = au->create(new Authorization(user_id_, 
                                                        sha256(to_string(currentTime)),
