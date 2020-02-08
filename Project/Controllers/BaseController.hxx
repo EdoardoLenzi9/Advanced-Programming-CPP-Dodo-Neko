@@ -88,6 +88,7 @@ class BaseController {
 
             j["data"]["room"].push_back( room["data"] );
             j["data"]["user"].push_back( user["data"] );
+            j["data"]["bookid"] = book.bookid;
             j["data"]["arrival"] = book.arrival;
             j["data"]["departure"] = book.departure;
             j["data"]["paid"] = book.paid;

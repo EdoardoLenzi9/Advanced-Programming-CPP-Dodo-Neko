@@ -40,6 +40,7 @@ class UserRoomService {
         long bookRoom(long userID, long roomID, long arrival, long departure);
         void confirmPayment(long role, long bookid);
         vector<BookDto> bookingList(long userid, long role);
+        void update(long bookid, long arrival, long departure);
 
     private:
         UserService* us;

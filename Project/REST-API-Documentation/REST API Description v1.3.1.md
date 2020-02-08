@@ -339,7 +339,7 @@ Response
                 ],
 			},
 			"arrival":"<long> unix time",
-            "depature":"<long> unix time",
+            "departure":"<long> unix time",
             "paid":"<bool>",
             "price":"<num>",
             "user": {
@@ -371,7 +371,7 @@ Request
 {
     "bookid":"<num>",
     "arrival":"<string>(YYYY-MM-DD)",
-    "depature":"<string>(YYYY-MM-DD)",
+    "departure":"<string>(YYYY-MM-DD)",
 }
 ```
 

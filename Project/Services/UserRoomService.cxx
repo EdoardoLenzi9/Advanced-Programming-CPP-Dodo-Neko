@@ -12,6 +12,20 @@
 #include "UserRoomService.hxx"
 
 
+void UserRoomService::update(long bookid, long arrival, long departure){
+    UserRoom* booking = rur->read(bookid);
+
+    if(!booking->paid()){
+        booking->arrival(arrival);
+        booking->departure(departure);
+
+        rur->update(booking);
+    } else {
+        throw DtoException(Code::Unauthorized, PAID);
+    }
+}
+
+
 void UserRoomService::del(long id){
     rur->archive(id);
 }

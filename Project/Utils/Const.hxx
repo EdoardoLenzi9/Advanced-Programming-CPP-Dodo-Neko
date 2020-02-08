@@ -28,5 +28,6 @@ const string WRONG_PASSWORD = "Wrong password!";
 const string EMPTY_LIST = "No avaliable rooms";
 const string NOT_IMPLEMENTED = "Not Implemented";
 const string SERVER_ERROR = "Internal Server Error";
+const string PAID = "Booking paid and not editable";
 
 #endif
