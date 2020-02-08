@@ -5,28 +5,19 @@ void UserController::create(shared_ptr<HttpServer::Response> response, shared_pt
 
 	UserService service;
 
-	long id = service.create(content["data"]["firstName"].get<string>(), 
-		content["data"]["lastName"].get<string>(),
-		content["data"]["email"].get<string>(),
-		content["data"]["password"].get<string>(),
-		content["data"]["address"].get<string>(),
-		content["data"]["birthdate"].get<long>(),
-		1);
+	long id = service.create( content["data"]["firstname"].get<string>(), 
+							  content["data"]["lastname"].get<string>(),
+							  content["data"]["email"].get<string>(),
+							  content["data"]["password"].get<string>(),
+							  content["data"]["address"].get<string>(),
+							  content["data"]["birthdate"].get<long>(), 
+							  1 );
 
-	if(id > 0){
-		json res;
-		res["status"]["code"] = Code::Ok;
-		res["status"]["description"] = OK;
-		res["data"] = "";
-		*response << serialize(res);
-	} else {
-		json res;
-		res["status"]["code"] = Code::InternalServerError;
-		res["status"]["description"] = SERVER_ERROR;
-		res["data"] = "";
-		*response << serialize(res);
-	}
-
+	json res;
+	res["status"]["code"] = Code::Ok;
+	res["status"]["description"] = OK;
+	res["data"] = "";
+	*response << serialize(res);
 }
 
 void UserController::get(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
