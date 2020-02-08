@@ -31,6 +31,7 @@ int main(){
     Route userRegister("^/user/register$", "POST", UserController::create);
     Route userUpdate("^/user/update$", "POST", UserController::update, { AuthMiddleware::user });
     Route userLogout("^/user/logout$", "POST", UserController::logout, { AuthMiddleware::user });
+    Route userList("^/user/list$", "POST", UserController::list, { AuthMiddleware::staff });
     Route userLogin("^/user/auth$", "POST", UserController::login);
 
     Route roomGet("^/room/([0-9]+)$", "POST", RoomController::get);
@@ -49,6 +50,7 @@ int main(){
     routes.push_back(userUpdate);
     routes.push_back(userLogout);
     routes.push_back(userLogin);
+    routes.push_back(userList);
 
     routes.push_back(roomGet);
     routes.push_back(roomList);

@@ -17,6 +17,21 @@ using json = nlohmann::json;
 class BaseController {
 
     public:
+
+        static json serialize(vector<UserDto> users){
+            json j;
+
+            j["data"]["users"] = {};
+
+            for(UserDto u: users){
+                json user = serialize(u);
+                j["data"]["users"].push_back( user["data"] );
+            }
+
+            return j;
+        }
+
+
         static json serialize(vector<BookDto> bookings){
             json j;
 

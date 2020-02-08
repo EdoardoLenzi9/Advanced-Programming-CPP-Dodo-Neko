@@ -97,3 +97,15 @@ void UserController::logout(shared_ptr<HttpServer::Response> response, shared_pt
 	res["status"]["description"] = Ok;
 	*response << serialize(res);
 }
+
+void UserController::list(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content)
+{
+	UserService service;
+	vector<UserDto> users = service.list();
+	
+	json res = serialize(users);
+	res["status"]["code"] = Code::Ok;
+	res["status"]["description"] = OK;
+
+	*response << serialize(res);
+}

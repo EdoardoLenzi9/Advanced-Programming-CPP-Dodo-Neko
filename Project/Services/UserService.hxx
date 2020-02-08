@@ -35,6 +35,7 @@ class UserService {
         void update(long id, string firstname, string lastname, string email,
                     string password, string address, long birthdate, long role);
         UserDto get(long id);
+        vector<UserDto> list();
 
     private:
         Repository<User>* ur;

@@ -27,6 +27,18 @@ UserDto UserService::get(long id){
                    user->birthdate(), user->address(), user->id(), user->role());
 }
 
+vector<UserDto> UserService::list(){
+    vector<User> users = ur -> read();
+    vector<UserDto> result;
+
+    for(User u: users){
+        result.push_back(UserDto(u.firstname(), u.lastname(), u.email(), 
+                                 u.birthdate(), u.address(), u.id(), u.role()));
+    }
+
+    return result;
+}
+
 
 long UserService::create(string firstname, string lastname, string email,
                     	 string password, string address, long birthdate, long role){

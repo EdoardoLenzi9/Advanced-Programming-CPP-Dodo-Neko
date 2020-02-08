@@ -32,6 +32,7 @@ class UserController : public BaseController {
         static void del(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
         static void login(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
         static void logout(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
+        static void list(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
 };
 
 #endif
