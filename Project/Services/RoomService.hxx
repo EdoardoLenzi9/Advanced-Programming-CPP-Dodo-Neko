@@ -18,6 +18,7 @@
 #include "UserService.hxx"
 #include "DtoException.hxx"
 #include "RoomDto.hxx"
+#include "BookDto.hxx"
 #include "Const.hxx"
 
 
@@ -41,7 +42,8 @@ class RoomService {
         Room* getRoom(long id);
         vector<RoomDto> getAvailableRooms(long startdate, long enddate);
         void update(long id, int beds, int tlx, int tly, int brx, int bry);
-        
+        vector<BookDto> bookingList(long userid, long role);
+
     private:
         UserService* us;
         Repository<Room>* rr;

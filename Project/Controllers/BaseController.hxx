@@ -11,31 +11,53 @@ using json = nlohmann::json;
 #include "Const.hxx"
 #include "RoomDto.hxx"
 #include "UserDto.hxx"
+#include "BookDto.hxx"
 #include "RoomService.hxx"
 
 class BaseController {
 
     public:
+        static json serialize(vector<BookDto> bookings){
+            json j;
+
+            j["data"]["bookings"] = {};
+            
+            for(BookDto b: bookings){
+                json book = serialize(b);
+                j["data"]["bookings"].push_back(book["data"]); 
+            }
+
+            return j;
+        }
+
+
         static json serialize(vector<RoomDto> rooms){
             json j;
-            json feature;
-            json room;
 
             for(RoomDto r: rooms){
-                room["room"]["roomid"] = r.roomid;
-                room["room"]["roomnumber"] = r.roomnumber;
-                room["room"]["features"] = {};
+                json room = serialize(r);
+                j["data"]["rooms"].push_back( room["data"] );
+            }
 
-                for(FeatureDto f: r.features){
-                    feature["feature"]["id"] = f.id;
-                    feature["feature"]["name"] = f.name;
-                    feature["feature"]["price"] = f.price;
-                    feature["feature"]["amount"] = f.amount; 
+            return j;
+        }
 
-                    room["room"]["features"].push_back(feature["feature"]);
-                }
 
-                j["data"]["rooms"].push_back( room["room"] );
+        static json serialize(RoomDto room){
+            json feature;
+            json j;
+
+            j["data"]["roomid"] = room.roomid;
+            j["data"]["roomnumber"] = room.roomnumber;
+            j["data"]["features"] = {};
+
+            for(FeatureDto f: room.features){
+                feature["feature"]["id"] = f.id;
+                feature["feature"]["name"] = f.name;
+                feature["feature"]["price"] = f.price;
+                feature["feature"]["amount"] = f.amount; 
+
+                j["data"]["features"].push_back(feature["feature"]);
             }
 
             return j;
@@ -56,6 +78,22 @@ class BaseController {
             return j;
         }
         
+
+        static json serialize(BookDto book){
+            json j;
+            json room = serialize(book.room);
+            json user = serialize(book.user);
+
+            j["data"]["room"].push_back( room["data"] );
+            j["data"]["user"].push_back( user["data"] );
+            j["data"]["arrival"] = book.arrival;
+            j["data"]["departure"] = book.departure;
+            j["data"]["paid"] = book.paid;
+            j["data"]["price"] = book.price;
+
+            return j;
+        }
+
         
         static string serialize(json res){
             string statusCode = to_string(res["status"]["code"].get<int>());

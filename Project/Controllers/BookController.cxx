@@ -27,11 +27,19 @@ void BookController::get(shared_ptr<HttpServer::Response> response, shared_ptr<H
 }
 
 void BookController::list(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
-    json res;
-	res["status"]["code"] = 501;
-	res["status"]["description"] = "Not Implemented";
-	res["data"] = "";
-	response->write(SimpleWeb::StatusCode::server_error_not_implemented, res.dump());
+	AuthorizationService authService;
+	UserService userService;
+	RoomService roomService;
+
+	long userId = authService.getSession(content["auth"]["sid"].get<string>());
+	long role = userService.getRole(userId);
+
+	vector<BookDto> bookings = roomService.bookingList(userId, role);
+
+    json res = serialize(bookings);
+	res["status"]["code"] = Code::Ok;
+	res["status"]["description"] = OK;
+	*response << serialize(res);
 }
 
 void BookController::update(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
