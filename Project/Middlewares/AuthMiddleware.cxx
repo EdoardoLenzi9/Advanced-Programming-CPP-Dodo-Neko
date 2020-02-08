@@ -7,7 +7,7 @@
 #include <UserService.hxx>
 #include <Const.hxx>
 
-bool AuthMiddleware::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content, int authlevel) {
+bool AuthMiddleware::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json& content, int authlevel) {
 
     if(content["auth"].count("sid") == 0) {
         
@@ -46,6 +46,7 @@ bool AuthMiddleware::handle(shared_ptr<HttpServer::Response> response, shared_pt
         return false;
     }
 
+    content["data"]["userid"] = userId;
     return true;
 
 }

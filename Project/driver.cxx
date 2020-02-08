@@ -37,7 +37,7 @@ int main(){
     Route roomList("^/room/list$", "POST", RoomController::list);
 
     Route bookCheck("^/book/check$", "POST", BookController::check);
-    Route bookCreate("^/book/create$", "POST", BookController::create);
+    Route bookCreate("^/book/create$", "POST", BookController::create, { AuthMiddleware::user });
     Route bookList("^/book/list$", "POST", BookController::list);
     Route bookUpdate("^/book/update$", "POST", BookController::update);
     Route bookDelete("^/book/delete$", "POST", BookController::del);

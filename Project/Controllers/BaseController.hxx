@@ -11,6 +11,7 @@ using json = nlohmann::json;
 #include "Const.hxx"
 #include "RoomDto.hxx"
 #include "UserDto.hxx"
+#include "RoomService.hxx"
 
 class BaseController {
 

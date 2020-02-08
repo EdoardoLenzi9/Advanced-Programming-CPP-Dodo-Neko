@@ -66,7 +66,7 @@ void Router::start() {
       else
         throw invalid_argument("could not read file");
     }
-    catch(const exception &e) {
+    catch(const std::exception &e) {
       json res;
       res["status"]["code"] = 400;
       res["status"]["description"] = "Bad Request";

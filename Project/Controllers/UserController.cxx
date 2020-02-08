@@ -68,6 +68,7 @@ void UserController::update(shared_ptr<HttpServer::Response> response, shared_pt
 	*response << serialize(res);
 }
 
+
 void UserController::del(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
     json res;
 	res["status"]["code"] = Code::InternalServerError;
@@ -75,6 +76,7 @@ void UserController::del(shared_ptr<HttpServer::Response> response, shared_ptr<H
 	res["data"] = "";
 	*response << serialize(res);
 }
+
 
 void UserController::login(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
 	UserService service;
@@ -91,6 +93,7 @@ void UserController::login(shared_ptr<HttpServer::Response> response, shared_ptr
 	res["data"]["sid"] = session;
 	*response << serialize(res);
 }
+
 
 void UserController::logout(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
 	AuthorizationService service;

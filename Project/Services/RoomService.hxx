@@ -35,7 +35,7 @@ class RoomService {
         }
 
         long create(int beds, int tlx, int tly, int brx, int bry);    
-        long bookRoom(long userID, long roomID);
+        long bookRoom(long userID, long roomID, long arrival, long departure);
         void unbookRoom(long roomID);
         Room* getRoom(long id);
         vector<RoomDto> getAvailableRooms(long startdate, long enddate);

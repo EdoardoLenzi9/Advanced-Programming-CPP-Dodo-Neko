@@ -15,9 +15,8 @@ long RoomService::create(int beds, int tlx, int tly, int brx, int bry){
     return tmp->id();
 }*/
 
-long RoomService::bookRoom(long userID, long roomID){
-    UserRoom* userR = rur->create(new UserRoom(userID, roomID, 1));
-    cout<<"Room is booked" <<userR->id() <<endl;
+long RoomService::bookRoom(long userID, long roomID, long arrival, long departure){
+    UserRoom* userR = rur->create(new UserRoom(userID, roomID, arrival, departure, 0.0, false));
     return userR->id();
 }
 

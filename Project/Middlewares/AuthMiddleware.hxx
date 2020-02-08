@@ -31,7 +31,7 @@ class AuthMiddleware: public BaseMiddleware {
         static bool admin(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, json);
     
     private:
-        static bool handle(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, json, int);
+        static bool handle(shared_ptr<HttpServer::Response>, shared_ptr<HttpServer::Request>, json&, int);
 };
 
 #endif

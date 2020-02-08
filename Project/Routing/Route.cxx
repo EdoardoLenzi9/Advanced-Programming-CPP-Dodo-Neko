@@ -29,7 +29,7 @@ void Route::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpSer
         res["status"]["description"] = dtoe.getDescription();
         res["data"] = "";
         *response << BaseController::serialize(res);
-    } catch (exception e) {
+    } catch (std::exception e) {
         json res;
         res["status"]["code"] = Code::InternalServerError;
         res["status"]["description"] = e.what();
