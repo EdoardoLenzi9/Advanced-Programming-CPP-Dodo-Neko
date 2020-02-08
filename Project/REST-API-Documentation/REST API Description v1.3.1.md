@@ -296,7 +296,7 @@ Request
 {
     "roomid":"<num>",
     "arrival":"<long> unix time",
-    "depature":"<long> unix time",
+    "departure":"<long> unix time",
 }
 ```
 
