@@ -1,5 +1,9 @@
 # REST API Changelog
 
+## Hotfix v1.3.1
+
+* small change to the `/room/list` endpoint: now contains a roomnumber and a roomid, instead of being an array of named ids.
+
 ## Release v1.3
 
 Completely redesigned the REST API Implementation:

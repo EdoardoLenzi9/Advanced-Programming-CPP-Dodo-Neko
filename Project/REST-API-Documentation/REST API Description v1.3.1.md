@@ -237,7 +237,7 @@ Request
 ```
 {
 	"startdate":"<long>",
-	"endate":"<long>"
+	"enddate":"<long>"
 }
 ```
 
@@ -246,7 +246,7 @@ Response
 ```json=
 {
     "rooms":[
-        "<roomid>": {
+        {
             "features":[
                 {
                     "id":"<num>",
@@ -256,9 +256,11 @@ Response
                 },	
                 ...
             ],
-        }
-	],
-	...
+            "roomnumber":"<num>",
+            "roomid":"<num>"
+        },
+        ...
+	]
 }
 ```
 

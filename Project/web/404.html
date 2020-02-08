@@ -267,7 +267,7 @@
 	</div>
 </div>
 
-<!-- modal for feature list -->
+<!-- modal for booking -->
 <div class="modal fade" id="mod-booking" tabindex="-1" role="dialog" aria-labelledby="mod-booking-label" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -280,16 +280,22 @@
 			<div class="modal-body">
 				<div class="full-panel">
 					<div id="mod-booking-guest" class="d-none">
-						<p>Guest booking</p>
+						<p>Please log in or <a href="/register">Register</a></p>
 					</div>
 					<div id="mod-booking-user" class="d-none">
-						<p>User booking</p>
+						<p>Are you sure you want to create a booking request for the selected dates?</p>
+						<p>Room: <span id="spn-roomnumber"></span></p>
+						<p>Selected dates: <span id="spn-arrival"></span> to <span id="spn-departure"></span></p>
 					</div>
-
+					<div id="mod-booking-confirmed" class="d-none">
+						<p>Your booking request has been sent</p>
+					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" id="btn-sendbooking" class="btn btn-success d-none">Request booking</button>
+				<button type="button" id="btn-cancelbooking" class="btn btn-secondary btn-danger d-none" data-dismiss="modal">Cancel</button>
+				<button type="button" id="btn-closebooking" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
