@@ -519,7 +519,7 @@ function getRooms(){
 			console.log(rooms.length);
 			//TODO: this should show a nice alert but not if data doesnt exist, as it happens now. needs a backend fix
 			if (rooms.length < 1) {
-				$('#div-showrooms').append(makeAlert("Sorry!", "No rooms are available during the selected timespan.", "alert-warning" , "");
+				$('#div-showrooms').append(makeAlert("Sorry!", "No rooms are available during the selected timespan.", "alert-warning" , ""));
 			}
 			replaceCurrency();
 		} else {
