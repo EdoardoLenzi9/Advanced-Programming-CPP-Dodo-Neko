@@ -4,8 +4,8 @@
 
 
 // please change this to your server
-var serverUrl = "https://e06f6d86-e0bd-4a75-a8fe-bfcf40cfe849.mock.pstmn.io"
-//var serverUrl = "http://localhost:8080"
+//var serverUrl = "https://e06f6d86-e0bd-4a75-a8fe-bfcf40cfe849.mock.pstmn.io"
+var serverUrl = "http://localhost:8080"
 // filled via rest api
 var loggedIn = 0;
 
@@ -35,6 +35,8 @@ var user = {
 	"userid": "",
 	"roleid": ""
 };
+
+var rooms = {};
 
 ///////////////////////////////
 /////// local functions ///////
@@ -79,10 +81,6 @@ function showElementsbyState(){
 function round(num){
 	// https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary/18358056#18358056
 	return +(Math.round(num + "e+2") + "e-2");
-}
-
-function checkLoginState(){
-	//TODO: define an endpoint to determine the valid state of a SID
 }
 
 // this is a function i found which corrects the missing headers
@@ -143,8 +141,11 @@ function getHotelInfo(){
 */
 
 function getUserInfo(){
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
+	
 
 	if ( request.auth.sid ) {
 		$.postJSON(`${serverUrl}/user`,
@@ -169,36 +170,53 @@ function getUserInfo(){
 	}
 }
 
-function displayFeatures(roomid){
+function displayFeatures(roomnumber){
+features.filter(feature => feature.id == '2')[0].amount;
+
 
 	$('#tbl-featurelist tbody tr').each (function (val) { $(this).remove(); })
-	$.getJSON(`${serverUrl}/room/${roomid}`,
-	function(response) {
-		if (response.status.code == 200){
-			console.log("success");
-			features = response.data.features;
 
-			for (var i = 0; i < features.length; i++) {
-				$('#tbl-featurelist').append('<tr name="featurerow"><td>' + features[i].name + '</td><td>' + features[i].amount + '</td></tr>');
-			}
-		} else {
-			console.log("getting roominfo failed");
-			console.log(response);
+	features = rooms.filter(room => room.roomnumber == roomnumber)[0].features;
+
+	for (var i = 0; i < features.length; i++) {
+		if (features[i].id != 1){
+			$('#tbl-featurelist').append('<tr name="featurerow"><td>' + features[i].name + '</td><td>' + features[i].amount + '</td></tr>');
 		}
-	});
+	}
+
 }
 
-function displayBooking(roomid){
+function displayBooking(roomnumber){
 	getUserInfo();
 	if (loggedIn == 1) {
 		console.log(loggedIn);
 		$('#mod-booking-guest').addClass('d-none');
+		$('#mod-booking-confirmed').addClass('d-none');
 		$('#mod-booking-user').removeClass('d-none');
+		$('#btn-sendbooking').removeClass('d-none');
+		$('#btn-cancelbooking').removeClass('d-none');
+		$('#btn-closebooking').addClass('d-none');
+
+		$('#spn-roomnumber').
+		$('#spn-arrival')
+		$('#spn-departure')
+
+
+		
 	} else {
 		console.log(loggedIn);
-		$('#mod-booking-guest').removeClass('d-none');
 		$('#mod-booking-user').addClass('d-none');
+		$('#mod-booking-confirmed').addClass('d-none');
+		$('#mod-booking-guest').removeClass('d-none');
 	}
+}
+
+function requestBooking(){
+
+	$('#mod-booking-user').addClass('d-none');
+	$('#mod-booking-guest').addClass('d-none');
+	$('#mod-booking-confirmed').removeClass('d-none');
+
 }
 
 /*
@@ -206,6 +224,8 @@ function displayBooking(roomid){
 */
 
 function login(){
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
 	Cookies.remove('sid');
 
@@ -242,6 +262,8 @@ function login(){
 */
 
 function logout(){
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
@@ -272,6 +294,8 @@ function logout(){
 */
 
 function register(){
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
@@ -329,6 +353,8 @@ function register(){
 function userUpdate(){
 	getUserInfo();
 
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
@@ -376,120 +402,79 @@ function getRooms(){
 }
 */
 function getRooms(){
-	console.log("trying to get rooms");
-	console.log(`${serverUrl}/room/list`);
-	$.getJSON(`${serverUrl}/room/list`,
-	function(response) {
-		console.log(response);
-		for (var i = 0; i < response.data.rooms.length; i++){
-			console.log(`checking room ${response.data.rooms[i]}`);
-			roomid = response.data.rooms[i];
-			$.getJSON(`${serverUrl}/room/${roomid}`,
-			function(response) {
-				if (response.status.code == 200){
-					room = response.data;
-
-					// determine how many beds the room has
-					bedfeature = room.features.filter(function(val) { return val.id === "1"; }); // returns the feature object with id 1 (beds)
-					beds = bedfeature[0].amount;
-
-					var price = Number(room.baseprice);
-					for (var i = 0; i < room.features.length; i++){
-						price += (Number(room.baseprice)*Number(room.features[i].pricemultiplier))-Number(room.baseprice);
-					}
-
-					price = round(price);
-
-					// create table row
-					$('#tbl-roomlist').append('<tr><th class="align-middle" id="tbl-rooms-' + i + '-id" scope="row">' + room.roomid + '</th><td class="align-middle" id="tbl-rooms-' + i + '-features">' + '<button id="tbl-btn-rooms-' + i + '-features" data-toggle="modal" data-target="#mod-features" class="btn"><i class="fa fa-eye"></i></button>' + '</td><td class="align-middle" id="tbl-rooms-' + i + '-beds">' + beds + '</td><td class="align-middle" id="tbl-rooms-' + i + '-price">' + price + ' €</td><td class="align-middle" id="tbl-rooms-' + i + '-book"><button id="tbl-btn-rooms-' + i + '-book" data-toggle="modal" data-target="#mod-booking" class="btn"><i class="fa fa-book"></i></button></td></tr>');
-				} else {
-					console.log("getting roominfo failed");
-					console.log(response);
-				}
-			});	
-		}
-	});
-}
-/* 
-	Implementation of the /room/<roomid> endpoint
-*/
-function getRoomInfo(roomid){
-	console.log("getting room info for");
-	console.log(roomid);
-	var returndata;
-	$.getJSON(`${serverUrl}/room/${roomid}`,
-	function(response) {
-		if (response.status.code == 200){
-			console.log("success");
-			return response.data;
-		} else {
-			console.log("getting roominfo failed");
-			console.log(response);
-		}
-	});
-}
-
-/* 
-	Convenience function to fill the room data from the server before updating
-*/ 
-
-function getRoomInfoUpdate(){
-	/* disabled roomid input - very secure!*/
-	$('#updateroomid').prop('disabled' ,true);
-
-	$.getJSON(`${serverUrl}/room/`+ $('#updateroomid').val(),
-	function(response) {
-		$('#updateroomid').val(response.data.roomID);
-		$('#coordinatestlx').val(response.data.coordinates.tlx);
-		$('#coordinatestly').val(response.data.coordinates.tly);
-		$('#coordinatesbrx').val(response.data.coordinates.brx);
-		$('#coordinatesbry').val(response.data.coordinates.bry);
-		$('#updatebaseprice').val(response.data.baseprice);
-		for (var i = 0; i < response.data.features.length; i++){
-			$('#updateroomfeatureslist').append('<tr><td><input id="updateroomfeatureid'+i+'" value="' + response.data.features[i].id + '" /></td>' + '<td><input id="updateroomfeaturename'+i+'" value="' + response.data.features[i].name + '" /></td>' + '<td><input id="updateroomfeaturepricemultiplier'+i+'" value="' + response.data.features[i].priceMultiplier + '" /></td>' + '<td><input id="updateroomfeatureamount'+i+'" value="' + response.data.features[i].amount + '" /></td>' + '</tr>');
-		}
-		});
-}
-
-/* 
-	Implementation of the /room/update endpoint
-
-*/
-
-function updateRoomInfo(){
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
-	request.data.roomid=$('#updateroomid').val();
-	request.data.coordinates.tlx=$('#updatecoordinatestlx').val();
-	request.data.coordinates.tlx=$('#updatecoordinatestly').val();
-	request.data.coordinates.tlx=$('#updatecoordinatesbrx').val();
-	request.data.coordinates.tlx=$('#updatecoordinatesbry').val();
-	request.data.baseprice=$('#updatebaseprice').val();
+	//TODO: make sure the date isnt a negative timespan
+	request.data.startdate = Math.floor(new Date($('#frm-arrival').val()).getTime()/1000);
+	request.data.enddate = Math.floor(new Date($('#frm-departure').val()).getTime()/1000);
 
-	request.data.features = [];
-
-	for (var i = $('#updateroomfeatureslist tr').length-1; i > 0; i--){
-		request.data.features.push({'id':$('#updateroomfeatureid'+i).val(), 'name':$('#updateroomfeaturename'+i).val(), 'priceMultiplier':$('#updateroomfeaturepricemultiplier'+i).val(), 'amount':$('#updateroomfeatureamount'+i).val()});
+	if (!request.data.startdate){
+		alert("Please enter a valid arrival date.");
+		return;
 	}
 
-	$.postJSON(`${serverUrl}/user/update`,
-	request, 
+	if (!request.data.enddate){
+		alert("Please enter a valid departure date.");
+		return;
+	}
+
+	if (Number(request.data.startdate) < new Date().getTime()/1000){
+		alert("No Timetravellers allowed in our hotel! Arrival date is in the past.");
+		return;
+	}
+
+	if (Number(request.data.enddate) < new Date().getTime()/1000){
+		alert("No Timetravellers allowed in our hotel! Departure date is in the past.");
+		return;
+	}
+
+	if (Number(request.data.enddate)-Number(request.data.startdate) < 86400){
+		alert("You need to stay at least a day.");
+		return; 
+	}
+
+	$('#div-showrooms').removeClass('d-none')
+
+	$('#tbl-roomlist tbody tr').each (function (val) { $(this).remove(); })
+
+	// TODO: dont send request if no dates 
+	$.postJSON(`${serverUrl}/room/list`,
+	request,
 	function(response) {
-		alert(response.data.successful);
+		if (response.status.code == 200){
+			//exporting to global namespace as a workaround
+			rooms = response.data.rooms;
+			console.log(response.data.rooms.length);
+			for (var i = 0; i < response.data.rooms.length; i++){
+				room = response.data.rooms[i];
+				console.log(`${i}/${response.data.rooms.length}: checking room ${room.roomid}`);
+
+				roomid = room.roomid;
+				roomnumber = room.roomnumber;
+				features = response.data.rooms[i].features;
+				price = Number(features.filter(feature => feature.id == '1')[0].price);
+				console.log(price);
+				beds = features.filter(feature => feature.id == '2')[0].amount;
+				
+				for (var j = 0; j < features.length; j++){
+					if (features[j].id != 1){
+						price += (Number(features[j].amount)*Number(features[j].price));
+					}
+				}
+
+				price = round(price);
+
+				// create table row
+				$('#tbl-roomlist').append('<tr><th class="align-middle" id="tbl-rooms-' + roomid + '-id" scope="row">' + room.roomnumber + '</th><td class="align-middle" id="tbl-rooms-' + roomid + '-features">' + '<button id="tbl-btn-rooms-' + roomid + '-features" data-toggle="modal" data-target="#mod-features" class="btn"><i class="fa fa-eye"></i></button>' + '</td><td class="align-middle" id="tbl-rooms-' + roomid + '-beds">' + beds + '</td><td class="align-middle" id="tbl-rooms-' + roomid + '-price">' + price + ' €</td><td class="align-middle" id="tbl-rooms-' + roomid + '-book"><button id="tbl-btn-rooms-' + roomid + '-book" data-toggle="modal" data-target="#mod-booking" class="btn"><i class="fa fa-book"></i></button></td></tr>');
+			}
+		} else {
+			console.log("getting rooms failed");
+			console.log(response);
+		}
 	});
-
-	/* clear form */
-	$('#updateroomid').val('');
-	$('#updatecoordinatestlx').val('');
-	$('#updatecoordinatestly').val('');
-	$('#updatecoordinatesbrx').val('');
-	$('#updatecoordinatesbry').val('');
-	$('#updatebaseprice').val('');
-
-	$('#updateroomfeatureslist').find("tr:gt(0)").remove(); //remove all tr elements greater than 0
-
-	$('#updateroomid').prop('disabled' , false);
 }
 
 ///////////////////////////////
@@ -497,15 +482,6 @@ function updateRoomInfo(){
 ///////////////////////////////
 
 $( document ).ready(function(){ //only run this script after the loading of the page finished
-
-
-	// not yet correctly implemented functions
-	$('#usergetinfo').click(getUserInfo); 	/* /user */
-
-	$('#getroomlist').click(getRooms); 		/* /room/list */
-	$('#checkroomidsubmit').click(getRoomInfo); /* /room/# */
-	$('#updateroomidsubmit').click(updateRoomInfo); /* /room/update */
-	$('#featurefillroominfo').click(getRoomInfoUpdate); /* helper */
 
 	// integrated functions
 
@@ -515,18 +491,22 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	$('#btn-register').click(register);		/* /user/register */
 	$('#btn-settings').click(loadSettings);
 	$('#btn-settings-update').click(userUpdate); /* /user/update */
+	$('#btn-getrooms').click(getRooms);
+	$('#btn-sendbooking').click(requestBooking);
+
+	
 
 	// listener for dynamic table content of the booking page, feature button
 	$('#tbl-roomlist tbody').on('click', 'button[id*="features"]', function(){
-		roomid = $(this).closest('tr').children()[0].innerHTML;
-		displayFeatures(roomid);
+		roomnumber = $(this).closest('tr').children()[0].innerHTML;
+		displayFeatures(roomnumber);
 
 	});
 
 	$('#tbl-roomlist tbody').on('click', 'button[id*="book"]', function(){
 
-		roomid = $(this).closest('tr').children()[0].innerHTML;
-		displayBooking(roomid);
+		roomnumber = $(this).closest('tr').children()[0].innerHTML;
+		displayBooking(roomnumber);
 
 	});
 	/*
