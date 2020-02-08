@@ -272,7 +272,7 @@ function requestBooking(){
 	$.postJSON(`${serverUrl}/book/create`,
 	request, 
 	function(response) {
-		if (response.status.code == 400){	
+		if (response.status.code == 200){	
 			$('#mod-booking-user').addClass('d-none');
 			$('#mod-booking-guest').addClass('d-none');
 			$('#mod-booking-confirmed').removeClass('d-none');
@@ -297,7 +297,7 @@ function login(){
 	var request = defaultRequest;
 	Cookies.remove('sid');
 	// yes i get this is redundant
-	request.auth.sid = Cookies.get('sid');
+	request.auth.sid = "";
 	
 	request.data = {
 			"email": $('#frm-username').val(),
