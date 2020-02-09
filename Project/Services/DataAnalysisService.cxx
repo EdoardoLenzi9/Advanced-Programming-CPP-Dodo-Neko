@@ -19,10 +19,20 @@ int DataAnalysisService::averageDays(){
     for(UserRoom b: bookings){
         average += floor((b.departure() - b.arrival()) / 86400);
     }
+    return average;
 }
 
 
 float DataAnalysisService::averagePrice(){
+    vector<UserRoom> roomPrice = rur->readAll();
+    int count = roomPrice.size();
+    float average = 0.0;
+
+    for(UserRoom p:roomPrice){
+        average+= p.price()/count;
+
+    }
+    return average;
 
 }
 
