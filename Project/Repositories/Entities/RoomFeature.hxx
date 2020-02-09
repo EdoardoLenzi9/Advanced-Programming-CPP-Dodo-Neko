@@ -21,7 +21,7 @@ class RoomFeature : public BaseEntity
 	public:
     
 	    RoomFeature () {}
-	    RoomFeature (long r_id, long ft_id, long r_num) : room_id_(r_id), feature_type_id_(ft_id), room_number_(r_num) {}                 
+	    RoomFeature (long r_id, long ft_id, int a) : room_id_(r_id), feature_type_id_(ft_id), amount_(a) {}                 
 		
 		// Getter and setters
 		void room_id( long r ) { room_id_ = r; };
@@ -30,8 +30,8 @@ class RoomFeature : public BaseEntity
 		void feature_type_id( long f ) { feature_type_id_ = f; };
 		long feature_type_id() { return feature_type_id_; };
 
-		void room_number( long r ) { room_number_ = r; };
-		long room_number() { return room_number_; };
+		void amount( int a ) { amount_ = a; };
+		int amount() { return amount_; };
 		
 		unsigned long id ( ) { return id_; } ;
 		
@@ -45,7 +45,7 @@ class RoomFeature : public BaseEntity
 
 		long room_id_;
 		long feature_type_id_;
-		long room_number_;
+		int amount_;
 
 		#pragma db id auto         
 		unsigned long id_;      

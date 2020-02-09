@@ -67,6 +67,27 @@ Entity* Repository<Entity>::readAll(unsigned long id)
 
 
 template<typename Entity>
+vector<Entity> Repository<Entity>::readAll() 
+{   
+	vector<Entity> res;
+
+	{
+		transaction t (dbm->db->begin ());
+
+		odb::result<Entity> r(dbm->db->query<Entity> (odb::query<Entity>::id > 0));
+
+		for(Entity& e: r){
+			res.push_back(e);
+		}
+
+		t.commit ();
+	}
+
+	return res;
+}
+
+
+template<typename Entity>
 vector<Entity> Repository<Entity>::read(odb::query<Entity> query) 
 {
 	vector<Entity> res;

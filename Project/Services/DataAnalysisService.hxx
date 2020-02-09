@@ -7,14 +7,15 @@
 **/
 
 
-#ifndef USER_ROOM_SERVICE_HPP
-#define USER_ROOM_SERVICE_HPP
+#ifndef DATA_ANALYSIS_SERVICE_HPP
+#define DATA_ANALYSIS_SERVICE_HPP
 
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <time.h>
+#include <math.h>
 
 #include "Repository.hxx"
 #include "UserService.hxx"
@@ -23,10 +24,10 @@
 #include "BookDto.hxx"
 #include "Const.hxx"
 
-class UserRoomService { 
+class DataAnalysisService { 
     
     public:
-        UserRoomService(){
+        DataAnalysisService(){
             rr = new Repository<Room>();
             ru = new Repository<User>();
             rf = new Repository<RoomFeature>();
@@ -35,13 +36,11 @@ class UserRoomService {
             us = new UserService();
         }
 
-        void del(long userId, long role, long id);    
-        void unbookRoom(long roomID);
-        long bookRoom(long userID, long roomID, long arrival, long departure);
-        void confirmPayment(long role, long bookid);
-        vector<BookDto> bookingList(long userid, long role);
-        void update(long userid, long role, long bookid, long arrival, long departure);
-        set<long> reservedRooms(long startdate, long enddate, long bookid);
+        int averageDays();    
+        float averagePrice();
+        vector<RoomDto> mostValuableRooms();
+        vector<UserDto> mostValuableCustomers();
+        vector<FeatureDto> mostValuableFeatures();
 
     private:
         UserService* us;

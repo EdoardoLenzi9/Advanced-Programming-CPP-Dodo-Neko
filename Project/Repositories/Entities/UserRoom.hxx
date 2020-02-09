@@ -21,7 +21,9 @@ class UserRoom : public BaseEntity
 	public:
     
 	    UserRoom () {}
-	    UserRoom (long u, long r, long t) : user_id_(u), room_id_(r), timestamp_(t) {}                 
+	    UserRoom (long u, long r, long a, long d, float pr, bool pa) 
+			: user_id_(u), room_id_(r), arrival_(a), departure_(d), 
+			  price_(pr), paid_(pa) {}                 
 		
 		// Getter and setters
 		void arrival( long a ) { arrival_ = a; };
@@ -30,11 +32,8 @@ class UserRoom : public BaseEntity
 		void departure( long d ) { departure_ = d; };
 		long departure() { return departure_; };
 
-		void is_checked_in( bool i ) { is_checked_in_ = i; };
-		bool is_checked_in() { return is_checked_in_; };
-
 		void price( float p ) { price_ = p; };
-		bool price() { return price_; };
+		float price() { return price_; };
 
 		void paid( bool p ) { paid_ = p; };
 		bool paid() { return paid_; };
@@ -60,7 +59,6 @@ class UserRoom : public BaseEntity
 
 		long arrival_;
 		long departure_;
-		bool is_checked_in_;
 		float price_;
 		bool paid_;
     	long room_id_;

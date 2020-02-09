@@ -259,7 +259,7 @@ Request
 {
     "roomID":"<num>",
     "arrival":"<string>(YYYY-MM-DD)",
-    "depature":"<string>(YYYY-MM-DD)"
+    "departure":"<string>(YYYY-MM-DD)"
 }
 ```
 
@@ -286,7 +286,7 @@ Request
     "roomID":"<num>",
     "userID":"<num>",
     "arrival":"<string>(YYYY-MM-DD)",
-    "depature":"<string>(YYYY-MM-DD)",
+    "departure":"<string>(YYYY-MM-DD)",
 }
 ```
 
@@ -322,7 +322,7 @@ Response
             "userID":"<num>",
             "bookingID":"<num>",
             "arrival":"<string>(YYYY-MM-DD)",
-            "depature":"<string>(YYYY-MM-DD)",
+            "departure":"<string>(YYYY-MM-DD)",
             "paid":"boolean" //1 means paid
         }, 
         ...
@@ -374,7 +374,7 @@ Response
         "userID":"<num>",
         "bookingID":"<num>",
         "arrival":"<string>(YYYY-MM-DD)",
-        "depature":"<string>(YYYY-MM-DD)",
+        "departure":"<string>(YYYY-MM-DD)",
         "paid":"boolean" //1 means paid
     }
 }
@@ -394,7 +394,7 @@ Request
     "userID":"<num>",
     "bookID":"<num>",
     "arrival":"<string>(YYYY-MM-DD)",
-    "depature":"<string>(YYYY-MM-DD)",
+    "departure":"<string>(YYYY-MM-DD)",
 }
 ```
 

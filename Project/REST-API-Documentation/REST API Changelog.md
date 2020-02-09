@@ -1,5 +1,12 @@
 # REST API Changelog
 
+## Hotfix v1.3.1
+
+* small change to the `/room/list` endpoint: now contains a roomnumber and a roomid, instead of being an array of named ids.
+* fixed some spelling mistakes:
+  * in `/book/csreate` -> `departure`
+  * in `/room/list` -> `enddate`
+
 ## Release v1.3
 
 Completely redesigned the REST API Implementation:

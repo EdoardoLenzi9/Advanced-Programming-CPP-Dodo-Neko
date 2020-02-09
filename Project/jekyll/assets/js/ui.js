@@ -4,10 +4,11 @@
 
 
 // please change this to your server
-var serverUrl = "https://e06f6d86-e0bd-4a75-a8fe-bfcf40cfe849.mock.pstmn.io"
-//var serverUrl = "http://localhost:8080"
+//var serverUrl = "https://e06f6d86-e0bd-4a75-a8fe-bfcf40cfe849.mock.pstmn.io"
+var serverUrl = "http://localhost:8080"
 // filled via rest api
 var loggedIn = 0;
+
 
 ////////////////////////////////
 // data objects for local use //
@@ -35,6 +36,8 @@ var user = {
 	"userid": "",
 	"roleid": ""
 };
+
+var rooms = {};
 
 ///////////////////////////////
 /////// local functions ///////
@@ -73,16 +76,24 @@ function showElementsbyState(){
 		$('#btn-login-dropdown').addClass('d-none');
 		$('#btn-logout').removeClass('d-none');
 		$('#btn-settings').removeClass('d-none');
+	} else {
+		$('#nav-manage').addClass('d-none');
+		$('#nav-admin').addClass('d-none');
+		$('#nav-debug').addClass('d-none');
+		$('#nav-settings').addClass('d-none');
+		$('#btn-logout').addClass('d-none');
+		$('#btn-login-dropdown').removeClass('d-none');
+		$('#nav-register').removeClass('d-none');
 	}
+}
+
+function makeAlert(head, text, type, classes){
+	return '<div class="alert ' + type + ' ' + classes + ' alert-dismissible fade show" role="alert"> <strong>'+ head + '</strong> ' + text + ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>'
 }
 
 function round(num){
 	// https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary/18358056#18358056
 	return +(Math.round(num + "e+2") + "e-2");
-}
-
-function checkLoginState(){
-	//TODO: define an endpoint to determine the valid state of a SID
 }
 
 // this is a function i found which corrects the missing headers
@@ -96,19 +107,22 @@ $.postJSON = function(url, data, successcallback) {
 		'data': JSON.stringify(data),
 		'dataType': 'json',
 		'success': successcallback,
-		'error': function(){ alert("accessing the api failed"); },
+		'error': function(){ 
+			$('header').append(makeAlert("Holy guacamole!", "The API seems to have failed!", "alert-danger", "mt-2"));
+		},
 		'timeout': 3000
 	});
 };
 
 function loadSettings(){
-
-	$('#frm-email').text(user.email);
-	$('#frm-firstname').text(user.firstname);
-	$('#frm-lastname').text(user.lastname);
-	$('#frm-birthday').text(user.birthday);
-	$('#frm-userid').text(user.userid);
-	$('#frm-roleid').text(user.roleid);
+	getUserInfo();
+	$('#frm-email').val(user.email);
+	$('#frm-firstname').val(user.firstname);
+	$('#frm-lastname').val(user.lastname);
+	$('#frm-address').val(user.address);
+	$('#frm-birthday').val(user.birthday);
+	$('#frm-userid').val(user.userid);
+	$('#frm-roleid').val(user.roleid);
 
 	if (user.roleid > 1){
 		$('#frm-userid').attr('disabled', false);
@@ -118,6 +132,15 @@ function loadSettings(){
 
 function loadMainPage(){
 	window.location = window.location.origin;
+}
+
+function replaceCurrency(){
+	$('.currency').each(function(text){
+		console.log("replacing");
+		console.log(this);
+		this.innerHTML = ' <i class="fa fa-btc"></i>';
+	});
+
 }
 
 /*
@@ -143,6 +166,8 @@ function getHotelInfo(){
 */
 
 function getUserInfo(){
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
@@ -151,7 +176,6 @@ function getUserInfo(){
 		request,
 		function(response) {
 			if ( response.status.code == "200" ){
-				console.log("successful");
 				user.firstname = response.data.firstname;
 				user.lastname = response.data.lastname;
 				user.email = response.data.email;
@@ -169,23 +193,20 @@ function getUserInfo(){
 	}
 }
 
-function displayFeatures(roomid){
+function displayFeatures(roomnumber){
+features.filter(feature => feature.id == '2')[0].amount;
+
 
 	$('#tbl-featurelist tbody tr').each (function (val) { $(this).remove(); })
-	$.getJSON(`${serverUrl}/room/${roomid}`,
-	function(response) {
-		if (response.status.code == 200){
-			console.log("success");
-			features = response.data.features;
 
-			for (var i = 0; i < features.length; i++) {
-				$('#tbl-featurelist').append('<tr name="featurerow"><td>' + features[i].name + '</td><td>' + features[i].amount + '</td></tr>');
-			}
-		} else {
-			console.log("getting roominfo failed");
-			console.log(response);
+	features = rooms.filter(room => room.roomnumber == roomnumber)[0].features;
+
+	for (var i = 0; i < features.length; i++) {
+		if (features[i].id != 1){
+			$('#tbl-featurelist').append('<tr name="featurerow"><td>' + features[i].name + '</td><td>' + features[i].amount + '</td></tr>');
 		}
-	});
+	}
+
 }
 
 function displayBooking(roomid){
@@ -193,12 +214,77 @@ function displayBooking(roomid){
 	if (loggedIn == 1) {
 		console.log(loggedIn);
 		$('#mod-booking-guest').addClass('d-none');
+		$('#mod-booking-confirmed').addClass('d-none');
 		$('#mod-booking-user').removeClass('d-none');
+		$('#btn-sendbooking').removeClass('d-none');
+		$('#btn-cancelbooking').removeClass('d-none');
+		$('#btn-closebooking').addClass('d-none');
+
+		roomnumber = $(`#tbl-${roomid}-number`).text();
+		price = Number($(`#tbl-${roomid}-price-raw`).text());
+		arrival = $('#frm-arrival').val();
+		departure = $('#frm-departure').val();
+
+		$('#spn-roomid').text(roomid);
+		$('#spn-roomcost').text(price);
+		$('#spn-roomnumber').text(roomnumber);
+		$('#spn-arrival').text(arrival);
+		$('#spn-departure').text(departure);
+
+		arrival = new Date(arrival).getTime();
+		departure = new Date(departure).getTime();
+
+		totaldays = Number((departure-arrival)/1000/86400);
+
+		$('#spn-totaldays').text(totaldays);
+		$('#spn-finalprice').text(price*totaldays);
+
+		
 	} else {
 		console.log(loggedIn);
-		$('#mod-booking-guest').removeClass('d-none');
 		$('#mod-booking-user').addClass('d-none');
+		$('#mod-booking-confirmed').addClass('d-none');
+		$('#mod-booking-guest').removeClass('d-none');
 	}
+}
+
+function requestBooking(){
+	getUserInfo();
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
+	var request = defaultRequest;
+
+	request.auth.sid = Cookies.get('sid');
+
+	roomid = Number($('#spn-roomid').text().replace("room-", ""));
+	arrival = Math.floor((new Date($('#spn-arrival').text())).getTime()/1000);
+	departure = Math.floor((new Date($('#spn-departure').text())).getTime()/1000);
+
+	console.log("trying to create a booking");
+	console.log(roomid);
+	console.log(arrival);
+	console.log(departure);
+
+	request.data.roomid = roomid;
+	request.data.arrival = arrival;
+	request.data.departure = departure;
+
+	$.postJSON(`${serverUrl}/book/create`,
+	request, 
+	function(response) {
+		if (response.status.code == 200){	
+			$('#mod-booking-user').addClass('d-none');
+			$('#mod-booking-guest').addClass('d-none');
+			$('#mod-booking-confirmed').removeClass('d-none');
+			$('#btn-sendbooking').addClass('d-none');
+			$('#btn-cancelbooking').addClass('d-none');
+			$('#btn-closebooking').removeClass('d-none');
+			getRooms();
+		} else {
+			$('#lrt-booking-failed').show();
+			console.log(response);
+		}
+	});
 }
 
 /*
@@ -206,10 +292,12 @@ function displayBooking(roomid){
 */
 
 function login(){
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
 	Cookies.remove('sid');
-
-	request.auth.sid = Cookies.get('sid');
+	// yes i get this is redundant
+	request.auth.sid = "";
 	
 	request.data = {
 			"email": $('#frm-username').val(),
@@ -218,14 +306,13 @@ function login(){
 	$.postJSON(`${serverUrl}/user/auth`,
 	request, 
 	function(response) {
+		console.log("callback for login running");
 		if (response.status.code == "200") {
 			console.log("authentication successful");
-			console.log(response.data.sid);
 			Cookies.set('sid', response.data.sid, { expires: 7, path: '' }); // 7 days	
-			//loadMainPage();
+			getUserInfo();
 		} else if (response.status.code == "401") {
-			// TODO: needs a nicer way of displaying this, maybe some shaking-animation on the login menu
-			alert("authentication failed");
+			$('#div-login-dropdown').prepend(makeAlert("Login failed!", "Try again.", "alert-danger", ""));
 		} else {
 			alert("authentication failed due to unknown reasons (check log)");
 			console.log("login failed")
@@ -242,11 +329,13 @@ function login(){
 */
 
 function logout(){
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
 	if ( request.auth.sid ){
-		$.postJSON(`${serverUrl}/user/auth`,
+		$.postJSON(`${serverUrl}/user/logout`,
 		request, 
 		function(response) {
 			if(response.status.code == 200){
@@ -272,6 +361,8 @@ function logout(){
 */
 
 function register(){
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
@@ -329,6 +420,8 @@ function register(){
 function userUpdate(){
 	getUserInfo();
 
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
@@ -346,6 +439,7 @@ function userUpdate(){
 	function(response) {
 		if (response.status.code == 401){
 			alert("no authentication");
+			Cookies.remove('sid');
 		} else if (response.status.code != 200 ) {
 			alert("something else went wrong...");
 			console.log(response);
@@ -353,143 +447,86 @@ function userUpdate(){
 	});
 }
 
-/* 
-	Implementation of the /room/list endpoint
-*/
-
-/*
-// this implementation suffers from asynchronity - actually in this piece of shit language
-// you cant even make sure you actually have values in a variable
-
 function getRooms(){
-	console.log("trying to get rooms");
-	console.log(`${serverUrl}/room/list`);
-	$.getJSON(`${serverUrl}/room/list`,
-	function(response) {
-		console.log(response);
-		for (var i = 0; i < response.data.rooms.length; i++){
-			room = getRoomInfo(response.data.rooms[i]);
-			while (! room) { }
-			$('#tbl-roomlist').append('<tr><th id="tbl-rooms-' + i + '-id" scope="row">' + room.roomID + '</th><td id="tbl-rooms-' + i + '-features">' + '<button id="tbl-btn-rooms-' + i + '-features" class="btn"><i class="fa fa-eye"></i></button>' + '</td><td id="tbl-rooms-' + i + '-beds">' + "" + '</td><td id="tbl-rooms-' + i + '-price">' + room.basePrice + '</td><td id="tbl-rooms-' + i + '-book"><button id="tbl-btn-rooms-' + i + '-book" class="btn"><i class="fa fa-book"></i></button></td></tr>');
-		}
-	});
-}
-*/
-function getRooms(){
-	console.log("trying to get rooms");
-	console.log(`${serverUrl}/room/list`);
-	$.getJSON(`${serverUrl}/room/list`,
-	function(response) {
-		console.log(response);
-		for (var i = 0; i < response.data.rooms.length; i++){
-			console.log(`checking room ${response.data.rooms[i]}`);
-			roomid = response.data.rooms[i];
-			$.getJSON(`${serverUrl}/room/${roomid}`,
-			function(response) {
-				if (response.status.code == 200){
-					room = response.data;
 
-					// determine how many beds the room has
-					bedfeature = room.features.filter(function(val) { return val.id === "1"; }); // returns the feature object with id 1 (beds)
-					beds = bedfeature[0].amount;
 
-					var price = Number(room.baseprice);
-					for (var i = 0; i < room.features.length; i++){
-						price += (Number(room.baseprice)*Number(room.features[i].pricemultiplier))-Number(room.baseprice);
-					}
-
-					price = round(price);
-
-					// create table row
-					$('#tbl-roomlist').append('<tr><th class="align-middle" id="tbl-rooms-' + i + '-id" scope="row">' + room.roomid + '</th><td class="align-middle" id="tbl-rooms-' + i + '-features">' + '<button id="tbl-btn-rooms-' + i + '-features" data-toggle="modal" data-target="#mod-features" class="btn"><i class="fa fa-eye"></i></button>' + '</td><td class="align-middle" id="tbl-rooms-' + i + '-beds">' + beds + '</td><td class="align-middle" id="tbl-rooms-' + i + '-price">' + price + ' €</td><td class="align-middle" id="tbl-rooms-' + i + '-book"><button id="tbl-btn-rooms-' + i + '-book" data-toggle="modal" data-target="#mod-booking" class="btn"><i class="fa fa-book"></i></button></td></tr>');
-				} else {
-					console.log("getting roominfo failed");
-					console.log(response);
-				}
-			});	
-		}
-	});
-}
-/* 
-	Implementation of the /room/<roomid> endpoint
-*/
-function getRoomInfo(roomid){
-	console.log("getting room info for");
-	console.log(roomid);
-	var returndata;
-	$.getJSON(`${serverUrl}/room/${roomid}`,
-	function(response) {
-		if (response.status.code == 200){
-			console.log("success");
-			return response.data;
-		} else {
-			console.log("getting roominfo failed");
-			console.log(response);
-		}
-	});
-}
-
-/* 
-	Convenience function to fill the room data from the server before updating
-*/ 
-
-function getRoomInfoUpdate(){
-	/* disabled roomid input - very secure!*/
-	$('#updateroomid').prop('disabled' ,true);
-
-	$.getJSON(`${serverUrl}/room/`+ $('#updateroomid').val(),
-	function(response) {
-		$('#updateroomid').val(response.data.roomID);
-		$('#coordinatestlx').val(response.data.coordinates.tlx);
-		$('#coordinatestly').val(response.data.coordinates.tly);
-		$('#coordinatesbrx').val(response.data.coordinates.brx);
-		$('#coordinatesbry').val(response.data.coordinates.bry);
-		$('#updatebaseprice').val(response.data.baseprice);
-		for (var i = 0; i < response.data.features.length; i++){
-			$('#updateroomfeatureslist').append('<tr><td><input id="updateroomfeatureid'+i+'" value="' + response.data.features[i].id + '" /></td>' + '<td><input id="updateroomfeaturename'+i+'" value="' + response.data.features[i].name + '" /></td>' + '<td><input id="updateroomfeaturepricemultiplier'+i+'" value="' + response.data.features[i].priceMultiplier + '" /></td>' + '<td><input id="updateroomfeatureamount'+i+'" value="' + response.data.features[i].amount + '" /></td>' + '</tr>');
-		}
-		});
-}
-
-/* 
-	Implementation of the /room/update endpoint
-
-*/
-
-function updateRoomInfo(){
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
-	request.data.roomid=$('#updateroomid').val();
-	request.data.coordinates.tlx=$('#updatecoordinatestlx').val();
-	request.data.coordinates.tlx=$('#updatecoordinatestly').val();
-	request.data.coordinates.tlx=$('#updatecoordinatesbrx').val();
-	request.data.coordinates.tlx=$('#updatecoordinatesbry').val();
-	request.data.baseprice=$('#updatebaseprice').val();
+	//TODO: make sure the date isnt a negative timespan
+	request.data.startdate = Math.floor(new Date($('#frm-arrival').val()).getTime()/1000);
+	request.data.enddate = Math.floor(new Date($('#frm-departure').val()).getTime()/1000);
 
-	request.data.features = [];
-
-	for (var i = $('#updateroomfeatureslist tr').length-1; i > 0; i--){
-		request.data.features.push({'id':$('#updateroomfeatureid'+i).val(), 'name':$('#updateroomfeaturename'+i).val(), 'priceMultiplier':$('#updateroomfeaturepricemultiplier'+i).val(), 'amount':$('#updateroomfeatureamount'+i).val()});
+	if (!request.data.startdate){
+		alert("Please enter a valid arrival date.");
+		return;
 	}
 
-	$.postJSON(`${serverUrl}/user/update`,
-	request, 
+	if (!request.data.enddate){
+		alert("Please enter a valid departure date.");
+		return;
+	}
+
+	if (Number(request.data.startdate) < new Date().getTime()/1000){
+		alert("No Timetravellers allowed in our hotel! Arrival date is in the past.");
+		return;
+	}
+
+	if (Number(request.data.enddate) < new Date().getTime()/1000){
+		alert("No Timetravellers allowed in our hotel! Departure date is in the past.");
+		return;
+	}
+
+	if (Number(request.data.enddate)-Number(request.data.startdate) < 86400){
+		alert("You need to stay at least a day.");
+		return; 
+	}
+
+	$('#div-showrooms').removeClass('d-none')
+
+	$('#tbl-roomlist tbody tr').each (function (val) { $(this).remove(); })
+
+	// TODO: dont send request if no dates 
+	$.postJSON(`${serverUrl}/room/list`,
+	request,
 	function(response) {
-		alert(response.data.successful);
+		if (response.status.code == 200){
+			//exporting to global namespace as a workaround
+			rooms = response.data.rooms;
+			for (var i = 0; i < rooms.length; i++){
+				room = rooms[i];
+				console.log(`${i}/${rooms.length}: checking room ${room.roomid}`);
+
+				roomid = room.roomid;
+				roomnumber = room.roomnumber;
+				features = rooms[i].features;
+				price = Number(features.filter(feature => feature.id == '1')[0].price);
+				console.log(price);
+				beds = features.filter(feature => feature.id == '2')[0].amount;
+				
+				for (var j = 0; j < features.length; j++){
+					if (features[j].id != 1){
+						price += (Number(features[j].amount)*Number(features[j].price));
+					}
+				}
+
+				price = round(price);
+
+				$('#tbl-roomlist').append('<tr id="room-'+ roomid +'"><th class="align-middle" id="tbl-room-' + roomid + '-number" scope="row">' + roomnumber + '</th><td class="align-middle" id="tbl-room-' + roomid + '-features">' + '<button id="tbl-btn-room-' + roomid + '-features" data-toggle="modal" data-target="#mod-features" class="btn"><i class="fa fa-eye"></i></button>' + '</td><td class="align-middle" id="tbl-room-' + roomid + '-beds">' + beds + '</td><td class="align-middle" id="tbl-room-' + roomid + '-price"><span id="tbl-room-' + roomid + '-price-raw">' + price + '</span><span class="currency"></span></td><td class="align-middle" id="tbl-room-' + roomid + '-book"><button id="tbl-btn-room-' + roomid + '-book" data-toggle="modal" data-target="#mod-booking" class="btn"><i class="fa fa-book"></i></button></td></tr>');
+			}
+			console.log(rooms.length);
+			//TODO: this should show a nice alert but not if data doesnt exist, as it happens now. needs a backend fix
+			if (rooms.length < 1) {
+				$('#div-showrooms').append(makeAlert("Sorry!", "No rooms are available during the selected timespan.", "alert-warning" , ""));
+			}
+			replaceCurrency();
+		} else {
+			console.log("getting rooms failed");
+			console.log(response);
+		}
 	});
-
-	/* clear form */
-	$('#updateroomid').val('');
-	$('#updatecoordinatestlx').val('');
-	$('#updatecoordinatestly').val('');
-	$('#updatecoordinatesbrx').val('');
-	$('#updatecoordinatesbry').val('');
-	$('#updatebaseprice').val('');
-
-	$('#updateroomfeatureslist').find("tr:gt(0)").remove(); //remove all tr elements greater than 0
-
-	$('#updateroomid').prop('disabled' , false);
 }
 
 ///////////////////////////////
@@ -497,15 +534,6 @@ function updateRoomInfo(){
 ///////////////////////////////
 
 $( document ).ready(function(){ //only run this script after the loading of the page finished
-
-
-	// not yet correctly implemented functions
-	$('#usergetinfo').click(getUserInfo); 	/* /user */
-
-	$('#getroomlist').click(getRooms); 		/* /room/list */
-	$('#checkroomidsubmit').click(getRoomInfo); /* /room/# */
-	$('#updateroomidsubmit').click(updateRoomInfo); /* /room/update */
-	$('#featurefillroominfo').click(getRoomInfoUpdate); /* helper */
 
 	// integrated functions
 
@@ -515,20 +543,22 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	$('#btn-register').click(register);		/* /user/register */
 	$('#btn-settings').click(loadSettings);
 	$('#btn-settings-update').click(userUpdate); /* /user/update */
+	$('#btn-getrooms').click(getRooms);
+	$('#btn-sendbooking').click(function(event){
+		requestBooking()
+	});
 
 	// listener for dynamic table content of the booking page, feature button
 	$('#tbl-roomlist tbody').on('click', 'button[id*="features"]', function(){
 		roomid = $(this).closest('tr').children()[0].innerHTML;
 		displayFeatures(roomid);
-
 	});
 
 	$('#tbl-roomlist tbody').on('click', 'button[id*="book"]', function(){
-
-		roomid = $(this).closest('tr').children()[0].innerHTML;
+		roomid = $(this).closest('tr').prop('id');
 		displayBooking(roomid);
-
 	});
+
 	/*
 	// listener for dynamic table content of the booking page, book button
 	$('#tbl-roomlist tbody').on('click', 'button', function(){
@@ -536,8 +566,11 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 		displayFeatures(roomid);
 	});
 	*/
+	// replace currency
+	replaceCurrency();
+
 	// show hotel info in the footer
-	getHotelInfo();							/* /hotel */
+	getHotelInfo();
 
 	// acquire info about the current user, if a SID is found
 	getUserInfo();

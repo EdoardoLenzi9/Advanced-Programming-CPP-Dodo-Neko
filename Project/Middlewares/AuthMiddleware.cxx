@@ -1,13 +1,9 @@
-// TODO find a way to interpone authentication middleware before Router handlers (Controllers)
-// the easyest way is to call the middleware in every endpoint but this will be redundant,
-// the best way is to find a common point shared between each call before the handler evaluation 
-
 #include "AuthMiddleware.hxx"
 #include <AuthorizationService.hxx>
 #include <UserService.hxx>
 #include <Const.hxx>
 
-bool AuthMiddleware::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content, int authlevel) {
+bool AuthMiddleware::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json& content, int authlevel) {
 
     if(content["auth"].count("sid") == 0) {
         
@@ -46,6 +42,7 @@ bool AuthMiddleware::handle(shared_ptr<HttpServer::Response> response, shared_pt
         return false;
     }
 
+    content["data"]["userid"] = userId;
     return true;
 
 }

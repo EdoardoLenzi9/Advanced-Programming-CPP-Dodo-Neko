@@ -1,11 +1,6 @@
 #include "Router.hxx"
 #include "Env.hxx"
 
-// TODO this is basically a copy-paste from the SimpleWS example
-// maintaining only the default_resource handler and injecting the custom routes
-// for our endpoints. Try to read the content and simplify it 
-// (split in some methods and cut everything un-necessary)
-
 Env * env = new Env();
 
 void Router::start() {
@@ -13,7 +8,6 @@ void Router::start() {
   HttpServer server;
   server.config.port = env->getPort();
 
-  // Dodo: my routes injection for our endpoints
   for(int i = 0; i < routes.size(); i++){
     server.resource[routes[i].path][routes[i].httpMethod] = bind(&Route::handle, _1 , _2, routes[i]);
   }
@@ -66,7 +60,7 @@ void Router::start() {
       else
         throw invalid_argument("could not read file");
     }
-    catch(const exception &e) {
+    catch(const std::exception &e) {
       json res;
       res["status"]["code"] = 400;
       res["status"]["description"] = "Bad Request";

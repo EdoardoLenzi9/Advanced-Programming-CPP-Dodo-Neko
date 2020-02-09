@@ -5,8 +5,12 @@ void Route::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpSer
     Env* env = new Env();
     
     try {
+        json j;
         string content = request->content.string(); 
-        json j = json::parse(content);
+
+        if(obj.httpMethod != "GET"){
+            j = json::parse(content);
+        }
 
         if(env->getDebugMode()){
             cout << "REQUEST:" << content << endl << endl;
@@ -24,13 +28,10 @@ void Route::handle(shared_ptr<HttpServer::Response> response, shared_ptr<HttpSer
         res["status"]["code"] = dtoe.getCode();
         res["status"]["description"] = dtoe.getDescription();
         res["data"] = "";
-        string statusCode = to_string(dtoe.getCode());
-        string statusCodeLabel = CodeLabels[statusCode];
-        string dump = res.dump();
         *response << BaseController::serialize(res);
-    } catch (exception e) {
+    } catch (std::exception e) {
         json res;
-        res["status"]["code"] = 501;
+        res["status"]["code"] = Code::InternalServerError;
         res["status"]["description"] = e.what();
         res["data"] = "";
         *response << BaseController::serialize(res);

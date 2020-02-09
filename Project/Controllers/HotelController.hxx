@@ -12,6 +12,8 @@
 #include <vector>
 #include <string>
 #include <nlohmann/json.hpp>
+#include <Const.hxx>
+
 
 using namespace std;
 using namespace SimpleWeb;
@@ -23,6 +25,7 @@ class HotelController : public BaseController {
     public:
         HotelController() {};
         static void get(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
+        static void apiVersion(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content);
 };
 
 #endif

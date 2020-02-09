@@ -2,7 +2,7 @@
 
 
 string AuthorizationService::createSession(long user_id_){
-    long currentTime = (long)clock();
+    long currentTime = time(0);
     long expirationTime = currentTime + env->getSessionTime();
     Authorization* auth = au->create(new Authorization(user_id_, 
                                                        sha256(to_string(currentTime)),
@@ -14,7 +14,7 @@ string AuthorizationService::createSession(long user_id_){
 long AuthorizationService::getSession(string session_id){
 
     vector<Authorization> sessions = au->read(odb::query<Authorization>::session_id == session_id);
-    long currentTime = (long)clock();
+    long currentTime = time(0);
     
     if(sessions.size() > 0){
         if(currentTime < sessions[0].expiration_time()){

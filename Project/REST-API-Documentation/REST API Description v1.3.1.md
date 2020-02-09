@@ -42,9 +42,6 @@ A list of common server response codes. The descriptions are only a general idea
 | 406 | failure | failed to parse JSON |
 | 501 | failure | not implemented, returned when accessing an invalid endpoint |
 
-
-
-
 ## Endpoints
 
 ### /meta
@@ -76,7 +73,38 @@ Get basic info about the hotel.
 
 ### /user
 
-#### /user POST (auth-level customer, staff, management)
+#### /user/list POST (auth-level staff, admin)
+
+Return a list of all users, staff and admin only.
+
+Request
+
+```json=
+{
+
+}
+```
+
+Response
+
+```json=
+{
+	"users":[
+		"<userid>":{
+        "firstname":"<string>",
+        "lastname":"<string>",
+        "email":"<string>",
+        "birthdate":"<long> unix time",
+        "address":"<string>",
+        "userid":"<num>"
+        "roleid":"<num>"
+		},
+		...
+	]
+}
+```
+
+#### /user POST (auth-level customer, staff, admin)
 
 Return information about the currently logged in user
 
@@ -95,7 +123,7 @@ Response
     "firstname":"<string>",
     "lastname":"<string>",
     "email":"<string>",
-    "birthdate":"<string>(YYYY-MM-DD)",
+    "birthdate":"<long> unix time",
     "address":"<string>",
     "userid":"<num>"
     "roleid":"<num>"
@@ -112,14 +140,14 @@ Request
 
 ```json=
 {
-    "firstname":"<string>",
+    "userid":"<num>",
+    "roleid":"<num>", 
+ 	"firstname":"<string>",
     "lastname":"<string>",
     "email":"<string>",
-    "birthdate":"<string>(YYYY-MM-DD)",
+    "birthdate":"<long> unix time",
     "address":"<string>",
-    "password":"<string>(sha256)",
-    "userid":"<num>",
-    "roleid":"<num>"
+    "password":"<string>"
 }
 ```
 
@@ -162,9 +190,9 @@ Request
     "firstname":"<string>",
     "lastname":"<string>",
     "email":"<string>",
-    "birthdate":"<string>(YYYY-MM-DD)",
+    "birthdate":"<long> unix time",
     "address":"<string>",
-    "password":"<string>(sha256)"
+    "password":"<string>"
 }
 ```
 
@@ -182,7 +210,7 @@ Request
 ```json=
 {
     "email":"<string>",
-    "password":"<string>(sha256)"
+    "password":"<string>"
 }
 ```
 
@@ -196,97 +224,57 @@ Response
 
 ### /room
 
-#### /room/update POST (auth-level staff, admin)
+#### /room/list POST  (no-auth)
 
-Staff and admins are supposed to be able to change the features of a room and change prices aswell.
+Get a list of all rooms available during a specified period. Dates are specified in Unix time.
+
+Price calculation is done as follows:
+
+Each room has a feature of type `0` as the price of the room itself. Each additional feature `>0` has a specific price and an amount attached to it. The final price is sum of all features (times their respective amounts).
 
 Request
 
-```json=
+```
 {
-    "roomid":"<num>",
-    "coordinates":{
-        "tlx":"<float>",
-        "tly":"<float>",
-        "brx":"<float>",
-        "bry":"<float>"
-    },
-    "features":[
-        {
-            "id":"<num>",
-            "name":"<string>",
-            "pricemultiplier":"<num>",
-            "amount":"<num>"
-        },
-        ...
-    ],
-    "baseprice":"<float>"
+	"startdate":"<long>",
+	"enddate":"<long>"
 }
 ```
-
-
-``` json=
-{
-
-}
-```
-
-#### /room/list GET  (no-auth)
-
-Get a list of all rooms
 
 Response
 
 ```json=
 {
     "rooms":[
-        "<roomid>",
-        ...
-    ]
-}
-```
-
-#### /room/\<roomID\> GET  (no-auth)
-
-Allows requesting info on a room id. For example /room/1 to get info about room #1
-
-Response
-
-```json=
-{
-    "roomid":"<num>"
-    "coordinates":{
-        "tlx":"<float>",
-        "tly":"<float>",
-        "brx":"<float>",
-        "bry":"<float>"
-    },
-    "features":[
         {
-            "id":"<num>",
-            "name":"<string>",
-            "pricemultiplier":"<num>",
-            "amount":"<num>"
+            "features":[
+                {
+                    "id":"<num>",
+                    "name":"<string>",
+                    "price":"<num>",
+                    "amount":"<num>",
+                },	
+                ...
+            ],
+            "roomnumber":"<num>",
+            "roomid":"<num>"
         },
         ...
-    ],
-    "baseprice":"<num>"
+	]
 }
 ```
 
 ### /book 
 
-#### /book/check POST (no-auth)
+#### /book/confirmpayment POST (auth-level staff, admin)
 
-Check if a room is available for a set time frame.
+Allows a manager to confirm a payment.
 
 Request
 
 ```json=
 {
-    "roomid":"<num>",
-    "arrival":"<string>(YYYY-MM-DD)",
-    "departure":"<string>(YYYY-MM-DD)"
+	"<bookid>":"<num>"
 }
 ```
 
@@ -294,11 +282,7 @@ Response
 
 ```json=
 {
-    "available":"boolean" // 1 is available
-    "bookeddates":[
-        "<string>(YYYY-MM-DD)",
-        ...
-    ]
+
 }
 ```
 
@@ -311,9 +295,8 @@ Request
 ```json=
 {
     "roomid":"<num>",
-    "userid":"<num>",
-    "arrival":"<string>(YYYY-MM-DD)",
-    "departure":"<string>(YYYY-MM-DD)",
+    "arrival":"<long> unix time",
+    "departure":"<long> unix time",
 }
 ```
 
@@ -321,7 +304,7 @@ Response
 
 ```json=
 {
-    "successful":"boolean"
+
 }
 ```
 
@@ -342,42 +325,43 @@ Response
 ```json=
 {
     "bookings":[
-        <bookid>,
+        <bookid> {
+            "room":{
+            	"roomid":"<num>",
+                "features":[
+                {
+                    "id":"<num>",
+                    "name":"<string>",
+                    "price":"<num>",
+                    "amount":"<num>",
+                },	
+                ...
+                ],
+			},
+			"arrival":"<long> unix time",
+            "departure":"<long> unix time",
+            "paid":"<bool>",
+            "price":"<num>",
+            "user": {
+                "firstname":"<string>",
+                "lastname":"<string>",
+                "email":"<string>",
+                "birthdate":"<long> unix time",
+                "address":"<string>",
+                "userid":"<num>"
+                "roleid":"<num>"
+            }
+        },
         ...
     ]
 }
 ```
 
-#### /book/\<id\> POST (auth level customer, staff, admin)
-
-On POST, the Server determines the user via the sent SID. If the user is a customer, and asks for one of his own bookings, return
-
-Request
-
-```json=
-{
-    "id":"<bookid>"
-}
-```
-
-Response
-
-```json=
-{
-    "booking":{
-        "roomid":"<num>",
-        "userid":"<num>",
-        "bookingid":"<num>",
-        "arrival":"<string>(YYYY-MM-DD)",
-        "departure":"<string>(YYYY-MM-DD)",
-        "paid":"boolean" //1 means paid
-    }
-}
-```
-
 #### /book/update POST (auth-level customer, staff, admin)
 
-Update a booking. For customer, only allow to update his own bookings - and if they have not yet paid.
+Update a booking. For customer, only allow to update his own bookings - and if they have not yet paid. 
+
+If the requested changed date is not available, this should return 401.
 
 Staff and admin can change all bookings.
 
@@ -385,8 +369,6 @@ Request
 
 ```json=
 {
-    "roomid":"<num>",
-    "userid":"<num>",
     "bookid":"<num>",
     "arrival":"<string>(YYYY-MM-DD)",
     "departure":"<string>(YYYY-MM-DD)",
@@ -397,7 +379,7 @@ Response
 
 ```json=
 {
-    "successful":"boolean" // 1 means true
+
 }
 ```
 
@@ -417,6 +399,6 @@ Request
 
 ``` json=
 {
-    "successful":"boolean" //1 means yes
+
 }
 ```

@@ -13,7 +13,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <time.h>
+#include <ctime>
 
 #include "Repository.hxx"
 #include "sha256.hxx"

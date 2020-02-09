@@ -23,15 +23,15 @@ class FeatureType : public BaseEntity
 	public:
     
 	    FeatureType () {}
-	    FeatureType (string f, float p) : feature_name_(f), price_multiplier_(p) {}                 
+	    FeatureType (string f, float p) : feature_name_(f), price_(p) {}                 
 		
 		// Getter and setters
 		void feature_name( string f ) { feature_name_ = f; };
 		string feature_name() { return feature_name_; };
 
 
-		void price_multiplier( float p ) { price_multiplier_ = p; };
-		float price_multiplier() { return price_multiplier_; };
+		void price( float p ) { price_ = p; };
+		float price() { return price_; };
 		
 		unsigned long id ( ) { return id_; } ;
 		
@@ -44,7 +44,7 @@ class FeatureType : public BaseEntity
 	private:
 
 		string feature_name_;
-		float price_multiplier_;
+		float price_;
 
 		#pragma db id auto         
 		unsigned long id_;     
