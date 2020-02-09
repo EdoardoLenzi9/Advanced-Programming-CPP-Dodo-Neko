@@ -255,7 +255,7 @@ function deleteBooking(bookid){
 		function(response) {
 			console.log("callback running");
 			if ( response.status.code == 200 ){
-				$('#mod-delete').modal('hide');
+				$('#mod-delete-booking').modal('hide');
 				getBookings();
 			} else {
 				alert("deleting the booking was refused");
@@ -281,7 +281,7 @@ function confirmBooking(bookid){
 		function(response) {
 			console.log("callback running");
 			if ( response.status.code == 200 ){
-				$('#mod-confirm').modal('hide');
+				$('#mod-confirm-booking').modal('hide');
 				getBookings();
 			} else {
 				alert("confirming the booking was refused");
@@ -518,12 +518,64 @@ function userUpdate(){
 	function(response) {
 		if (response.status.code == 200){
 			$('#mod-settings').modal('hide');
+			if ($('#tbl-userlist').length > 0){
+				getUsers();
+			}
 		} else {
 			alert("something went wrong...");
 			console.log(response);
 		}
 	});
 }
+
+function deleteUser(userid){
+	getUserInfo();
+
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
+	var request = defaultRequest;
+	request.auth.sid = Cookies.get('sid');
+
+	userid = userid.replace("user-", "");
+	request.data.userid = Number(userid);
+
+	$.postJSON(`${serverUrl}/user/delete`,
+	request, 
+	function(response) {
+		if (response.status.code == 200){
+			$('#mod-delete-user').modal('hide');
+		} else {
+			alert("something went wrong...");
+			console.log(response);
+		}
+	});
+}
+
+function loadForeignUserSettings(userid){
+	getUserInfo();
+
+	email = $(`#tbl-${userid}-email`).text();
+	firstname = $(`#tbl-${userid}-firstname`).text();
+	lastname = $(`#tbl-${userid}-lastname`).text();
+	address = $(`#tbl-${userid}-address`).text();
+	birthday = $(`#tbl-${userid}-birthday`).text();
+	roleid = $(`#tbl-${userid}-roleid`).text();
+
+	$('#frm-update-email').val(email);
+	$('#frm-update-firstname').val(firstname);
+	$('#frm-update-lastname').val(lastname);
+	$('#frm-update-address').val(address);
+	$('#frm-update-birthday').val(birthday);
+	$('#frm-update-userid').val(userid.replace("user-", ""));
+	$('#frm-update-roleid').val(roleid);
+
+	if (user.roleid > 1){
+		$('#frm-update-userid').attr('disabled', false);
+		$('#frm-update-roleid').attr('disabled', false);
+	}
+}
+
+
 
 function getBookings(){
 
@@ -568,7 +620,7 @@ function getBookings(){
 					departure = `${year}-${month}-${day}`;
 
 
-					$('#tbl-bookingslist').append('<tr id="book-'+ bookid + '"><td id="tbl-book-' + bookid + '-number" class="align-middle">' + roomnumber + '</td><td id="tbl-book-'+ bookid + '-arrival" class="align-middle">' + arrival + '</td><td id="tbl-book-' + bookid + '-departure" class="align-middle">' + departure + '</td><td id="tbl-book-' + bookid +'-price" class="align-middle"><span id="tbl-book-' + bookid + '-price-raw">' + price + '</span><span class="currency"></span></td><td id="tbl-book-' + bookid + '-paid" class="align-middle"><i id="tbl-icn-book-' + bookid + '-paid-check" class="fa fa-check d-none"></i><i id="tbl-icn-book-' + bookid + '-paid-false" class="fa fa-times"></i></td><td id="tbl-book-' + bookid + '-user" class="d-none align-middle">'+ userid + '</td><td id="tbl-book-' + bookid + '-delete" class="align-middle"><button id="tbl-btn-book-' + bookid + '-delete" data-toggle="modal" data-target="#mod-delete" class="btn"><i class="fa fa-trash"></i></button></td><td id="tbl-book-' + bookid + '-confirm" class="align-middle d-none"><button id="tbl-btn-book-' + bookid + '-confirm" data-toggle="modal" data-target="#mod-confirm" class="btn"><i class="fa fa-check"></i></button></td></tr>');
+					$('#tbl-bookingslist').append('<tr id="book-'+ bookid + '"><td id="tbl-book-' + bookid + '-number" class="align-middle">' + roomnumber + '</td><td id="tbl-book-'+ bookid + '-arrival" class="align-middle">' + arrival + '</td><td id="tbl-book-' + bookid + '-departure" class="align-middle">' + departure + '</td><td id="tbl-book-' + bookid +'-price" class="align-middle"><span id="tbl-book-' + bookid + '-price-raw">' + price + '</span><span class="currency"></span></td><td id="tbl-book-' + bookid + '-paid" class="align-middle"><i id="tbl-icn-book-' + bookid + '-paid-check" class="fa fa-check d-none"></i><i id="tbl-icn-book-' + bookid + '-paid-false" class="fa fa-times"></i></td><td id="tbl-book-' + bookid + '-user" class="d-none align-middle">'+ userid + '</td><td id="tbl-book-' + bookid + '-delete" class="align-middle"><button id="tbl-btn-book-' + bookid + '-delete" data-toggle="modal" data-target="#mod-delete-booking" class="btn"><i class="fa fa-trash"></i></button></td><td id="tbl-book-' + bookid + '-confirm" class="align-middle d-none"><button id="tbl-btn-book-' + bookid + '-confirm" data-toggle="modal" data-target="#mod-confirm-booking" class="btn"><i class="fa fa-check"></i></button></td></tr>');
 
 					if ( paid ) {
 						$(`#tbl-icn-book-${bookid}-paid-false`).addClass("d-none");
@@ -628,7 +680,7 @@ function getUsers(){
 
 					console.log(`adding user ${userid}, email ${email}`);
 
-					$('#tbl-userlist').append('<tr id="user-'+ userid + '"><td id="tbl-user-' + userid + '-number" class="align-middle">' + userid + '</td><td id="tbl-user-'+ userid + '-firstname" class="align-middle">' + firstname + '</td><td id="tbl-user-' + userid + '-lastname" class="align-middle">' + lastname + '</td><td id="tbl-user-' + userid +'-email" class="align-middle">'+ email + '</td><td id="tbl-user-' + userid + '-birthday" class="align-middle">' + birthday +'</td><td id="tbl-user-' + userid + '-address" class="align-middle">'+ address + '</td><td id="tbl-user-' + userid + '-role" class="align-middle">' + roleid + '</td><td id="tbl-user-' + userid + '-delete" class="align-middle"><button id="tbl-btn-user-' + userid + '-delete" data-toggle="modal" data-target="#mod-delete" class="btn"><i class="fa fa-trash"></i></button></td></tr>');
+					$('#tbl-userlist').append('<tr id="user-'+ userid + '"><td id="tbl-user-' + userid + '-number" class="align-middle">' + userid + '</td><td id="tbl-user-'+ userid + '-firstname" class="align-middle">' + firstname + '</td><td id="tbl-user-' + userid + '-lastname" class="align-middle">' + lastname + '</td><td id="tbl-user-' + userid +'-email" class="align-middle">'+ email + '</td><td id="tbl-user-' + userid + '-birthday" class="align-middle">' + birthday +'</td><td id="tbl-user-' + userid + '-address" class="align-middle">'+ address + '</td><td id="tbl-user-' + userid + '-role" class="align-middle">' + roleid + '</td><td id="tbl-user-' + userid + '-edit" class="align-middle"><button id="tbl-btn-user-' + userid + '-edit" data-toggle="modal" data-target="#mod-settings" class="btn"><i class="fa fa-edit"></i></button></td><td id="tbl-user-' + userid + '-delete" class="align-middle"><button id="tbl-btn-user-' + userid + '-delete" data-toggle="modal" data-target="#mod-delete-user" class="btn"><i class="fa fa-trash"></i></button></td></tr>');
 				} 
 			} else {
 				$('#div-showusers').append(makeAlert("Hey!", "Add more users!", "alert-warning" , ""));
@@ -754,22 +806,37 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 
 	$('#tbl-bookingslist tbody').on('click', 'button[id*="delete"]', function(){
 		bookid = $(this).closest('tr').prop('id');
-		$('#mod-delete-bookid').text(bookid);
+		$('#mod-delete-booking-bookid').text(bookid);
 	});
 
-	$('#mod-delete').on('click', 'button[id*="delete-yes"]', function(){
-		bookid = $('#mod-delete-bookid').text();
+	$('#mod-delete-booking').on('click', 'button[id*="delete-booking-yes"]', function(){
+		bookid = $('#mod-delete-booking-bookid').text();
 		deleteBooking(bookid);
 	});
 
 	$('#tbl-bookingslist tbody').on('click', 'button[id*="confirm"]', function(){
 		bookid = $(this).closest('tr').prop('id');
-		$('#mod-confirm-bookid').text(bookid);
+		$('#mod-confirm-booking-bookid').text(bookid);
 	});
 
-	$('#mod-confirm').on('click', 'button[id*="confirm-yes"]', function(){
-		bookid = $('#mod-confirm-bookid').text();
+	$('#mod-confirm-booking').on('click', 'button[id*="confirm-yes"]', function(){
+		bookid = $('#mod-confirm-booking-bookid').text();
 		confirmBooking(bookid);
+	});
+
+	$('#tbl-userlist tbody').on('click', 'button[id*="delete"]', function(){
+		userid = $(this).closest('tr').prop('id');
+		$('#mod-delete-user-userid').text(userid);
+	});
+
+	$('#mod-delete-user').on('click', 'button[id*="delete-user-yes"]', function(){
+		userid = $('#mod-delete-user-userid').text();
+		deleteUser(userid);
+	});
+
+	$('#tbl-userlist tbody').on('click', 'button[id*="edit"]', function(){
+		userid = $(this).closest('tr').prop('id');
+		loadForeignUserSettings(userid); //this re-uses the settings modal
 	});
 
 	/*
