@@ -152,7 +152,8 @@ function loadSettings(){
 	$('#frm-update-roleid').val(user.roleid);
 
 	if (user.roleid > 1){
-		$('#frm-update-userid').attr('disabled', false);
+		//dont allow entering a different userid, this confuses the server.
+		//$('#frm-update-userid').attr('disabled', false);
 		$('#frm-update-roleid').attr('disabled', false);
 	}
 }
@@ -559,7 +560,7 @@ function loadForeignUserSettings(userid){
 	lastname = $(`#tbl-${userid}-lastname`).text();
 	address = $(`#tbl-${userid}-address`).text();
 	birthday = $(`#tbl-${userid}-birthday`).text();
-	roleid = $(`#tbl-${userid}-roleid`).text();
+	roleid = $(`#tbl-${userid}-role`).text();
 
 	$('#frm-update-email').val(email);
 	$('#frm-update-firstname').val(firstname);
@@ -570,7 +571,8 @@ function loadForeignUserSettings(userid){
 	$('#frm-update-roleid').val(roleid);
 
 	if (user.roleid > 1){
-		$('#frm-update-userid').attr('disabled', false);
+		//dont allow changing the userid, this is confusing the server.
+		//$('#frm-update-userid').attr('disabled', false);
 		$('#frm-update-roleid').attr('disabled', false);
 	}
 }
