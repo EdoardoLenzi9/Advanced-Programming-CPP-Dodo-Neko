@@ -680,7 +680,7 @@ function getUsers(){
 
 					console.log(`adding user ${userid}, email ${email}`);
 
-					$('#tbl-userlist').append('<tr id="user-'+ userid + '"><td id="tbl-user-' + userid + '-number" class="align-middle">' + userid + '</td><td id="tbl-user-'+ userid + '-firstname" class="align-middle">' + firstname + '</td><td id="tbl-user-' + userid + '-lastname" class="align-middle">' + lastname + '</td><td id="tbl-user-' + userid +'-email" class="align-middle">'+ email + '</td><td id="tbl-user-' + userid + '-birthday" class="align-middle">' + birthday +'</td><td id="tbl-user-' + userid + '-address" class="align-middle">'+ address + '</td><td id="tbl-user-' + userid + '-role" class="align-middle">' + roleid + '</td><td id="tbl-user-' + userid + '-edit" class="align-middle"><button id="tbl-btn-user-' + userid + '-edit" data-toggle="modal" data-target="#mod-settings" class="btn"><i class="fa fa-edit"></i></button></td><td id="tbl-user-' + userid + '-delete" class="align-middle"><button id="tbl-btn-user-' + userid + '-delete" data-toggle="modal" data-target="#mod-delete-user" class="btn"><i class="fa fa-trash"></i></button></td></tr>');
+					$('#tbl-userlist').append('<tr id="user-'+ userid + '"><td id="tbl-user-' + userid + '-number" class="align-middle">' + userid + '</td><td id="tbl-user-'+ userid + '-firstname" class="align-middle">' + firstname + '</td><td id="tbl-user-' + userid + '-lastname" class="align-middle">' + lastname + '</td><td id="tbl-user-' + userid +'-email" class="align-middle">'+ email + '</td><td id="tbl-user-' + userid + '-birthday" class="align-middle">' + birthday +'</td><td id="tbl-user-' + userid + '-address" class="align-middle">'+ address + '</td><td id="tbl-user-' + userid + '-role" class="align-middle">' + roleid + '</td><td id="tbl-user-' + userid + '-edit" class="align-middle"><button id="tbl-btn-user-' + userid + '-edit" data-toggle="modal" data-target="#mod-settings" class="btn"><i class="fa fa-edit"></i></button></td><td id="tbl-user-' + userid + '-delete" class="align-middle"><button id="tbl-btn-user-' + userid + '-delete" data-toggle="modal" data-target="#mod-delete-user" class="btn" disabled><i class="fa fa-trash"></i></button></td></tr>');
 				} 
 			} else {
 				$('#div-showusers').append(makeAlert("Hey!", "Add more users!", "alert-warning" , ""));
@@ -819,7 +819,7 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 		$('#mod-confirm-booking-bookid').text(bookid);
 	});
 
-	$('#mod-confirm-booking').on('click', 'button[id*="confirm-yes"]', function(){
+	$('#mod-confirm-booking').on('click', 'button[id*="confirm-booking-yes"]', function(){
 		bookid = $('#mod-confirm-booking-bookid').text();
 		confirmBooking(bookid);
 	});
