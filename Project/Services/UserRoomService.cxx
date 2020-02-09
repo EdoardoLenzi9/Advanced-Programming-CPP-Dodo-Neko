@@ -8,7 +8,7 @@
 
 #include <string>
 #include <iostream>
-
+#include <math.h>
 #include "UserRoomService.hxx"
 
 
@@ -125,7 +125,7 @@ long UserRoomService::bookRoom(long userID, long roomID, long arrival, long depa
         throw DtoException(Code::Unauthorized, UNAVAILABLE);
     }
 
-    int nights = (departure - arrival) % 86400;
+    int nights = floor((departure - arrival) / 86400);
     float price = 0;
 
     vector<FeatureType> types = rft->read();

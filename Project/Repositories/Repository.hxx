@@ -53,6 +53,7 @@ class Repository {
     vector<Entity> read(odb::query<Entity> query);
     vector<Entity> read();
     
+    vector<Entity> readAll();
     Entity* readAll(unsigned long id);
     vector<Entity> readAll(odb::query<Entity> query);
     
