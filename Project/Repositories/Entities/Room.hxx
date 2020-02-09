@@ -27,7 +27,7 @@ class Room : public BaseEntity
 		Room (int n): roomnumber_(n) {}
 
 		int roomnumber() {return roomnumber_; };
-		int roomnumber(int n) {roomnumber_ = n; };
+		void roomnumber(int n) {roomnumber_ = n; };
 
 		unsigned long id ( ) { return id_; } ;
 		

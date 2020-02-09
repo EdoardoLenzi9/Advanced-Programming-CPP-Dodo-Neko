@@ -92,13 +92,13 @@ vector<BookDto> UserRoomService::bookingList(long userid, long role){
         
         for(RoomFeature f: features){
             if(f.room_id() == b.room_id()){
-                // todo check
                 roomFeatures.push_back(FeatureDto(f.feature_type_id(), types[f.feature_type_id() - 1].feature_name(), types[f.feature_type_id() - 1].price(), f.amount()));
             }
         }
         RoomDto rdto = RoomDto(r.id(), r.roomnumber(), roomFeatures);
         UserDto udto = UserDto(u.firstname(), u.lastname(), u.email(), 
                                u.birthdate(), u.address(), u.id(), u.role());
+        
         result.push_back(BookDto(b.id(), rdto, b.arrival(), b.departure(), b.paid(), b.price(), udto));
     }
 
