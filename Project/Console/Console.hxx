@@ -2,10 +2,13 @@
 #define CONSOLE_HXX
 
 #include <thread>
+#include <vector>
 #include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../Services/UserService.hxx"
+#include "../Utils/Env.hxx"
 
 using namespace std;
 
@@ -27,6 +30,7 @@ class Console {
         char buf[MAX_DATA];
         MPI_Comm client;
         MPI_Status status;
+        Env env;
         
 };
 

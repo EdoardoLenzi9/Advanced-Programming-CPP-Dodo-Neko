@@ -7,7 +7,8 @@ void Console::start() {
 }
 
 void Console::run() {
-    printf("console running...\n");
+	if(env.getDebugMode())
+    	printf("console running...\n");
 
     MPI_Init(NULL, NULL);
     MPI_Comm_size(MPI_COMM_WORLD,&size);
@@ -19,7 +20,8 @@ void Console::run() {
     while(running) {
 
 		MPI_Comm_accept(portname, MPI_INFO_NULL, 0, MPI_COMM_SELF, &client);
-    	printf("client connected\n");
+		if(env.getDebugMode())
+    		printf("client connected\n");
 
 		bool open = true;
 
@@ -35,11 +37,36 @@ void Console::run() {
 					open = false; 
 					break; 
 				case 2:
-					printf("msg: %s\n", buf);
-					strcat(buf, "_RETURN");
-					printf("ans: %s\n", buf);
+					if(env.getDebugMode())
+						printf("msg: %s\n", buf);
+					
+					if(strcmp(buf, "list") == 0) {
 
-					MPI_Send(buf, MAX_DATA, MPI_UNSIGNED_CHAR, 0, 2, client);
+						UserService service;
+						vector<UserDto> users = service.list();
+
+						string result = "\n";
+
+						for(UserDto u : users) {
+							result.append(u.email + "\n");
+						}
+
+						strcpy(buf, result.c_str());
+
+						if(env.getDebugMode())
+							printf("data %s\n", buf);
+
+						MPI_Send(buf, MAX_DATA, MPI_UNSIGNED_CHAR, 0, 2, client);
+					} else {
+						string result = "Not Implemented";
+
+						strcpy(buf, result.c_str());
+
+						MPI_Send(buf, MAX_DATA, MPI_UNSIGNED_CHAR, 0, 2, client);
+					}
+
+					if(env.getDebugMode())
+						printf("ans: %s\n", buf);
 
 					break;
 				default:
