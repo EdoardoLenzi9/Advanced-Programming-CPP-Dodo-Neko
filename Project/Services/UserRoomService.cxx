@@ -137,7 +137,7 @@ long UserRoomService::bookRoom(long userID, long roomID, long arrival, long depa
         }
     }
 
-    UserRoom* userR = rur->create(new UserRoom(userID, roomID, arrival, departure, price, false));
+    UserRoom* userR = rur->create(new UserRoom(userID, roomID, arrival, departure, price * nights, false));
     return userR->id();
 }
 
