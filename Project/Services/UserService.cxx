@@ -76,12 +76,12 @@ void UserService::del(long id_user){
 void UserService::update(long issuerId, long issuerRole, long id, string firstname, string lastname, string email,
                     	 string password, string address, long birthdate, long role){
 
-    if(issuerRole == 1 && issuerRole != role){
+    if(issuerRole == 1 && (issuerRole != role || issuerId != id)){
         throw DtoException(Code::Unauthorized, UNAUTHORIZED);
     }
 
     User* user = ur->read(id);
-    // TODO check
+
     user->firstname(firstname != "" ? firstname : user->firstname());
     user->lastname(lastname != "" ? lastname : user->lastname());
     user->email(email != "" ? email : user->email());
