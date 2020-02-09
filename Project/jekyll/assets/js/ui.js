@@ -96,6 +96,11 @@ function showElementsbyState(){
 		$('#tbl-bookingslist tr td').each( function(){
 			$('td[id*="confirm"]').removeClass('d-none');
 		});
+		$('#tbl-bookingslist-col-edit').removeClass('d-none');
+		$('#tbl-bookingslist tr td').each( function(){
+			$('td[id*="edit"]').removeClass('d-none');
+		});
+
 	} else {
 		$('#tbl-bookingslist-col-user').addClass('d-none');
 		$('#tbl-bookingslist tr td').each( function(){
@@ -104,6 +109,10 @@ function showElementsbyState(){
 		$('#tbl-bookingslist-col-confirm').addClass('d-none');
 		$('#tbl-bookingslist tr td').each( function(){
 			$('td[id*="confirm"]').addClass('d-none');
+		});
+		$('#tbl-bookingslist-col-edit').addClass('d-none');
+		$('#tbl-bookingslist tr td').each( function(){
+			$('td[id*="edit"]').addClass('d-none');
 		});
 	}
 }
@@ -280,7 +289,6 @@ function confirmBooking(bookid){
 		$.postJSON(`${serverUrl}/book/confirmpayment`,
 		request,
 		function(response) {
-			console.log("callback running");
 			if ( response.status.code == 200 ){
 				$('#mod-confirm-booking').modal('hide');
 				getBookings();
@@ -292,6 +300,55 @@ function confirmBooking(bookid){
 		alert("not logged in");
 	}
 
+}
+
+function loadBooking(bookid){
+
+	arrival = $(`#tbl-${bookid}-arrival`).text();
+	departure = $(`#tbl-${bookid}-departure`).text()
+	room = $(`#tbl-${bookid}-number`).text();
+	username = $(`#tbl-${bookid}-user`).text()
+
+	arrival = new Date(arrival);
+	departure = new Date(departure);
+
+	$('#frm-update-booking-room').val(room);
+	$('#frm-update-booking-user').val(username);
+	$('#frm-update-booking-arrival').val(arrival.toISOString().substr(0,10)); 
+	$('#frm-update-booking-departure').val(departure.toISOString().substr(0,10));
+
+}
+
+function updateBooking(bookid){
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
+	var request = defaultRequest;
+	request.auth.sid = Cookies.get('sid');
+
+	arrival = new Date($('#frm-update-booking-arrival').val()); 
+	departure = new Date($('#frm-update-booking-departure').val());
+
+	arrival = Math.floor(arrival.getTime()/1000);
+	departure = Math.floor(departure.getTime()/1000);
+
+	request.data.bookid = Number(bookid.replace("book-", ""));
+	request.data.arrival = arrival;
+	request.data.departure = departure;
+	
+	if ( request.auth.sid ) {
+		$.postJSON(`${serverUrl}/book/update`,
+		request,
+		function(response) {
+			if ( response.status.code == 200 ){
+				$('#mod-edit-booking').modal('hide');
+				getBookings();
+			} else {
+				alert(response.status.description);
+			}
+		});
+	} else {
+		alert("not logged in");
+	}
 }
 
 function displayBooking(roomid){
@@ -622,12 +679,13 @@ function getBookings(){
 					departure = `${year}-${month}-${day}`;
 
 
-					$('#tbl-bookingslist').append('<tr id="book-'+ bookid + '"><td id="tbl-book-' + bookid + '-number" class="align-middle">' + roomnumber + '</td><td id="tbl-book-'+ bookid + '-arrival" class="align-middle">' + arrival + '</td><td id="tbl-book-' + bookid + '-departure" class="align-middle">' + departure + '</td><td id="tbl-book-' + bookid +'-price" class="align-middle"><span id="tbl-book-' + bookid + '-price-raw">' + price + '</span><span class="currency"></span></td><td id="tbl-book-' + bookid + '-paid" class="align-middle"><i id="tbl-icn-book-' + bookid + '-paid-check" class="fa fa-check d-none"></i><i id="tbl-icn-book-' + bookid + '-paid-false" class="fa fa-times"></i></td><td id="tbl-book-' + bookid + '-user" class="d-none align-middle">'+ userid + '</td><td id="tbl-book-' + bookid + '-delete" class="align-middle"><button id="tbl-btn-book-' + bookid + '-delete" data-toggle="modal" data-target="#mod-delete-booking" class="btn"><i class="fa fa-trash"></i></button></td><td id="tbl-book-' + bookid + '-confirm" class="align-middle d-none"><button id="tbl-btn-book-' + bookid + '-confirm" data-toggle="modal" data-target="#mod-confirm-booking" class="btn"><i class="fa fa-check"></i></button></td></tr>');
+					$('#tbl-bookingslist').append('<tr id="book-'+ bookid + '"><td id="tbl-book-' + bookid + '-number" class="align-middle">' + roomnumber + '</td><td id="tbl-book-'+ bookid + '-arrival" class="align-middle">' + arrival + '</td><td id="tbl-book-' + bookid + '-departure" class="align-middle">' + departure + '</td><td id="tbl-book-' + bookid +'-price" class="align-middle"><span id="tbl-book-' + bookid + '-price-raw">' + price + '</span><span class="currency"></span></td><td id="tbl-book-' + bookid + '-paid" class="align-middle"><i id="tbl-icn-book-' + bookid + '-paid-check" class="fa fa-check d-none"></i><i id="tbl-icn-book-' + bookid + '-paid-false" class="fa fa-times"></i></td><td id="tbl-book-' + bookid + '-user" class="d-none align-middle">'+ userid + '</td><td id="tbl-book-' + bookid + '-delete" class="align-middle"><button id="tbl-btn-book-' + bookid + '-delete" data-toggle="modal" data-target="#mod-delete-booking" class="btn"><i class="fa fa-trash"></i></button></td><td id="tbl-book-' + bookid + '-edit" class="align-middle d-none"><button id="tbl-btn-book-' + bookid + '-edit" data-toggle="modal" data-target="#mod-edit-booking" class="btn"><i class="fa fa-edit"></i></button></td><td id="tbl-book-' + bookid + '-confirm" class="align-middle d-none"><button id="tbl-btn-book-' + bookid + '-confirm" data-toggle="modal" data-target="#mod-confirm-booking" class="btn"><i class="fa fa-check"></i></button></td></tr>');
 
 					if ( paid ) {
 						$(`#tbl-icn-book-${bookid}-paid-false`).addClass("d-none");
 						$(`#tbl-icn-book-${bookid}-paid-check`).removeClass("d-none");
 						$(`#tbl-btn-book-${bookid}-delete`).attr("disabled", true);
+						$(`#tbl-btn-book-${bookid}-edit`).attr("disabled", true);
 						$(`#tbl-btn-book-${bookid}-confirm`).attr("disabled", true);
 					}
 				} 
@@ -814,6 +872,18 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	$('#mod-delete-booking').on('click', 'button[id*="delete-booking-yes"]', function(){
 		bookid = $('#mod-delete-booking-bookid').text();
 		deleteBooking(bookid);
+	});
+
+	$('#tbl-bookingslist tbody').on('click', 'button[id*="edit"]', function(){
+		bookid = $(this).closest('tr').prop('id');
+		$('#mod-edit-booking-bookid').text(bookid);
+		loadBooking(bookid);
+	});
+
+	/* WIP */
+	$('#mod-edit-booking').on('click', 'button[id*="edit-booking-confirm"]', function(){
+		bookid = $('#mod-edit-booking-bookid').text();
+		updateBooking(bookid);
 	});
 
 	$('#tbl-bookingslist tbody').on('click', 'button[id*="confirm"]', function(){
