@@ -12,22 +12,58 @@
 #include "UserRoomService.hxx"
 
 
-void UserRoomService::update(long bookid, long arrival, long departure){
+void UserRoomService::update(long userid, long role, long bookid, long arrival, long departure){
+
     UserRoom* booking = rur->read(bookid);
+
+    if(role == RoleCode::Customer && booking->user_id() != userid){
+        throw DtoException(Code::Unauthorized, UNAUTHORIZED);
+    }
 
     if(!booking->paid()){
         booking->arrival(arrival);
         booking->departure(departure);
 
-        rur->update(booking);
+        set<long> reservedRooms = UserRoomService::reservedRooms(arrival, departure);
+
+        if(reservedRooms.find(booking->room_id()) == reservedRooms.end()){
+            rur->update(booking);
+        } else {
+            throw DtoException(Code::Unauthorized, UNAVAILABLE);
+        }
     } else {
         throw DtoException(Code::Unauthorized, PAID);
     }
 }
 
 
-void UserRoomService::del(long id){
-    rur->archive(id);
+set<long> UserRoomService::reservedRooms(long startdate, long enddate){
+    typedef odb::query<UserRoom> urq;
+    vector<UserRoom> bookings = rur->read( ( urq::arrival >= startdate && 
+                                             urq::arrival <= enddate ) ||
+                                           ( urq::departure >= startdate && 
+                                             urq::departure <= enddate ) );
+    set<long> reservedRooms;
+    if(bookings.size() > 0){
+        for(UserRoom book: bookings){
+            reservedRooms.insert(book.room_id());
+        }
+    }
+
+    return reservedRooms;
+}
+
+
+void UserRoomService::del(long userId, long role, long id){
+    if(role > RoleCode::Customer){
+        rur->archive(id);
+    } else {
+        if(rur->read(id)->user_id() == userId){
+            rur->archive(id);
+        } else {
+            throw DtoException(Code::Unauthorized, UNAUTHORIZED);
+        }
+    }
 }
 
 
@@ -54,28 +90,18 @@ vector<BookDto> UserRoomService::bookingList(long userid, long role){
         
         for(RoomFeature f: features){
             if(f.room_id() == b.room_id()){
+                // todo check
                 roomFeatures.push_back(FeatureDto(f.feature_type_id(), types[f.feature_type_id() - 1].feature_name(), types[f.feature_type_id() - 1].price(), f.amount()));
             }
         }
         RoomDto rdto = RoomDto(r.id(), r.roomnumber(), roomFeatures);
         UserDto udto = UserDto(u.firstname(), u.lastname(), u.email(), 
-                   u.birthdate(), u.address(), u.id(), u.role());
+                               u.birthdate(), u.address(), u.id(), u.role());
         result.push_back(BookDto(b.id(), rdto, b.arrival(), b.departure(), b.paid(), b.price(), udto));
     }
 
     return result;
 }
-
-/*
-tuple<int,int,int> UserRoomService::castDate(long date) {
-    time_t tm = date;
-    auto lt = std::localtime(&tm);
-    lt->tm_hour = 0;
-    lt->tm_min = 0;
-    lt->tm_sec = 0;   
-
-    return { lt->tm_mday, lt->tm_mon + 1, lt->tm_year + 1900 };
-}*/
 
 
 void UserRoomService::confirmPayment(long role, long bookid) {
@@ -90,7 +116,13 @@ void UserRoomService::confirmPayment(long role, long bookid) {
 
 
 long UserRoomService::bookRoom(long userID, long roomID, long arrival, long departure){
-    // todo invalid date
+
+    set<long> reservedRooms = UserRoomService::reservedRooms(arrival, departure);
+
+    if(reservedRooms.find(roomID) != reservedRooms.end()){
+        throw DtoException(Code::Unauthorized, UNAVAILABLE);
+    }
+
     int nights = (departure - arrival) % 86400;
     float price = 0;
 
@@ -111,3 +143,15 @@ long UserRoomService::bookRoom(long userID, long roomID, long arrival, long depa
 void UserRoomService::unbookRoom(long roomID){
     rur->archive(roomID);
 }
+
+
+/*
+tuple<int,int,int> UserRoomService::castDate(long date) {
+    time_t tm = date;
+    auto lt = std::localtime(&tm);
+    lt->tm_hour = 0;
+    lt->tm_min = 0;
+    lt->tm_sec = 0;   
+
+    return { lt->tm_mday, lt->tm_mon + 1, lt->tm_year + 1900 };
+}*/

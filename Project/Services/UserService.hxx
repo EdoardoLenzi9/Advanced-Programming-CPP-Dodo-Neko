@@ -32,8 +32,8 @@ class UserService {
                     string password, string address, long birthdate, long role);
         string loginUser(string email, string password);
         void del(long id);
-        void update(long id, string firstname, string lastname, string email,
-                    string password, string address, long birthdate, long role);
+        void update(long issuerId, long issuerRole, long id, string firstname, string lastname, 
+                    string email, string password, string address, long birthdate, long role);
         UserDto get(long id);
         vector<UserDto> list();
 

@@ -44,7 +44,6 @@ long UserService::create(string firstname, string lastname, string email,
                     	 string password, string address, long birthdate, long role){
     
     if(role > 1){
-        // a normal user cannot create an admin profile!
         throw DtoException(Code::Unauthorized, UNAUTHORIZED);
     }
 
@@ -74,8 +73,22 @@ void UserService::del(long id_user){
 }
 
 
-void UserService::update(long id, string firstname, string lastname, string email,
+void UserService::update(long issuerId, long issuerRole, long id, string firstname, string lastname, string email,
                     	 string password, string address, long birthdate, long role){
-    User * user = new User(id, firstname, lastname, email, password, address, birthdate, role);
+
+    if(issuerRole == 1 && issuerRole != role){
+        throw DtoException(Code::Unauthorized, UNAUTHORIZED);
+    }
+
+    User* user = ur->read(id);
+    // TODO check
+    user->firstname(firstname != "" ? firstname : user->firstname());
+    user->lastname(lastname != "" ? lastname : user->lastname());
+    user->email(email != "" ? email : user->email());
+    user->password(password != "" ? sha256(password) : user->password());
+    user->address(address != "" ? address : user->address());
+    user->birthdate(birthdate > 0 ? birthdate : user->birthdate());
+    user->role(role > 0 ? role : user->role());
+
     ur->update(user);
 }

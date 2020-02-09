@@ -230,7 +230,7 @@ Get a list of all rooms available during a specified period. Dates are specified
 
 Price calculation is done as follows:
 
-Each room has a feature of type `0` as the price of the room itself. Each additional feature `>0` has a specific price and an amount attached to it. The final price is sum of all features (times their respective amounts).
+Each room has a feature of type `1` as the price of the room itself. Each additional feature `>1` has a specific price and an amount attached to it. The final price is sum of all features (times their respective amounts).
 
 Request
 

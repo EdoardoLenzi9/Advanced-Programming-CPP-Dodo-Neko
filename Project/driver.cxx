@@ -11,12 +11,6 @@
 #include "Env.hxx"
 
 
-//TODO this is the program entry point, I use this in order to set-up the end points
-// and start the Router
-// * the static files are exposed here: http://localhost:8080
-// * the endpoint is here: http://localhost:8080/info
-
-
 int main(){
     Env * env = new Env();
     if(env->getInitData()){
@@ -26,6 +20,7 @@ int main(){
     vector<Route> routes;
 
     Route hotelGet("^/hotel$", "GET", HotelController::get);
+    Route apiVersion("^/meta/api_ver$", "GET", HotelController::apiVersion);
 
     Route userGet("^/user$", "POST", UserController::get, { AuthMiddleware::user }); //Maybe change to HTTP GET
     Route userRegister("^/user/register$", "POST", UserController::create);
@@ -44,6 +39,7 @@ int main(){
     Route bookDelete("^/book/delete$", "POST", BookController::del, { AuthMiddleware::user });
 
     routes.push_back(hotelGet);
+    routes.push_back(apiVersion);
 
     routes.push_back(userGet);
     routes.push_back(userRegister);

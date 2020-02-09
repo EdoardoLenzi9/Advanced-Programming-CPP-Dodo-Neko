@@ -29,24 +29,15 @@ vector<RoomDto> RoomService::getAvailableRooms(long startdate, long enddate){
     vector<RoomFeature> features = rf->read();
     vector<FeatureType> types = rft->read();
 
-    typedef odb::query<UserRoom> urq;
-    vector<UserRoom> bookings = rur->read( ( urq::arrival >= startdate && 
-                                             urq::arrival <= enddate ) ||
-                                           ( urq::departure >= startdate && 
-                                             urq::departure <= enddate ) );
-    set<long> reservedRooms;
-    if(bookings.size() > 0){
-        for(UserRoom book: bookings){
-            reservedRooms.insert(book.room_id());
-        }
-    }
-
+    set<long> reservedRooms = urs->reservedRooms(startdate, enddate);
+    
     for(Room r: rooms){
         if(reservedRooms.find(r.id()) == reservedRooms.end()){
 
             vector<FeatureDto> roomFeatures;
             for(RoomFeature f: features){
                 if(f.room_id() == r.id()){
+                    //TODO check
                     roomFeatures.push_back(FeatureDto(f.feature_type_id(), types[f.feature_type_id() - 1].feature_name(), types[f.feature_type_id() - 1].price(), f.amount()));
                 }
             }

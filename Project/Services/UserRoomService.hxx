@@ -35,12 +35,13 @@ class UserRoomService {
             us = new UserService();
         }
 
-        void del(long id);    
+        void del(long userId, long role, long id);    
         void unbookRoom(long roomID);
         long bookRoom(long userID, long roomID, long arrival, long departure);
         void confirmPayment(long role, long bookid);
         vector<BookDto> bookingList(long userid, long role);
-        void update(long bookid, long arrival, long departure);
+        void update(long userid, long role, long bookid, long arrival, long departure);
+        set<long> reservedRooms(long startdate, long enddate);
 
     private:
         UserService* us;

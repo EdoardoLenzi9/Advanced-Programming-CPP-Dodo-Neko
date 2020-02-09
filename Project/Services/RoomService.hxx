@@ -16,6 +16,7 @@
 
 #include "Repository.hxx"
 #include "UserService.hxx"
+#include "UserRoomService.hxx"
 #include "DtoException.hxx"
 #include "RoomDto.hxx"
 #include "BookDto.hxx"
@@ -32,6 +33,7 @@ class RoomService {
             rft = new Repository<FeatureType>();
             rur = new Repository<UserRoom>();
             us = new UserService();
+            urs = new UserRoomService();
         }
 
         long create(int beds, int tlx, int tly, int brx, int bry);    
@@ -42,6 +44,7 @@ class RoomService {
 
     private:
         UserService* us;
+        UserRoomService* urs;
         Repository<Room>* rr;
         Repository<RoomFeature>* rf;
         Repository<User>* ru;

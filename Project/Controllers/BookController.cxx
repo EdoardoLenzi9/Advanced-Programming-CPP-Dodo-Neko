@@ -43,13 +43,18 @@ void BookController::list(shared_ptr<HttpServer::Response> response, shared_ptr<
 }
 
 void BookController::update(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
-    UserRoomService bookService;
+	AuthorizationService authService;
+	UserService userService;
+	UserRoomService bookService;
+
+	long userId = authService.getSession(content["auth"]["sid"].get<string>());
+	long role = userService.getRole(userId);
 
 	long bookid = content["data"]["bookid"].get<long>();
 	long arrival = content["data"]["arrival"].get<long>();
 	long departure = content["data"]["departure"].get<long>();
 	
-	bookService.update(bookid, arrival, departure);
+	bookService.update(userId, role, bookid, arrival, departure);
 
 	json res;
 	res["status"]["code"] = Code::Ok;
@@ -60,9 +65,14 @@ void BookController::update(shared_ptr<HttpServer::Response> response, shared_pt
 }
 
 void BookController::del(shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request, json content){
-    UserRoomService bookService;
+	AuthorizationService authService;
+	UserService userService;
+	UserRoomService bookService;
 
-	bookService.del(content["data"]["bookid"].get<long>());
+	long userId = authService.getSession(content["auth"]["sid"].get<string>());
+	long role = userService.getRole(userId);
+	
+	bookService.del(userId, role, content["data"]["bookid"].get<long>());
 	
 	json res;
 	res["status"]["code"] = Code::Ok;
