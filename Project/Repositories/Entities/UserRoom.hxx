@@ -33,7 +33,7 @@ class UserRoom : public BaseEntity
 		long departure() { return departure_; };
 
 		void price( float p ) { price_ = p; };
-		bool price() { return price_; };
+		float price() { return price_; };
 
 		void paid( bool p ) { paid_ = p; };
 		bool paid() { return paid_; };
