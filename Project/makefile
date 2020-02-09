@@ -38,7 +38,7 @@ RM = -exec rm {} +
 .PHONY: all
 
 
-all: dependencies odb compile
+all: dependencies odb compile compile-client
 
 
 compile:
