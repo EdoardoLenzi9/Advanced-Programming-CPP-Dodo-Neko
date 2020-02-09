@@ -194,42 +194,42 @@
 					<form class="vcenter">
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label for="frm-email">Email</label>
-								<input type="text" class="form-control" id="frm-email" placeholder="Email">
+								<label for="frm-update-email">Email</label>
+								<input type="text" class="form-control" id="frm-update-email" placeholder="Email">
 							</div>
 							<div class="form-group col-md-6">
-								<label for="frm-pass">Password</label>
-								<input type="password" class="form-control" id="frm-pass" placeholder="leave empty to keep">
-							</div>
-						</div>
-						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label for="frm-firstname">First Name</label>
-								<input type="text" class="form-control" id="frm-firstname" placeholder="Max">
-							</div>
-							<div class="form-group col-md-6">
-								<label for="frm-lastname">Last Name</label>
-								<input type="text" class="form-control" id="frm-lastname" placeholder="Power">
+								<label for="frm-update-password">Password</label>
+								<input type="password" class="form-control" id="frm-update-password" placeholder="leave empty to keep">
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label for="frm-address">Address</label>
-								<input type="text" class="form-control" id="frm-address" placeholder="Energy Street 9001, Explosions Oblast, Nukistan">
+								<label for="frm-update-firstname">First Name</label>
+								<input type="text" class="form-control" id="frm-update-firstname" placeholder="Max">
 							</div>
 							<div class="form-group col-md-6">
-								<label for="frm-birthday">Birthday</label>
-								<input type="text" class="form-control" id="frm-birthday" placeholder="20.4.1969">
+								<label for="frm-update-lastname">Last Name</label>
+								<input type="text" class="form-control" id="frm-update-lastname" placeholder="Power">
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label for="frm-userid">User ID</label>
-								<input type="text" class="form-control" id="frm-userid" placeholder="1234" disabled>
+								<label for="frm-update-address">Address</label>
+								<input type="text" class="form-control" id="frm-update-address" placeholder="Energy Street 9001, Explosions Oblast, Nukistan">
 							</div>
 							<div class="form-group col-md-6">
-								<label for="frm-roleid">Role ID</label>
-								<input type="text" class="form-control" id="frm-roleid" placeholder="1" disabled>
+								<label for="frm-update-birthday">Birthday</label>
+								<input type="text" class="form-control" id="frm-update-birthday" placeholder="20.4.1969">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="frm-update-userid">User ID</label>
+								<input type="text" class="form-control" id="frm-update-userid" placeholder="1234" disabled>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="frm-update-roleid">Role ID</label>
+								<input type="text" class="form-control" id="frm-update-roleid" placeholder="1" disabled>
 							</div>
 						</div>
 					</form>
@@ -242,104 +242,8 @@
 		</div>
 	</div>
 </div>
-
-<!-- modal for feature list -->
-<div class="modal fade" id="mod-features" tabindex="-1" role="dialog" aria-labelledby="mod-features-label" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="mod-features-label">Features</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="full-panel">
-					<table id="tbl-featurelist" class="table">
-						<thead>
-							<tr>
-								<th scope="col">Feature</th>
-								<th scope="col">Amount</th>
-							</tr>
-						</thead>
-						<tbody>
-							<!-- dynamically filled -->
-						</tbody>
-					</table>				
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- modal for booking -->
-<div class="modal fade" id="mod-booking" tabindex="-1" role="dialog" aria-labelledby="mod-booking-label" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="mod-booking-label">Booking</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="full-panel">
-					<div id="mod-booking-guest" class="d-none">
-						<p>Please log in or <a href="/register.html">Register</a></p>
-					</div>
-					<div id="mod-booking-user" class="d-none">
-						<p>Are you sure you want to create a booking request for the selected dates?</p>
-						<!--
-						<p>Room: <span id="spn-roomnumber" class="text-primary"></span></p>
-						<p>Selected dates: <span id="spn-arrival" class="text-primary"></span> to <span id="spn-departure" class="text-primary"></span></p>
-						<p>The final price is: <span id="spn-finalprice" class="text-primary"></span>
-						-->
-						<ul class="list-group mb-3">
-							<li class="list-group-item d-flex justify-content-between lh-condensed">
-								<div>
-									<h6 class="my-0">Room Base Cost</h6>
-									<small class="text-muted">Room Number <span id="spn-roomnumber" class="text-primary"></span><span id="spn-roomid" class="d-none"></span></small>
-								</div>
-								<div>
-									<span class="text-muted" id="spn-roomcost"></span><span class="currency"></span>
-								</div>
-							</li>
-							<li class="list-group-item d-flex justify-content-between lh-condensed">
-								<div>
-									<h6 class="my-0">Amount of days</h6>
-									<small class="text-muted"><span id="spn-arrival" class="text-primary"></span> to <span id="spn-departure" class="text-primary"></span></small>
-								</div>
-								<div>
-									<span class="text-muted" id="spn-totaldays"></span> <span class="text-muted">days</span>
-								</div>
-							</li>
-							<li class="list-group-item d-flex justify-content-between">
-								<span>Total <span class="currency"></span></span>
-								<strong><span id="spn-finalprice" class="text-primary"></span><span class="currency"></span></strong>
-							</li>
-						</ul>
-						<div class="alert alert-danger alert-dismissible fade hide" id="lrt-booking-failed" role="alert">
-							<strong>Sorry!</strong> No rooms are available in the selected timeframe.
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-					</div>
-					<div id="mod-booking-confirmed" class="d-none">
-						<p>Your booking request has been sent</p>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" id="btn-sendbooking" class="btn btn-success d-none">Request booking</button>
-				<button type="button" id="btn-cancelbooking" class="btn btn-secondary btn-danger d-none" data-dismiss="modal">Cancel</button>
-				<button type="button" id="btn-closebooking" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
+<!-- / -->
+ 
+ 
     </body>
 </html>

@@ -62,13 +62,14 @@ function showElementsbyState(){
 	if (loggedIn > 0){
 		$('#nav-register').addClass('d-none');
 
-		if (user.roleid > 1){
+		if (user.roleid >= 1){
 			$('#nav-settings').removeClass('d-none');
-		}
-		if (user.roleid > 2){
 			$('#nav-manage').removeClass('d-none');
 		}
-		if (user.roleid > 3){
+		if (user.roleid >= 2){
+			// placeholder
+		}
+		if (user.roleid >= 3){
 			$('#nav-admin').removeClass('d-none');
 			$('#nav-debug').removeClass('d-none');
 		}
@@ -84,6 +85,26 @@ function showElementsbyState(){
 		$('#btn-logout').addClass('d-none');
 		$('#btn-login-dropdown').removeClass('d-none');
 		$('#nav-register').removeClass('d-none');
+	}
+
+	if ( user.roleid > 1) {
+		$('#tbl-bookingslist-col-user').removeClass('d-none');
+		$('#tbl-bookingslist tr td').each( function(){
+			$('td[id*="user"]').removeClass('d-none');
+		});
+		$('#tbl-bookingslist-col-confirm').removeClass('d-none');
+		$('#tbl-bookingslist tr td').each( function(){
+			$('td[id*="confirm"]').removeClass('d-none');
+		});
+	} else {
+		$('#tbl-bookingslist-col-user').addClass('d-none');
+		$('#tbl-bookingslist tr td').each( function(){
+			$('td[id*="user"]').addClass('d-none');
+		});
+		$('#tbl-bookingslist-col-confirm').addClass('d-none');
+		$('#tbl-bookingslist tr td').each( function(){
+			$('td[id*="confirm"]').addClass('d-none');
+		});
 	}
 }
 
@@ -116,17 +137,23 @@ $.postJSON = function(url, data, successcallback) {
 
 function loadSettings(){
 	getUserInfo();
-	$('#frm-email').val(user.email);
-	$('#frm-firstname').val(user.firstname);
-	$('#frm-lastname').val(user.lastname);
-	$('#frm-address').val(user.address);
-	$('#frm-birthday').val(user.birthday);
-	$('#frm-userid').val(user.userid);
-	$('#frm-roleid').val(user.roleid);
+	$('#frm-update-email').val(user.email);
+	$('#frm-update-firstname').val(user.firstname);
+	$('#frm-update-lastname').val(user.lastname);
+	$('#frm-update-address').val(user.address);
+	birthday = new Date(user.birthday*1000);
+	// this language is beyond retarded.
+	year = birthday.getFullYear();
+	month = birthday.getMonth()+1;
+	day = birthday.getDate();
+
+	$('#frm-update-birthday').val(`${year}-${month}-${day}`);
+	$('#frm-update-userid').val(user.userid);
+	$('#frm-update-roleid').val(user.roleid);
 
 	if (user.roleid > 1){
-		$('#frm-userid').attr('disabled', false);
-		$('#frm-roleid').attr('disabled', false);
+		$('#frm-update-userid').attr('disabled', false);
+		$('#frm-update-roleid').attr('disabled', false);
 	}
 }
 
@@ -136,8 +163,6 @@ function loadMainPage(){
 
 function replaceCurrency(){
 	$('.currency').each(function(text){
-		console.log("replacing");
-		console.log(this);
 		this.innerHTML = ' <i class="fa fa-btc"></i>';
 	});
 
@@ -150,7 +175,7 @@ function replaceCurrency(){
 function getHotelInfo(){
 	$.getJSON(`${serverUrl}/hotel`,
 		function(response) {
-			if (response.status.code == "200" ){
+			if (response.status.code == 200 ){
 				$('#cnt-hotelname').text(response.data.name);
 				$('#cnt-contact').text(response.data.contact);
 				$('#cnt-address').text(response.data.address);
@@ -175,7 +200,7 @@ function getUserInfo(){
 		$.postJSON(`${serverUrl}/user`,
 		request,
 		function(response) {
-			if ( response.status.code == "200" ){
+			if ( response.status.code == 200 ){
 				user.firstname = response.data.firstname;
 				user.lastname = response.data.lastname;
 				user.email = response.data.email;
@@ -186,10 +211,17 @@ function getUserInfo(){
 				loggedIn = 1;
 				showElementsbyState();
 			} else {
+				Cookies.remove('sid');
+				loggedIn = 0;
 				console.log("acquiring user info failed");
 				console.log(response);
+				showElementsbyState()
 			}
 		});
+	} else {
+		loggedIn = 0;
+		Cookies.remove('sid');
+		showElementsbyState()
 	}
 }
 
@@ -209,10 +241,61 @@ features.filter(feature => feature.id == '2')[0].amount;
 
 }
 
+function deleteBooking(bookid){
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
+	var request = defaultRequest;
+	request.auth.sid = Cookies.get('sid');
+
+	request.data.bookid = Number(bookid.replace("book-", ""));
+
+	if ( request.auth.sid ) {
+		$.postJSON(`${serverUrl}/book/delete`,
+		request,
+		function(response) {
+			console.log("callback running");
+			if ( response.status.code == 200 ){
+				$('#mod-delete').modal('hide');
+				getBookings();
+			} else {
+				alert("deleting the booking was refused");
+			}
+		});
+	} else {
+		alert("not logged in");
+	}
+
+}
+
+function confirmBooking(bookid){
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
+	var request = defaultRequest;
+	request.auth.sid = Cookies.get('sid');
+
+	request.data.bookid = Number(bookid.replace("book-", ""));
+
+	if ( request.auth.sid ) {
+		$.postJSON(`${serverUrl}/book/confirmpayment`,
+		request,
+		function(response) {
+			console.log("callback running");
+			if ( response.status.code == 200 ){
+				$('#mod-confirm').modal('hide');
+				getBookings();
+			} else {
+				alert("confirming the booking was refused");
+			}
+		});
+	} else {
+		alert("not logged in");
+	}
+
+}
+
 function displayBooking(roomid){
 	getUserInfo();
 	if (loggedIn == 1) {
-		console.log(loggedIn);
 		$('#mod-booking-guest').addClass('d-none');
 		$('#mod-booking-confirmed').addClass('d-none');
 		$('#mod-booking-user').removeClass('d-none');
@@ -241,7 +324,6 @@ function displayBooking(roomid){
 
 		
 	} else {
-		console.log(loggedIn);
 		$('#mod-booking-user').addClass('d-none');
 		$('#mod-booking-confirmed').addClass('d-none');
 		$('#mod-booking-guest').removeClass('d-none');
@@ -259,11 +341,6 @@ function requestBooking(){
 	roomid = Number($('#spn-roomid').text().replace("room-", ""));
 	arrival = Math.floor((new Date($('#spn-arrival').text())).getTime()/1000);
 	departure = Math.floor((new Date($('#spn-departure').text())).getTime()/1000);
-
-	console.log("trying to create a booking");
-	console.log(roomid);
-	console.log(arrival);
-	console.log(departure);
 
 	request.data.roomid = roomid;
 	request.data.arrival = arrival;
@@ -307,11 +384,11 @@ function login(){
 	request, 
 	function(response) {
 		console.log("callback for login running");
-		if (response.status.code == "200") {
+		if (response.status.code == 200) {
 			console.log("authentication successful");
 			Cookies.set('sid', response.data.sid, { expires: 7, path: '' }); // 7 days	
 			getUserInfo();
-		} else if (response.status.code == "401") {
+		} else if (response.status.code == 401) {
 			$('#div-login-dropdown').prepend(makeAlert("Login failed!", "Try again.", "alert-danger", ""));
 		} else {
 			alert("authentication failed due to unknown reasons (check log)");
@@ -366,7 +443,7 @@ function register(){
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
-	var empty = "0";
+	var empty = 0;
 
 	if (! $('#frm-email').val() || ! $('#frm-pass').val() ) {
 		alert("password or email empty");
@@ -390,7 +467,7 @@ function register(){
 	}
 
 	request.data.address=$('#frm-address').val();
-	request.data.birthdate=$('#frm-birthday').val();
+	request.data.birthdate=Math.floor(new Date($('#frm-birthday').val()).getTime()/1000);
 
 	if (! $('#cbx-terms').is(':checked') ) {
 		alert("Please accept our terms!");
@@ -405,6 +482,8 @@ function register(){
 			// redirects to the login screen.
 
 			if (response.status.code == "200") {
+				//TODO: needs a nice way to tell the user
+				alert("registering was successful. please log in.");
 				loadMainPage();
 			}
 		});
@@ -425,37 +504,152 @@ function userUpdate(){
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
-	request.data.firstname = $('#frm-firstname').val();
-	request.data.lastname = $('#frm-lastname').val();
-	request.data.email = $('#frm-email').val();
-	request.data.birthdate = $('#frm-birthday').val();
-	request.data.address = $('#frm-address').val();
-	request.data.password = $('#frm-password').val();
-	request.data.userid = $('#frm-userid').val();
-	request.data.roleid = $('#frm-roleid').val();
+	request.data.firstname = $('#frm-update-firstname').val();
+	request.data.lastname = $('#frm-update-lastname').val();
+	request.data.email = $('#frm-update-email').val();
+	request.data.birthdate = (new Date($('#frm-update-birthday').val()).getTime())/1000;
+	request.data.address = $('#frm-update-address').val();
+	request.data.password = $('#frm-update-password').val();
+	request.data.userid = Number($('#frm-update-userid').val());
+	request.data.roleid = Number($('#frm-update-roleid').val());
 
 	$.postJSON(`${serverUrl}/user/update`,
 	request, 
 	function(response) {
-		if (response.status.code == 401){
-			alert("no authentication");
-			Cookies.remove('sid');
-		} else if (response.status.code != 200 ) {
-			alert("something else went wrong...");
+		if (response.status.code == 200){
+			$('#mod-settings').modal('hide');
+		} else {
+			alert("something went wrong...");
 			console.log(response);
 		}
 	});
 }
 
-function getRooms(){
-
+function getBookings(){
 
 	defaultRequest.data = {};
 	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
 	request.auth.sid = Cookies.get('sid');
 
-	//TODO: make sure the date isnt a negative timespan
+	$('#tbl-bookingslist tbody tr').each (function (val) { $(this).remove(); });
+
+	$.postJSON(`${serverUrl}/book/list`,
+	request,
+	function(response) {
+		if (response.status.code == 200){
+			if (response.data.bookings != null){
+				bookings = response.data.bookings;
+
+				for (var i = 0; i < bookings.length; i++){
+					roomnumber = bookings[i].room.roomnumber;
+					arrival = bookings[i].arrival;
+					departure = bookings[i].departure;
+					price = bookings[i].price;
+					paid = bookings[i].paid;
+					userid = bookings[i].user.email;
+					bookid = bookings[i].bookid;
+
+					arrival = (new Date(arrival*1000));
+
+					// this language is beyond retarded.
+					year = arrival.getFullYear();
+					month = arrival.getMonth()+1;
+					day = arrival.getDate();
+
+					arrival = `${year}-${month}-${day}`;
+
+					departure = (new Date(departure*1000));
+
+					year = departure.getFullYear();
+					month = departure.getMonth()+1;
+					day = departure.getDate();
+
+					departure = `${year}-${month}-${day}`;
+
+
+					$('#tbl-bookingslist').append('<tr id="book-'+ bookid + '"><td id="tbl-book-' + bookid + '-number" class="align-middle">' + roomnumber + '</td><td id="tbl-book-'+ bookid + '-arrival" class="align-middle">' + arrival + '</td><td id="tbl-book-' + bookid + '-departure" class="align-middle">' + departure + '</td><td id="tbl-book-' + bookid +'-price" class="align-middle"><span id="tbl-book-' + bookid + '-price-raw">' + price + '</span><span class="currency"></span></td><td id="tbl-book-' + bookid + '-paid" class="align-middle"><i id="tbl-icn-book-' + bookid + '-paid-check" class="fa fa-check d-none"></i><i id="tbl-icn-book-' + bookid + '-paid-false" class="fa fa-times"></i></td><td id="tbl-book-' + bookid + '-user" class="d-none align-middle">'+ userid + '</td><td id="tbl-book-' + bookid + '-delete" class="align-middle"><button id="tbl-btn-book-' + bookid + '-delete" data-toggle="modal" data-target="#mod-delete" class="btn"><i class="fa fa-trash"></i></button></td><td id="tbl-book-' + bookid + '-confirm" class="align-middle d-none"><button id="tbl-btn-book-' + bookid + '-confirm" data-toggle="modal" data-target="#mod-confirm" class="btn"><i class="fa fa-check"></i></button></td></tr>');
+
+					if ( paid ) {
+						$(`#tbl-icn-book-${bookid}-paid-false`).addClass("d-none");
+						$(`#tbl-icn-book-${bookid}-paid-check`).removeClass("d-none");
+						$(`#tbl-btn-book-${bookid}-delete`).attr("disabled", true);
+						$(`#tbl-btn-book-${bookid}-confirm`).attr("disabled", true);
+					}
+				} 
+				replaceCurrency();
+				showElementsbyState();
+			} else {
+				$('#div-showbookings').append(makeAlert("Hey!", "Book more rooms!", "alert-warning" , ""));
+			}
+		} else {
+			alert("getting the room list failed due to unknown reasons. check log.");
+			console.log(response);
+		}
+		
+	});
+
+}
+
+function getUsers(){
+
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
+	var request = defaultRequest;
+	request.auth.sid = Cookies.get('sid');
+
+	$('#tbl-userlist tbody tr').each (function (val) { $(this).remove(); });
+
+	$.postJSON(`${serverUrl}/user/list`,
+	request,
+	function(response) {
+		if (response.status.code == 200){
+			if (response.data.users != null){
+				users = response.data.users;
+
+				for (var i = 0; i < users.length; i++){
+
+					userid = users[i].userid;
+					roleid = users[i].roleid;
+					firstname = users[i].firstname;
+					lastname = users[i].lastname;
+					email = users[i].email;
+					birthday = users[i].birthdate;
+					address = users[i].address;
+
+					birthday = (new Date(birthday*1000));
+
+					// this language is beyond retarded.
+					year = birthday.getFullYear();
+					month = birthday.getMonth()+1;
+					day = birthday.getDate();
+
+					birthday = `${year}-${month}-${day}`;
+
+					console.log(`adding user ${userid}, email ${email}`);
+
+					$('#tbl-userlist').append('<tr id="user-'+ userid + '"><td id="tbl-user-' + userid + '-number" class="align-middle">' + userid + '</td><td id="tbl-user-'+ userid + '-firstname" class="align-middle">' + firstname + '</td><td id="tbl-user-' + userid + '-lastname" class="align-middle">' + lastname + '</td><td id="tbl-user-' + userid +'-email" class="align-middle">'+ email + '</td><td id="tbl-user-' + userid + '-birthday" class="align-middle">' + birthday +'</td><td id="tbl-user-' + userid + '-address" class="align-middle">'+ address + '</td><td id="tbl-user-' + userid + '-role" class="align-middle">' + roleid + '</td><td id="tbl-user-' + userid + '-delete" class="align-middle"><button id="tbl-btn-user-' + userid + '-delete" data-toggle="modal" data-target="#mod-delete" class="btn"><i class="fa fa-trash"></i></button></td></tr>');
+				} 
+			} else {
+				$('#div-showusers').append(makeAlert("Hey!", "Add more users!", "alert-warning" , ""));
+			}
+		} else {
+			alert("getting the room list failed due to unknown reasons. check log.");
+			console.log(response);
+		}
+		
+	});
+
+}
+
+
+function getRooms(){
+
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
+	var request = defaultRequest;
+	request.auth.sid = Cookies.get('sid');
+
 	request.data.startdate = Math.floor(new Date($('#frm-arrival').val()).getTime()/1000);
 	request.data.enddate = Math.floor(new Date($('#frm-departure').val()).getTime()/1000);
 
@@ -493,37 +687,36 @@ function getRooms(){
 	request,
 	function(response) {
 		if (response.status.code == 200){
-			//exporting to global namespace as a workaround
-			rooms = response.data.rooms;
-			for (var i = 0; i < rooms.length; i++){
-				room = rooms[i];
-				console.log(`${i}/${rooms.length}: checking room ${room.roomid}`);
+			if (response.data.rooms != null){
+				rooms = response.data.rooms;
+				for (var i = 0; i < rooms.length; i++){
+					room = rooms[i];
+					console.log(`${i}/${rooms.length}: checking room ${room.roomid}`);
 
-				roomid = room.roomid;
-				roomnumber = room.roomnumber;
-				features = rooms[i].features;
-				price = Number(features.filter(feature => feature.id == '1')[0].price);
-				console.log(price);
-				beds = features.filter(feature => feature.id == '2')[0].amount;
-				
-				for (var j = 0; j < features.length; j++){
-					if (features[j].id != 1){
-						price += (Number(features[j].amount)*Number(features[j].price));
+					roomid = room.roomid;
+					roomnumber = room.roomnumber;
+					features = rooms[i].features;
+					price = Number(features.filter(feature => feature.id == '1')[0].price);
+					console.log(price);
+					beds = features.filter(feature => feature.id == '2')[0].amount;
+					
+					for (var j = 0; j < features.length; j++){
+						if (features[j].id != 1){
+							price += (Number(features[j].amount)*Number(features[j].price));
+						}
 					}
+
+					price = round(price);
+
+					$('#tbl-roomlist').append('<tr id="room-'+ roomid +'"><th class="align-middle" id="tbl-room-' + roomid + '-number" scope="row">' + roomnumber + '</th><td class="align-middle" id="tbl-room-' + roomid + '-features">' + '<button id="tbl-btn-room-' + roomid + '-features" data-toggle="modal" data-target="#mod-features" class="btn"><i class="fa fa-eye"></i></button>' + '</td><td class="align-middle" id="tbl-room-' + roomid + '-beds">' + beds + '</td><td class="align-middle" id="tbl-room-' + roomid + '-price"><span id="tbl-room-' + roomid + '-price-raw">' + price + '</span><span class="currency"></span></td><td class="align-middle" id="tbl-room-' + roomid + '-book"><button id="tbl-btn-room-' + roomid + '-book" data-toggle="modal" data-target="#mod-booking" class="btn"><i class="fa fa-book"></i></button></td></tr>');
 				}
+				replaceCurrency();
 
-				price = round(price);
-
-				$('#tbl-roomlist').append('<tr id="room-'+ roomid +'"><th class="align-middle" id="tbl-room-' + roomid + '-number" scope="row">' + roomnumber + '</th><td class="align-middle" id="tbl-room-' + roomid + '-features">' + '<button id="tbl-btn-room-' + roomid + '-features" data-toggle="modal" data-target="#mod-features" class="btn"><i class="fa fa-eye"></i></button>' + '</td><td class="align-middle" id="tbl-room-' + roomid + '-beds">' + beds + '</td><td class="align-middle" id="tbl-room-' + roomid + '-price"><span id="tbl-room-' + roomid + '-price-raw">' + price + '</span><span class="currency"></span></td><td class="align-middle" id="tbl-room-' + roomid + '-book"><button id="tbl-btn-room-' + roomid + '-book" data-toggle="modal" data-target="#mod-booking" class="btn"><i class="fa fa-book"></i></button></td></tr>');
+			} else {
+			$('#div-showrooms').append(makeAlert("Sorry!", "No rooms are available during the selected timespan.", "alert-warning" , ""));
 			}
-			console.log(rooms.length);
-			//TODO: this should show a nice alert but not if data doesnt exist, as it happens now. needs a backend fix
-			if (rooms.length < 1) {
-				$('#div-showrooms').append(makeAlert("Sorry!", "No rooms are available during the selected timespan.", "alert-warning" , ""));
-			}
-			replaceCurrency();
 		} else {
-			console.log("getting rooms failed");
+			alert("getting the room list failed due to unknown reasons. check log.");
 			console.log(response);
 		}
 	});
@@ -559,6 +752,26 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 		displayBooking(roomid);
 	});
 
+	$('#tbl-bookingslist tbody').on('click', 'button[id*="delete"]', function(){
+		bookid = $(this).closest('tr').prop('id');
+		$('#mod-delete-bookid').text(bookid);
+	});
+
+	$('#mod-delete').on('click', 'button[id*="delete-yes"]', function(){
+		bookid = $('#mod-delete-bookid').text();
+		deleteBooking(bookid);
+	});
+
+	$('#tbl-bookingslist tbody').on('click', 'button[id*="confirm"]', function(){
+		bookid = $(this).closest('tr').prop('id');
+		$('#mod-confirm-bookid').text(bookid);
+	});
+
+	$('#mod-confirm').on('click', 'button[id*="confirm-yes"]', function(){
+		bookid = $('#mod-confirm-bookid').text();
+		confirmBooking(bookid);
+	});
+
 	/*
 	// listener for dynamic table content of the booking page, book button
 	$('#tbl-roomlist tbody').on('click', 'button', function(){
@@ -576,5 +789,5 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	getUserInfo();
 
 	// show hidden navbar items depending on the logged in state
-	showElementsbyState();
+	//showElementsbyState();
 });

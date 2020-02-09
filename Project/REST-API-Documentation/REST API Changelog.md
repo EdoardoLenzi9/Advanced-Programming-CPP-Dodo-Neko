@@ -4,8 +4,11 @@
 
 * small change to the `/room/list` endpoint: now contains a roomnumber and a roomid, instead of being an array of named ids.
 * fixed some spelling mistakes:
-  * in `/book/csreate` -> `departure`
+  * in `/book/create` -> `departure`
   * in `/room/list` -> `enddate`
+* fixed incorrect array addressing of the `/book/list` endpoint.
+* added `roomnumber` to the `room` object of the `/book/list` endpoint.
+* fixed incorrect array adressing of the `/user/list` endpoint.
 
 ## Release v1.3
 
