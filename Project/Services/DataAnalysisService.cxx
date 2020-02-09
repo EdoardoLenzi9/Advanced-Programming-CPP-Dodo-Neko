@@ -17,7 +17,7 @@ int DataAnalysisService::averageDays(){
     int average = 0;
 
     for(UserRoom b: bookings){
-        average += floor((b.departure - b.arrival) / 86400);
+        average += floor((b.departure() - b.arrival()) / 86400);
     }
 }
 
