@@ -24,7 +24,7 @@ void UserRoomService::update(long userid, long role, long bookid, long arrival, 
         booking->arrival(arrival);
         booking->departure(departure);
 
-        set<long> reservedRooms = UserRoomService::reservedRooms(arrival, departure);
+        set<long> reservedRooms = UserRoomService::reservedRooms(arrival, departure, booking->id());
 
         if(reservedRooms.find(booking->room_id()) == reservedRooms.end()){
             rur->update(booking);
@@ -37,7 +37,7 @@ void UserRoomService::update(long userid, long role, long bookid, long arrival, 
 }
 
 
-set<long> UserRoomService::reservedRooms(long startdate, long enddate){
+set<long> UserRoomService::reservedRooms(long startdate, long enddate, long bookid){
     typedef odb::query<UserRoom> urq;
     vector<UserRoom> bookings = rur->read( ( urq::arrival >= startdate && 
                                              urq::arrival <= enddate ) ||
@@ -46,7 +46,9 @@ set<long> UserRoomService::reservedRooms(long startdate, long enddate){
     set<long> reservedRooms;
     if(bookings.size() > 0){
         for(UserRoom book: bookings){
-            reservedRooms.insert(book.room_id());
+            if(book.id() != bookid) {
+                reservedRooms.insert(book.room_id());
+            }
         }
     }
 
@@ -117,7 +119,7 @@ void UserRoomService::confirmPayment(long role, long bookid) {
 
 long UserRoomService::bookRoom(long userID, long roomID, long arrival, long departure){
 
-    set<long> reservedRooms = UserRoomService::reservedRooms(arrival, departure);
+    set<long> reservedRooms = UserRoomService::reservedRooms(arrival, departure, 0);
 
     if(reservedRooms.find(roomID) != reservedRooms.end()){
         throw DtoException(Code::Unauthorized, UNAVAILABLE);

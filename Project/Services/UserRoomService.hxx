@@ -41,7 +41,7 @@ class UserRoomService {
         void confirmPayment(long role, long bookid);
         vector<BookDto> bookingList(long userid, long role);
         void update(long userid, long role, long bookid, long arrival, long departure);
-        set<long> reservedRooms(long startdate, long enddate);
+        set<long> reservedRooms(long startdate, long enddate, long bookid);
 
     private:
         UserService* us;

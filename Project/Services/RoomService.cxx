@@ -29,7 +29,7 @@ vector<RoomDto> RoomService::getAvailableRooms(long startdate, long enddate){
     vector<RoomFeature> features = rf->read();
     vector<FeatureType> types = rft->read();
 
-    set<long> reservedRooms = urs->reservedRooms(startdate, enddate);
+    set<long> reservedRooms = urs->reservedRooms(startdate, enddate, 0);
     
     for(Room r: rooms){
         if(reservedRooms.find(r.id()) == reservedRooms.end()){
