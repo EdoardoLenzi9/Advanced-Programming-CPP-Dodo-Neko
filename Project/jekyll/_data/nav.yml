@@ -27,3 +27,7 @@ list:
       url: /debug.html
       hidden: "yes"
       id: "nav-debug"
+    - title: "Stats"
+      url: /stats.html
+      hidden: "yes"
+      id: "nav-stats"

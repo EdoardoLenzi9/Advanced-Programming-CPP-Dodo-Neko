@@ -1,5 +1,14 @@
 # REST API Changelog
 
+## Release v1.4
+
+* added the new `/data` scope
+    * added new endpoint: `/data/averagedays`
+    * added new endpoint: `/data/averageprice`
+    * added new endpoint: `/data/mostvaluablerooms`
+    * added new endpoint: `/data/mostvaluablecustomers`
+    * added new endpoint: `/data/mostvaluablefeatures`
+
 ## Hotfix v1.3.1
 
 * small change to the `/room/list` endpoint: now contains a roomnumber and a roomid, instead of being an array of named ids.
