@@ -11,7 +11,9 @@ void Router::start() {
   for(int i = 0; i < routes.size(); i++){
     server.resource[routes[i].path][routes[i].httpMethod] = bind(&Route::handle, _1 , _2, routes[i]);
   }
-
+  /*server.default_resource["OPTIONS"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
+    *response << "HTTP/1.1 200 OK \r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: POST, GET\r\n\r\n";
+  };*/
   server.default_resource["GET"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
     try {
       auto web_root_path = boost::filesystem::canonical(env->getStaticFolder());
