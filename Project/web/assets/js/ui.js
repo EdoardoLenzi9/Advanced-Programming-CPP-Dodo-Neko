@@ -5,6 +5,9 @@
 
 // please change this to your server
 //var serverUrl = "https://e06f6d86-e0bd-4a75-a8fe-bfcf40cfe849.mock.pstmn.io"
+
+//this causes the application to only work on the local server
+//TODO: actual CORS implementation
 var serverUrl = window.location.origin;
 // filled via rest api
 var loggedIn = 0;
@@ -67,7 +70,7 @@ function showElementsbyState(){
 			$('#nav-manage').removeClass('d-none');
 		}
 		if (user.roleid >= 2){
-			// placeholder
+			$('#nav-stats').removeClass('d-none');
 		}
 		if (user.roleid >= 3){
 			$('#nav-admin').removeClass('d-none');
@@ -834,6 +837,111 @@ function getRooms(){
 	});
 }
 
+
+function fillGeneralStats(){
+	getUserInfo();
+
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
+	var request = defaultRequest;
+	request.auth.sid = Cookies.get('sid');
+
+	//#pragma openmp parallel
+
+	$('#tbl-generalstats tbody tr').each (function (val) { $(this).remove(); })
+
+
+	$.postJSON(`${serverUrl}/data/averagedays`,
+	request, 
+	function(response) {
+		if (response.status.code == 200){
+			$('#tbl-generalstats').append('<tr><td>Average days guests stay</td><td>' + response.data.avgdays + '</td></tr>')
+		} else {
+			alert("something went wrong...");
+			console.log(response);
+		}
+	});
+
+	$.postJSON(`${serverUrl}/data/averageprice`,
+	request, 
+	function(response) {
+		if (response.status.code == 200){
+			$('#tbl-generalstats').append('<tr><td>Average price guests pay</td><td>' + response.data.avgprice + '</td></tr>')
+		} else {
+			alert("something went wrong...");
+			console.log(response);
+		}
+	});
+}
+
+function fillMVR(){
+	getUserInfo();
+
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
+	var request = defaultRequest;
+	request.auth.sid = Cookies.get('sid');
+
+	$('#tbl-mvr tbody tr').each (function (val) { $(this).remove(); });
+
+	$.postJSON(`${serverUrl}/data/mostvaluablerooms`,
+	request,
+	function(response) {
+		if (response.status.code == 200){
+			if (response.data.rooms != null){
+				rooms = response.data.rooms;
+
+				for (var i = 0; i < rooms.length; i++){
+
+					roomnumber = rooms[i].roomnumber;
+
+					$('#tbl-mvr').append('<tr><td>' + (Number(i)+1) + '</td><td>' + roomnumber + '</td></tr>');
+				} 
+			} else {
+				$('#div-mvr').append(makeAlert("Hey!", "Make more money. Well. Sucks to be you.", "alert-warning" , ""));
+			}
+		} else {
+			alert("getting the room data list failed due to unknown reasons. check log.");
+			console.log(response);
+		}	
+	});
+}
+
+function fillMVC(){
+	getUserInfo();
+
+	defaultRequest.data = {};
+	defaultRequest.auth.sid = {};
+	var request = defaultRequest;
+	request.auth.sid = Cookies.get('sid');
+
+	$('#tbl-mvc tbody tr').each (function (val) { $(this).remove(); });
+
+	$.postJSON(`${serverUrl}/data/mostvaluablecustomers`,
+	request,
+	function(response) {
+		if (response.status.code == 200){
+			if (response.data.users != null){
+				users = response.data.users;
+
+				for (var i = 0; i < rooms.length; i++){
+
+					firstname = users[i].firstname;
+					lastname = users[i].lastname;
+					email = users[i].email;
+
+					$('#tbl-mvr').append('<tr><td>' + (Number(i)+1) + '</td><td>' + firstname + '</td><td>' + lastname + '</td><td>' + email + '</td></tr>');
+				} 
+			} else {
+				$('#div-mvr').append(makeAlert("Hey!", "Get more customers. Well. Sucks to be you.", "alert-warning" , ""));
+			}
+		} else {
+			alert("getting the user data list failed due to unknown reasons. check log.");
+			console.log(response);
+		}	
+	});
+}
+
 ///////////////////////////////
 /////// event listeners ///////
 ///////////////////////////////
@@ -852,6 +960,9 @@ $( document ).ready(function(){ //only run this script after the loading of the 
 	$('#btn-sendbooking').click(function(event){
 		requestBooking()
 	});
+	$('#btn-stats-1').click(fillGeneralStats);
+	$('#btn-stats-2').click(fillMVR);
+	$('#btn-stats-3').click(fillMVC);
 
 	// listener for dynamic table content of the booking page, feature button
 	$('#tbl-roomlist tbody').on('click', 'button[id*="features"]', function(){
