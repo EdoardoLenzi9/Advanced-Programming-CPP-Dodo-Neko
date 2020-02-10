@@ -7,6 +7,7 @@
 #include <UserController.hxx>
 #include <BookController.hxx>
 #include <Console.hxx>
+#include <DataAnalysisController.hxx>
 
 #include "InitData.hxx"
 #include "Env.hxx"
@@ -41,6 +42,18 @@ int main(){
     Route bookList("^/book/list$", "POST", BookController::list, { AuthMiddleware::user });
     Route bookUpdate("^/book/update$", "POST", BookController::update, { AuthMiddleware::user });
     Route bookDelete("^/book/delete$", "POST", BookController::del, { AuthMiddleware::user });
+
+    Route averageDays("^/data/averagedays$", "POST", DataAnalysisController::averageDays, { AuthMiddleware::staff });
+    Route averagePrice("^/data/averageprice$", "POST", DataAnalysisController::averagePrice, { AuthMiddleware::staff });
+    Route mostValuableRooms("^/data/mostvaluablerooms$", "POST", DataAnalysisController::mostValuableRooms, { AuthMiddleware::staff });
+    Route mostValuableCustomers("^/data/mostvaluablecustomers$", "POST", DataAnalysisController::mostValuableCustomers, { AuthMiddleware::staff });
+    Route mostValuableFeatures("^/data/mostvaluablefeatures$", "POST", DataAnalysisController::mostValuableFeatures, { AuthMiddleware::staff });
+
+    routes.push_back(averageDays);
+    routes.push_back(averagePrice);
+    routes.push_back(mostValuableRooms);
+    routes.push_back(mostValuableCustomers);
+    routes.push_back(mostValuableFeatures);
 
     routes.push_back(hotelGet);
     routes.push_back(apiVersion);

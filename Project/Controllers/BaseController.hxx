@@ -18,6 +18,33 @@ class BaseController {
 
     public:
 
+        static json serialize(vector<SimpleRoomDto> rooms){
+            json j;
+
+            j["data"]["rooms"] = {};
+
+            for(SimpleRoomDto r: rooms){
+                json feature = serialize(r);
+                j["data"]["rooms"].push_back( feature["data"] );
+            }
+
+            return j;
+        }
+
+        static json serialize(vector<FeatureDto> features){
+            json j;
+
+            j["data"]["features"] = {};
+
+            for(FeatureDto f: features){
+                json feature = serialize(f);
+                j["data"]["features"].push_back( feature["data"] );
+            }
+
+            return j;
+        }
+
+
         static json serialize(vector<UserDto> users){
             json j;
 
@@ -69,13 +96,32 @@ class BaseController {
             j["data"]["features"] = {};
 
             for(FeatureDto f: room.features){
-                feature["feature"]["id"] = f.id;
-                feature["feature"]["name"] = f.name;
-                feature["feature"]["price"] = f.price;
-                feature["feature"]["amount"] = f.amount; 
-
-                j["data"]["features"].push_back(feature["feature"]);
+                json feature = serialize(f);
+                j["data"]["features"].push_back(feature["data"]);
             }
+
+            return j;
+        }
+
+
+        static json serialize(SimpleRoomDto room){
+            json feature;
+            json j;
+
+            j["data"]["roomid"] = room.roomid;
+            j["data"]["roomnumber"] = room.roomnumber;
+
+            return j;
+        }
+
+
+        static json serialize(FeatureDto feature){
+            json j;
+
+            j["data"]["id"] = feature.id;
+            j["data"]["name"] = feature.name;
+            j["data"]["price"] = feature.price;
+            j["data"]["amount"] = feature.amount;
 
             return j;
         }

@@ -20,6 +20,8 @@ CXXPROF = -pg -no-pie
 CXXDB = -lodb-sqlite -lodb
 CXXTHREAD = -pthread
 CXXBOOST = -lboost_filesystem -lboost_system
+CXXOMP = -fopenmp
+
 SRCS = *.cxx \
 	   ./Repositories/*.cxx \
 	   ./Repositories/Entities/*.cxx \
@@ -41,8 +43,8 @@ RM = -exec rm {} +
 all: dependencies odb compile compile-client
 
 
-compile: compile-client
-	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) $(SRCS) $(CXXDB)
+compile:
+	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) $(SRCS) $(CXXDB) $(CXXOMP)
 
 compile-services:
 	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) *.cxx ./Services/*.cxx ./Repositories/*.cxx ./Repositories/Entities/*.cxx $(CXXDB)
@@ -56,12 +58,14 @@ odb: clean
 
 
 debug: 
-	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) $(SRCS) $(CXXDB) $(CXXDEBUG)
+	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) $(SRCS) $(CXXDB) $(CXXOMP) $(CXXDEBUG)
 
 
 prof:
-	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) $(SRCS) $(CXXDB) $(CXXPROF)
+	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) $(SRCS) $(CXXDB) $(CXXOMP) $(CXXPROF)
 
+run:
+	mpirun -np 1 ./driver.bin
 
 dependencies:
 	@echo "Download and setup Simple-Web-Server"

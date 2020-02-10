@@ -38,7 +38,7 @@ class DataAnalysisService {
 
         int averageDays();    
         float averagePrice();
-        vector<RoomDto> mostValuableRooms();
+        vector<SimpleRoomDto> mostValuableRooms();
         vector<UserDto> mostValuableCustomers();
         vector<FeatureDto> mostValuableFeatures();
 

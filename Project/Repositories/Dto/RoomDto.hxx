@@ -44,4 +44,15 @@ class RoomDto
 		vector<FeatureDto> features;
 };
 
+
+class SimpleRoomDto
+{
+	public:
+    
+	    SimpleRoomDto (long rid, int rnum) : roomid(rid), roomnumber(rnum) {}                 
+		
+		int roomnumber;
+		long roomid;
+};
+
 #endif
