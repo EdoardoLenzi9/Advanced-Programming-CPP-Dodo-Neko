@@ -8,7 +8,7 @@
 
 //this causes the application to only work on the local server
 //TODO: actual CORS implementation
-var serverUrl = window.location.origin;
+var serverUrl = "http://192.168.43.249:8080";
 // filled via rest api
 var loggedIn = 0;
 
