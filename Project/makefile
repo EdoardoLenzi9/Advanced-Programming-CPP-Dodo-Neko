@@ -41,7 +41,7 @@ RM = -exec rm {} +
 all: dependencies odb compile compile-client
 
 
-compile:
+compile: compile-client
 	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) $(SRCS) $(CXXDB)
 
 compile-services:

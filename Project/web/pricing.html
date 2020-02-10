@@ -6,7 +6,7 @@
     <title>Hotel du Lac | prices</title>
     <link rel="stylesheet" href="/assets/css/bootstrap.css" />
     <link rel="stylesheet" href="/assets/css/sticky-footer-navbar.css" />
-    <!-- <link rel="stylesheet" href="/assets/css/style.css" /> -->
+    <link rel="stylesheet" href="/assets/css/style.css" />
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
     <script src="/assets/js/jquery-3.4.1.min.js"></script>
     <link rel="shortcut icon" href="/assets/img/favicon.ico">
@@ -110,7 +110,7 @@
 				<li>Tv and gaming console</li>
 				<li>Gym and swim pool</li>
 			</ul>
-			<button type="button" class="btn btn-lg btn-block btn-outline-primary">Try for free</button>
+			<button type="button" onclick = "redirectToBooking()" class="btn btn-lg btn-block btn-outline-primary">Try for free</button>
 		</div>
 	</div>
 	<div class="card mb-4 box-shadow">
@@ -125,7 +125,7 @@
 				<li>Massage room</li>
 				<li>Romantic dinner</li>
 			</ul>
-			<button type="button" class="btn btn-lg btn-block btn-primary">Get it!</button>
+			<button type="button" onclick = "redirectToBooking()" class="btn btn-lg btn-block btn-primary">Get it!</button>
 		</div>
 	</div>
 	<div class="card mb-4 box-shadow">
@@ -140,10 +140,15 @@
 				<li>Private parking</li>
 				<li>Dinner and breakfast</li>
 			</ul>
-			<button type="button" class="btn btn-lg btn-block btn-primary">Don't miss it</button>
+			<button type="button" onclick = "redirectToBooking()" class="btn btn-lg btn-block btn-primary">Don't miss it</button>
 		</div>
 	</div>
 </div>
+<script>
+	function redirectToBooking(){
+		window.location.replace(window.location.origin + "/book.html");
+	}
+</script>	
         </main>
 
         <!-- footer -->
