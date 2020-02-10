@@ -27,6 +27,7 @@ class Env {
         int getPort(){ return port; }
         string getStaticFolder(){ return staticFolder; }
         string getTargetDB(){ return targetDB; }
+        string getBackupDB(){ return backupDB; }
         bool getInitSchema(){ return initSchema; }
         bool getInitData(){ return initData; }
         long getSessionTime(){ return sessionTime; }
@@ -36,6 +37,7 @@ class Env {
         int port;    
         string staticFolder;
         string targetDB;
+        string backupDB;
         bool initSchema;   
         bool initData;   
         long sessionTime;

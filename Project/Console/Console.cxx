@@ -1,4 +1,21 @@
 #include "Console.hxx"
+#include "Env.hxx"
+#include <string>
+#include <fstream>
+
+
+void copy(string source, string dest){
+    std::ifstream  src(source, std::ios::binary);
+    std::ofstream  dst(dest,   std::ios::binary);
+
+    dst << src.rdbuf();
+}
+
+
+void rm(string file){
+    remove(file.c_str());
+}
+
 
 void Console::start() {
 
@@ -22,6 +39,7 @@ void Console::run() {
     	printf("client connected\n");
 
 		bool open = true;
+		Env* env = new Env();
 
 		while(open) {
 			MPI_Recv(buf, MAX_DATA, MPI_UNSIGNED_CHAR, MPI_ANY_SOURCE, MPI_ANY_TAG, client, &status);
@@ -35,6 +53,19 @@ void Console::run() {
 					open = false; 
 					break; 
 				case 2:
+					if(buf[0] == 'b'){
+						printf("backup running\n");
+    					rm(env->getBackupDB());
+						copy(env->getTargetDB(), env->getBackupDB());
+						printf("backup done\n");
+					} else if(buf[0] == 'r'){
+						printf("restore running\n");
+						rm(env->getTargetDB());
+						copy(env->getBackupDB(), env->getTargetDB());
+						printf("restore done\n");
+					} else {
+						printf("unknown command, type r for restore or b for backup");
+					}
 					printf("msg: %s\n", buf);
 					strcat(buf, "_RETURN");
 					printf("ans: %s\n", buf);
