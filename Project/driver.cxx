@@ -6,6 +6,7 @@
 #include <HotelController.hxx>
 #include <UserController.hxx>
 #include <BookController.hxx>
+#include <Console.hxx>
 #include <DataAnalysisController.hxx>
 
 #include "InitData.hxx"
@@ -17,6 +18,9 @@ int main(){
     if(env->getInitData()){
         InitData();
     }
+
+    Console console;
+    console.start();
 
     vector<Route> routes;
 
@@ -72,4 +76,6 @@ int main(){
 
     Router router(routes);
     router.start();
+
+    console.stop();
 }

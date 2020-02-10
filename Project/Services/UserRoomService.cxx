@@ -6,9 +6,6 @@
     @license WTFPL v2  
 **/
 
-#include <string>
-#include <iostream>
-#include <math.h>
 #include "UserRoomService.hxx"
 
 
@@ -27,6 +24,7 @@ void UserRoomService::update(long userid, long role, long bookid, long arrival, 
         set<long> reservedRooms = UserRoomService::reservedRooms(arrival, departure, booking->id());
 
         if(reservedRooms.find(booking->room_id()) == reservedRooms.end()){
+            booking->price(computePrice(booking->room_id(), arrival, departure));
             rur->update(booking);
         } else {
             throw DtoException(Code::Unauthorized, UNAVAILABLE);
@@ -117,14 +115,7 @@ void UserRoomService::confirmPayment(long role, long bookid) {
 }
 
 
-long UserRoomService::bookRoom(long userID, long roomID, long arrival, long departure){
-
-    set<long> reservedRooms = UserRoomService::reservedRooms(arrival, departure, 0);
-
-    if(reservedRooms.find(roomID) != reservedRooms.end()){
-        throw DtoException(Code::Unauthorized, UNAVAILABLE);
-    }
-
+float UserRoomService::computePrice(long roomID, long arrival, long departure){
     int nights = floor((departure - arrival) / 86400);
     float price = 0;
 
@@ -137,7 +128,22 @@ long UserRoomService::bookRoom(long userID, long roomID, long arrival, long depa
         }
     }
 
-    UserRoom* userR = rur->create(new UserRoom(userID, roomID, arrival, departure, price * nights, false));
+    price *= nights;
+    return price;
+}
+
+
+long UserRoomService::bookRoom(long userID, long roomID, long arrival, long departure){
+
+    set<long> reservedRooms = UserRoomService::reservedRooms(arrival, departure, 0);
+
+    if(reservedRooms.find(roomID) != reservedRooms.end()){
+        throw DtoException(Code::Unauthorized, UNAVAILABLE);
+    }
+
+    float price = computePrice(roomID, arrival, departure);
+
+    UserRoom* userR = rur->create(new UserRoom(userID, roomID, arrival, departure, price, false));
     return userR->id();
 }
 

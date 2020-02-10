@@ -90,7 +90,7 @@ Response
 ```json=
 {
 	"users":[
-		"<userid>":{
+		{
         "firstname":"<string>",
         "lastname":"<string>",
         "email":"<string>",
@@ -325,9 +325,11 @@ Response
 ```json=
 {
     "bookings":[
-        <bookid> {
+        {
+        	"bookid":"<num>",
             "room":{
             	"roomid":"<num>",
+            	"roomnumber":"<num>",
                 "features":[
                 {
                     "id":"<num>",

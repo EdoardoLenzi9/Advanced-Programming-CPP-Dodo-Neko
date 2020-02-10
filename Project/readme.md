@@ -14,3 +14,12 @@ Requirements:
 * every layer must be a different process in order to prove that the system is totally distributed 
     * isn't required (but hopeful) that the system will run on different machines in the same network 
 * multi-thread (must take care of some simultaneous calls)
+
+
+# run
+
+```
+mpirun -np 1 ./driver.bin
+
+mpirun -np 1 Client/client.bin 'tag#0$description#eddy$port#34977$ifname#127.0.1.1$'
+```

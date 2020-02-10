@@ -16,12 +16,14 @@
 #include <vector>
 #include <time.h>
 
+#include "UserRoom.hxx"
 #include "Repository.hxx"
 #include "UserService.hxx"
 #include "DtoException.hxx"
 #include "RoomDto.hxx"
 #include "BookDto.hxx"
 #include "Const.hxx"
+#include <math.h>
 
 class UserRoomService { 
     
@@ -42,6 +44,7 @@ class UserRoomService {
         vector<BookDto> bookingList(long userid, long role);
         void update(long userid, long role, long bookid, long arrival, long departure);
         set<long> reservedRooms(long startdate, long enddate, long bookid);
+        float computePrice(long roomID, long arrival, long departure);
 
     private:
         UserService* us;

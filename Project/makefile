@@ -1,6 +1,6 @@
 #g++ -pthread -lboost_filesystem -lboost_system routing.cpp client_http.hpp server_http.hpp
 
-CXX = g++
+CXX = mpic++
 CXXFLAGS = -o driver.bin -std=c++11 
 CXXINCLUDE = -I. \
 			 -I./Repositories \
@@ -13,6 +13,7 @@ CXXINCLUDE = -I. \
 			 -I./Routing \
 			 -I./Utils \
 			 -I./SHA256 \
+			 -I./Console \
 			 -I./Include/Simple-Web-Server 
 CXXDEBUG = -ggdb
 CXXPROF = -pg -no-pie
@@ -30,6 +31,7 @@ SRCS = *.cxx \
 	   ./Routing/*.cxx \
 	   ./Utils/*.cxx \
 	   ./SHA256/*.cxx \
+	   ./Console/*.cxx \
 	   ./Include/Simple-Web-Server/client_http.hpp ./Include/Simple-Web-Server/server_http.hpp
 FIND = find . -type f -name 
 RM = -exec rm {} +
@@ -38,7 +40,7 @@ RM = -exec rm {} +
 .PHONY: all
 
 
-all: dependencies odb compile
+all: dependencies odb compile compile-client
 
 
 compile:
@@ -47,6 +49,8 @@ compile:
 compile-services:
 	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) *.cxx ./Services/*.cxx ./Repositories/*.cxx ./Repositories/Entities/*.cxx $(CXXDB)
 
+compile-client:
+	$(CXX) -o ./Client/client.bin ./Client/client.cxx
 
 odb: clean
 	cd Repositories/Entities ; \
@@ -60,6 +64,8 @@ debug:
 prof:
 	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) $(CXXTHREAD) $(CXXBOOST) $(SRCS) $(CXXDB) $(CXXOMP) $(CXXPROF)
 
+run:
+	mpirun -np 1 ./driver.bin
 
 dependencies:
 	@echo "Download and setup Simple-Web-Server"
