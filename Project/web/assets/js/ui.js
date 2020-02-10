@@ -866,7 +866,7 @@ function fillGeneralStats(){
 	request, 
 	function(response) {
 		if (response.status.code == 200){
-			$('#tbl-generalstats').append('<tr><td>Average days guests stay</td><td>' + response.data.avgprice + '</td></tr>')
+			$('#tbl-generalstats').append('<tr><td>Average price guests pay</td><td>' + response.data.avgprice + '</td></tr>')
 		} else {
 			alert("something went wrong...");
 			console.log(response);
