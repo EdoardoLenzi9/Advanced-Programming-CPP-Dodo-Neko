@@ -5,7 +5,10 @@
 
 // please change this to your server
 //var serverUrl = "https://e06f6d86-e0bd-4a75-a8fe-bfcf40cfe849.mock.pstmn.io"
-var serverUrl = "http://192.168.43.249:8080"
+
+//this causes the application to only work on the local server
+//TODO: actual CORS implementation
+var serverUrl = window.location.origin;
 // filled via rest api
 var loggedIn = 0;
 
