@@ -51,7 +51,7 @@ vector<SimpleRoomDto> DataAnalysisService::mostValuableRooms(){
 
     vector<Tuple> weight;
     for(int i = 0; i < rooms.size(); i++){
-        weight.push_back(Tuple( i + 1 , 0 ));
+        weight.push_back(Tuple( i, 0 ));
     }
 
     for(UserRoom b: bookings){
@@ -77,7 +77,7 @@ vector<UserDto> DataAnalysisService::mostValuableCustomers(){
     
     vector<Tuple> weight;
     for(int i = 0; i < customers.size(); i++){
-        weight.push_back(Tuple( i + 1 , 0 ));
+        weight.push_back(Tuple( i, 0 ));
     }
 
     for(UserRoom b: bookings){
@@ -88,9 +88,10 @@ vector<UserDto> DataAnalysisService::mostValuableCustomers(){
     bubblesort.sort(weight);
 
     for(int i = 0; i < customers.size(); i++){
-        User u = customers[weight[i].index]; 
-        result.push_back(UserDto(u.firstname(), u.lastname(), u.email(), 
-                                 u.birthdate(), u.address(), u.id(), u.role()));
+        User u = customers[weight[i].index];
+        UserDto dto = UserDto(u.firstname(), u.lastname(), u.email(), 
+                              u.birthdate(), u.address(), u.id(), u.role()); 
+        result.push_back(dto);
     }
 
     return result;
@@ -98,6 +99,5 @@ vector<UserDto> DataAnalysisService::mostValuableCustomers(){
 
 
 vector<FeatureDto> DataAnalysisService::mostValuableFeatures(){
-
 
 }

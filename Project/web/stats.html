@@ -3,7 +3,7 @@
     <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Hotel du Lac | Register</title>
+    <title>Hotel du Lac | Stats</title>
     <link rel="stylesheet" href="/assets/css/bootstrap.css" />
     <link rel="stylesheet" href="/assets/css/sticky-footer-navbar.css" />
     <link rel="stylesheet" href="/assets/css/style.css" />
@@ -53,7 +53,7 @@
 					<a class="nav-link" href="/debug.html">Debug </a>
 				</li>
 			
-				<li id="nav-stats" class="nav-item  d-none">
+				<li id="nav-stats" class="nav-item active d-none">
 					<a class="nav-link" href="/stats.html">Stats </a>
 				</li>
 			
@@ -101,47 +101,89 @@
 
         <!-- page content -->
         <main role="main" class="container">
-            <div class="full-panel">
-	<form class="vcenter">
-		<div class="form-row">
-			<div class="form-group col-md-6">
-				<label for="frm-email">Email</label>
-				<input type="text" class="form-control" id="frm-email" placeholder="Email">
-			</div>
-			<div class="form-group col-md-6">
-				<label for="frm-pass">Password</label>
-				<input type="password" class="form-control" id="frm-pass" placeholder="Password">
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="form-group col-md-6">
-				<label for="frm-firstname">First Name</label>
-				<input type="text" class="form-control" id="frm-firstname" placeholder="Max">
-			</div>
-			<div class="form-group col-md-6">
-				<label for="frm-lastname">Last Name</label>
-				<input type="text" class="form-control" id="frm-lastname" placeholder="Power">
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="form-group col-md-6">
-				<label for="frm-address">Address</label>
-				<input type="text" class="form-control" id="frm-address" placeholder="Energy Street 9001, Explosions Oblast, Nukistan">
-			</div>
-			<div class="form-group col-md-6">
-				<label for="frm-birthday">Birthday</label>
-				<input type="date" class="form-control" id="frm-birthday" placeholder="20.4.1969">
-			</div>
-		</div>
+            <h1>Statistics</h1>
 
-		<div class="form-group">
+<div class="accordion" id="stats-accordion">
+	<div class="card">
+		<div class="card-header">
+			<h2 class="mb-0">
+				<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#stats-1" aria-expanded="true" aria-controls="stats-1" id="btn-stats-1">
+					General Statistics #1
+				</button>
+			</h2>
 		</div>
-		<div class="form-group form-check">
-			<input class="form-check-input" type="checkbox" id="cbx-terms">
-			<label class="form-check-label" for="cbx-terms">Accept terms & conditions</label>
+		<div id="stats-1" class="collapse" aria-labelledby="stats-1" data-parent="#stats-accordion">
+			<div class="card-body">
+				<div id="div-generalstats" class="mt-3">
+					<table id="tbl-generalstats" class="table">
+						<thead>
+							<tr>
+								<th scope="col">Datapoint #</th>
+								<th scope="col">Value</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- dynamically filled -->
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
-		<button id="btn-register" type="button" class="btn btn-primary full-width">Register</button>
-	</form>
+	</div>
+	<div class="card">
+		<div class="card-header">
+			<h2 class="mb-0">
+				<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#stats-2" aria-expanded="true" aria-controls="stats-2" id="btn-stats-2">
+					Most valuable rooms
+				</button>
+			</h2>
+		</div>
+		<div id="stats-2" class="collapse" aria-labelledby="stats-2" data-parent="#stats-accordion">
+			<div class="card-body">
+				<div id="div-mvr" class="mt-3">
+					<table id="tbl-mvr" class="table">
+						<thead>
+							<tr>
+								<th scope="col">Rank</th>
+								<th scope="col">Room Number</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- dynamically filled -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-header">
+			<h2 class="mb-0">
+				<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#stats-3" aria-expanded="true" aria-controls="stats-3" id="btn-stats-3">
+					Most valuable rooms
+				</button>
+			</h2>
+		</div>
+		<div id="stats-3" class="collapse" aria-labelledby="stats-3" data-parent="#stats-accordion">
+			<div class="card-body">
+				<div id="div-mvc" class="mt-3">
+					<table id="tbl-mvc" class="table">
+						<thead>
+							<tr>
+								<th scope="col">Rank</th>
+								<th scope="col">First Name</th>
+								<th scope="col">Last Name</th>
+								<th scope="col">email</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- dynamically filled -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
         </main>
 
@@ -246,7 +288,7 @@
 		</div>
 	</div>
 </div>
-<!-- /register.html -->
+<!-- /stats.html -->
  
  
 

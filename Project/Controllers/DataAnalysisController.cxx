@@ -6,7 +6,7 @@ void DataAnalysisController::averageDays(shared_ptr<HttpServer::Response> respon
 	json res;
 	res["status"]["code"] = Code::Ok;
 	res["status"]["description"] = OK;
-	res["data"] = service.averageDays();
+	res["data"]["avgdays"] = service.averageDays();
 	*response << serialize(res);
 }
 
@@ -16,7 +16,7 @@ void DataAnalysisController::averagePrice(shared_ptr<HttpServer::Response> respo
 	json res;
 	res["status"]["code"] = Code::Ok;
 	res["status"]["description"] = OK;
-	res["data"] = service.averagePrice();
+	res["data"]["avgprice"] = service.averagePrice();
 	*response << serialize(res);
 }
 

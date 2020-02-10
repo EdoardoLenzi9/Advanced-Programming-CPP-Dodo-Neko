@@ -31,11 +31,18 @@ class BubbleSort {
 
         void sort(vector<Tuple> &vec)
         {
-            for (int n = 0; n < vec.size() - 1; n++)
-                for (int k = 0; k < vec.size() - n - 1; k++)
-                    if (vec.at(k).value > vec.at(k + 1).value)
-                        swap(vec[k], vec[k + 1]);
-        };
+            #pragma omp parallel
+            {
+                #pragma omp for ordered schedule(dynamic)
+                for (int n = 0; n < vec.size() - 1; n++){
+                    for (int k = 0; k < vec.size() - n - 1; k++){
+                        if (vec.at(k).value > vec.at(k + 1).value){
+                            swap(vec[k], vec[k + 1]);
+                        }
+                    }
+                }
+            }
+        }
 };
 
 #endif
