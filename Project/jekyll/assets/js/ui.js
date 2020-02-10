@@ -907,7 +907,7 @@ function fillMVR(){
 	});
 }
 
-function fillMVR(){
+function fillMVC(){
 	getUserInfo();
 
 	defaultRequest.data = {};
