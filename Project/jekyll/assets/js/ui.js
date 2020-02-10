@@ -5,7 +5,7 @@
 
 // please change this to your server
 //var serverUrl = "https://e06f6d86-e0bd-4a75-a8fe-bfcf40cfe849.mock.pstmn.io"
-var serverUrl = "http://localhost:8080"
+var serverUrl = window.location.origin;
 // filled via rest api
 var loggedIn = 0;
 
