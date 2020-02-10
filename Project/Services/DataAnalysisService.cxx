@@ -20,7 +20,11 @@ int DataAnalysisService::averageDays(){
         average += floor((b.departure() - b.arrival()) / 86400);
     }
 
-    return average / bookings.size();
+    if(bookings.size() > 0){
+        return average / bookings.size();
+    } else {
+        return 0;
+    }
 }
 
 
@@ -32,14 +36,18 @@ float DataAnalysisService::averagePrice(){
         average += b.price();
     }
 
-    return average / bookings.size();
+    if(bookings.size() > 0){
+        return average / bookings.size();
+    } else {
+        return 0;
+    }
 }
 
 
-vector<RoomDto> DataAnalysisService::mostValuableRooms(){
+vector<SimpleRoomDto> DataAnalysisService::mostValuableRooms(){
     vector<UserRoom> bookings = rur->readAll();
     vector<Room> rooms = rr->readAll();
-    vector<RoomDto> result;
+    vector<SimpleRoomDto> result;
 
     vector<Tuple> weight;
     for(int i = 0; i < rooms.size(); i++){
@@ -55,8 +63,7 @@ vector<RoomDto> DataAnalysisService::mostValuableRooms(){
 
     for(int i = 0; i < rooms.size(); i++){
         Room r = rooms[weight[i].index]; 
-        result.push_back(RoomDto(u.firstname(), u.lastname(), u.email(), 
-                                 u.birthdate(), u.address(), u.id(), u.role()));
+        result.push_back(SimpleRoomDto(r.id(), r.roomnumber()));
     }
 
     return result;

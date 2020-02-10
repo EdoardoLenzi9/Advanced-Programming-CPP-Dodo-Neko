@@ -18,6 +18,19 @@ class BaseController {
 
     public:
 
+        static json serialize(vector<SimpleRoomDto> rooms){
+            json j;
+
+            j["data"]["rooms"] = {};
+
+            for(SimpleRoomDto r: rooms){
+                json feature = serialize(r);
+                j["data"]["rooms"].push_back( feature["data"] );
+            }
+
+            return j;
+        }
+
         static json serialize(vector<FeatureDto> features){
             json j;
 
@@ -86,6 +99,17 @@ class BaseController {
                 json feature = serialize(f);
                 j["data"]["features"].push_back(feature["data"]);
             }
+
+            return j;
+        }
+
+
+        static json serialize(SimpleRoomDto room){
+            json feature;
+            json j;
+
+            j["data"]["roomid"] = room.roomid;
+            j["data"]["roomnumber"] = room.roomnumber;
 
             return j;
         }
