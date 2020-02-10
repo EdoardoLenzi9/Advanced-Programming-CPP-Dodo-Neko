@@ -164,7 +164,7 @@ class BaseController {
             string statusCodeLabel = CodeLabels[statusCode];
             string dump = res.dump();
 
-            return "HTTP/1.1 200 OK \r\nContent-Length: " + to_string(dump.length()) + "\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\n\r\n" + dump;
+            return "HTTP/1.1 200 OK \r\nContent-Length: " + to_string(dump.length()) + "\r\nContent-Type: application/json\r\nAccess-Control-Allow-Methods: POST, GET\r\nAccess-Control-Allow-Headers: Content-Type\r\nAccess-Control-Allow-Origin: *\r\n\r\n" + dump;
         }
 };
 
