@@ -909,7 +909,6 @@ function fillMVR(){
 
 function fillMVC(){
 	getUserInfo();
-
 	defaultRequest.data = {};
 	defaultRequest.auth.sid = {};
 	var request = defaultRequest;
@@ -924,16 +923,16 @@ function fillMVC(){
 			if (response.data.users != null){
 				users = response.data.users;
 
-				for (var i = 0; i < rooms.length; i++){
+				for (var i = 0; i < users.length; i++){
 
 					firstname = users[i].firstname;
 					lastname = users[i].lastname;
 					email = users[i].email;
 
-					$('#tbl-mvr').append('<tr><td>' + (Number(i)+1) + '</td><td>' + firstname + '</td><td>' + lastname + '</td><td>' + email + '</td></tr>');
+					$('#tbl-mvc').append('<tr><td>' + (Number(i)+1) + '</td><td>' + firstname + '</td><td>' + lastname + '</td><td>' + email + '</td></tr>');
 				} 
 			} else {
-				$('#div-mvr').append(makeAlert("Hey!", "Get more customers. Well. Sucks to be you.", "alert-warning" , ""));
+				$('#div-mvc').append(makeAlert("Hey!", "Get more customers. Well. Sucks to be you.", "alert-warning" , ""));
 			}
 		} else {
 			alert("getting the user data list failed due to unknown reasons. check log.");
